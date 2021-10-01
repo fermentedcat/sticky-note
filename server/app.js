@@ -2,12 +2,28 @@ const express = require('express');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
+const mongoose = require('mongoose');
 
 const indexRouter = require('./routes/index');
 const apiRouter = require('./routes/api');
+require('dotenv').config();
 
 const app = express();
-const PORT = 5000;
+
+const PORT = process.env.PORT || 5000;
+const URI = process.env.DB_URI;
+
+mongoose.connect(URI, {
+  useUnifiedTopology: true,
+  useNewUrlParser: true
+});
+
+const db = mongoose.connection;
+
+db.on('error', console.error.bind(console, 'Connection error:'));
+db.once('open', () => {
+  console.log('Connected to MongoDB')
+});
 
 app.use(logger('dev'));
 app.use(express.json());
