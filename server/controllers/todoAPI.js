@@ -18,6 +18,16 @@ exports.getAll = (req, res, next) => {
   })
 }
 
+exports.getById = (req, res, next) => {
+  Todo.findById(req.params.id)
+  .then(data => {
+    res.status(200).json(data)
+  })
+  .catch(error => {
+    res.status(500).json(error)
+  })
+}
+
 exports.addNew = (req, res, next) => {
   new Todo({
     title: 'Hej',

@@ -21,6 +21,9 @@ DELETE  /api/user/:id   - delete user
 router.get('/todo', todoAPI.getAll)
 router.get('/user', userAPI.getAll)
 
+router.get('/todo/:id', todoAPI.getById)
+router.get('/user/:id', userAPI.getById)
+
 router.post('/todo', todoAPI.addNew)
 router.post('/user', userAPI.addNew)
 
