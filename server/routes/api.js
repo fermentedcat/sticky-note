@@ -1,8 +1,8 @@
-const express = require('express');
-const router = express.Router();
-const Todo = require('../models/Todo');
-const User = require('../models/User');
+const express = require('express')
+const router = express.Router()
 
+const userAPI = require('../controllers/userAPI')
+const todoAPI = require('../controllers/todoAPI')
 
 /* 
 GET     /api/todo/      - get all todo items for logged in user
@@ -18,39 +18,10 @@ POST    /api/user/:id   - update user
 DELETE  /api/user/:id   - delete user
 */
 
-router.get('/', function(req, res, next) {
-  res.end('api');
-});
+router.get('/todo', todoAPI.getAll)
+router.get('/user', userAPI.getAll)
 
-router.post('/todo', (req, res, next) => {
-  new Todo({
-    title: 'Hej',
-    body: 'Hallå hallå'
-  })
-  .save()
-  .then(todo => {
-    res.status(201).json(todo)
-  })
-  .catch(error => {
-    res.status(500).json(error)
-  })
-})
+router.post('/todo', todoAPI.addNew)
+router.post('/user', userAPI.addNew)
 
-router.post('/user', (req, res, next) => {
-  new User({
-    firstName: 'Maja',
-    lastName: 'Thunberg',
-    username: 'catsoup',
-    email: 'majaneko@gmail.com',
-    password: 'secret',
-  })
-  .save()
-  .then(user => {
-    res.status(201).json(user)
-  })
-  .catch(error => {
-    res.status(500).json(error)
-  })
-})
-
-module.exports = router;
+module.exports = router
