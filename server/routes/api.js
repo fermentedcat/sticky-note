@@ -30,4 +30,7 @@ router.post('/user', userAPI.addNew)
 router.post('/todo/:id', todoAPI.update)
 router.post('/user/:id', userAPI.update)
 
+router.delete('/todo/:id', todoAPI.delete)
+router.delete('/user/:id', userAPI.delete)
+
 module.exports = router

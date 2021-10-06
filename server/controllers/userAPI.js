@@ -59,3 +59,15 @@ exports.update = (req, res, next) => {
     res.status(500).json(error)
   })
 }
+
+exports.delete = (req, res, next) => {
+  const id = req.params.id
+  User.findByIdAndDelete(id)
+  .then((user) => {
+    if (!user) res.sendStatus(404)
+    else res.sendStatus(204)
+  })
+  .catch(error => {
+    res.status(500).json(error)
+  })
+}
