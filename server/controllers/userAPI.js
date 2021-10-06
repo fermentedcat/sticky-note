@@ -10,8 +10,9 @@ DELETE  /api/user/:id   - delete user
 
 exports.getAll = (req, res, next) => {
   User.find()
-  .then(data => {
-    res.status(200).json(data)
+  .then(users => {
+    if (!users) res.sendStatus(404)
+    else res.status(200).json(users)
   })
   .catch(error => {
     res.status(500).json(error)
@@ -19,9 +20,14 @@ exports.getAll = (req, res, next) => {
 }
 
 exports.getById = (req, res, next) => {
-  User.findById(req.params.id)
-  .then(data => {
-    res.status(200).json(data)
+  const id = req.params.id
+  User.findById(id)
+  .then(user => {
+    if (!user) {
+      res.sendStatus(404)
+    } else {
+      res.status(200).json(user)
+    }
   })
   .catch(error => {
     res.status(500).json(error)
@@ -29,13 +35,8 @@ exports.getById = (req, res, next) => {
 }
 
 exports.addNew = (req, res, next) => {
-  new User({
-    firstName: 'Maja',
-    lastName: 'Thunberg',
-    username: 'catsoup',
-    email: 'majaneko@gmail.com',
-    password: 'secret',
-  })
+  const data = req.body
+  new User(data)
   .save()
   .then(user => {
     res.status(201).json(user)

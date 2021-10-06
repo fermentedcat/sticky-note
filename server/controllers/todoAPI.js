@@ -10,8 +10,9 @@ DELETE  /api/todo/:id   - delete todo item
 
 exports.getAll = (req, res, next) => {
   Todo.find()
-  .then(data => {
-    res.status(200).json(data)
+  .then(todos => {
+    if (!todos) res.sendStatus(404)
+    else res.status(200).json(todos)
   })
   .catch(error => {
     res.status(500).json(error)
@@ -19,9 +20,11 @@ exports.getAll = (req, res, next) => {
 }
 
 exports.getById = (req, res, next) => {
-  Todo.findById(req.params.id)
-  .then(data => {
-    res.status(200).json(data)
+  const id = req.params.id
+  Todo.findById(id)
+  .then(todo => {
+    if (!todo) res.sendStatus(404)
+    else res.status(200).json(todo)
   })
   .catch(error => {
     res.status(500).json(error)
@@ -29,10 +32,8 @@ exports.getById = (req, res, next) => {
 }
 
 exports.addNew = (req, res, next) => {
-  new Todo({
-    title: 'Hej',
-    body: 'Hallå hallå'
-  })
+  const data = req.body
+  new Todo(data)
   .save()
   .then(todo => {
     res.status(201).json(todo)
@@ -43,12 +44,9 @@ exports.addNew = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-  Todo.findByIdAndUpdate(req.params.id,
-    {
-      title: 'Hej',
-      body: 'Hallå hallå'
-    }
-  )
+  const id = req.params.id
+  const data = req.body
+  Todo.findByIdAndUpdate(id, data)
   .save()
   .then(todo => {
     res.status(201).json(todo)
