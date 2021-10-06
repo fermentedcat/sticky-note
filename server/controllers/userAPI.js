@@ -23,11 +23,8 @@ exports.getById = (req, res, next) => {
   const id = req.params.id
   User.findById(id)
   .then(user => {
-    if (!user) {
-      res.sendStatus(404)
-    } else {
-      res.status(200).json(user)
-    }
+    if (!user) res.sendStatus(404)
+    else res.status(200).json(user)
   })
   .catch(error => {
     res.status(500).json(error)
@@ -38,6 +35,23 @@ exports.addNew = (req, res, next) => {
   const data = req.body
   new User(data)
   .save()
+  .then(user => {
+    res.status(201).json(user)
+  })
+  .catch(error => {
+    res.status(500).json(error)
+  })
+}
+
+exports.update = (req, res, next) => {
+  console.log("hello")
+  const id = req.params.id
+  const data = req.body
+  User.findByIdAndUpdate(
+    id, 
+    data, 
+    { new: true }
+  )
   .then(user => {
     res.status(201).json(user)
   })

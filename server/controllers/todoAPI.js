@@ -46,8 +46,11 @@ exports.addNew = (req, res, next) => {
 exports.update = (req, res, next) => {
   const id = req.params.id
   const data = req.body
-  Todo.findByIdAndUpdate(id, data)
-  .save()
+  Todo.findByIdAndUpdate(
+    id, 
+    data, 
+    { new: true }
+  )
   .then(todo => {
     res.status(201).json(todo)
   })
