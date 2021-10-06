@@ -27,7 +27,7 @@ router.get('/user/:id', userAPI.getById)
 router.post('/todo', todoAPI.addNew)
 router.post('/user', userAPI.addNew)
 
-router.post('todo/:id', todoAPI.update)
-// router.post('user/:id', userAPI.update)
+router.post('/todo/:id', todoAPI.update)
+router.post('/user/:id', userAPI.update)
 
 module.exports = router
