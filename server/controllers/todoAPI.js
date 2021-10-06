@@ -41,3 +41,19 @@ exports.addNew = (req, res, next) => {
     res.status(500).json(error)
   })
 }
+
+exports.update = (req, res, next) => {
+  Todo.findByIdAndUpdate(req.params.id,
+    {
+      title: 'Hej',
+      body: 'Hallå hallå'
+    }
+  )
+  .save()
+  .then(todo => {
+    res.status(201).json(todo)
+  })
+  .catch(error => {
+    res.status(500).json(error)
+  })
+}
