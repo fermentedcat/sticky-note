@@ -1,5 +1,7 @@
 const express = require('express')
 const router = express.Router()
+const passport = require('passport')
+const { ensureAuthenticated } = require('../utils/auth.js')
 
 const userAPI = require('../controllers/userAPI')
 const todoAPI = require('../controllers/todoAPI')
@@ -16,6 +18,9 @@ GET     /api/user/:id   - get one user
 POST    /api/user/      - add new user
 POST    /api/user/:id   - update user
 DELETE  /api/user/:id   - delete user
+
+GET     /api/user/auth  - authenticate user
+POST    /api/user/auth  - login user
 */
 
 router.get('/todo', todoAPI.getAll)
@@ -23,6 +28,9 @@ router.get('/user', userAPI.getAll)
 
 router.get('/todo/:id', todoAPI.getById)
 router.get('/user/:id', userAPI.getById)
+
+router.get('/user/auth', ensureAuthenticated, userAPI.authenticate)
+router.post('/user/auth', passport.authenticate('local'), userAPI.authenticate)
 
 router.post('/todo', todoAPI.addNew)
 router.post('/user', userAPI.addNew)
