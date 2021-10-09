@@ -1,6 +1,5 @@
 const User = require('../models/User')
 const passport = require('passport')
-const bcrypt = require('bcrypt')
 
 /* 
 GET     /api/user/      - get all users (friends) for logged in user
@@ -45,63 +44,14 @@ exports.addNew = (req, res, next) => {
     password
   } = req.body
 
-  let errors = []
-
-  // Check if email/username already exists
-  User.findOne({ email: email })
-  .then(user => {
-    if (user) {
-      errors.push({ message: 'Email is already registered.' })
-    }
-
-    User.findOne({ username: username })
-    .then(user => {
-      if (user) {
-        errors.push({ message: 'Username is already taken.' })
-      }
-      // Check fields are filled in correctly
-      if (!fullName || fullName.trim() === '' || 
-          !username || username.trim() === '' || 
-          !password || password.trim() === '' ||
-          !email || email.trim() === '') {
-        errors.push({ message: 'Please fill out all fields.' })
-      }
-      if (password.length < 6) {
-          errors.push({ message: 'Password needs to be at least 6 characters long.' })
-      }
-
-      if (errors.length > 0) {
-        res.send(400).json(errors)
-      } else {
-        const newUser = new User({
-          fullName,
-          username,
-          email,
-          password
-        })
-
-        bcrypt.hash(password, 10, (error, hash) => {
-          if (error) {
-            errors.push({ message: 'An error occurred.'})
-            res.send(500).json(errors)
-          }
-
-          // Save new user with encrypted password
-          newUser.password = hash
-          newUser.save()
-          .then(addedUser => {
-            // Authenticate user upon register
-            passport.authenticate('local')(req, res, () => {
-              res.status(201).json(addedUser)
-            })
-          })
-          .catch(error => {
-            errors.push({ message: 'An error occurred.'})
-            res.send(500).json(errors)
-          })
-        })
-      }
-    })
+  new User({
+    fullName,
+    username,
+    email,
+    password
+  }).save((error, user) => {
+    if (error) res.sendStatus(400).json(error)
+    else res.status(200).json(user)
   })
 }
 
