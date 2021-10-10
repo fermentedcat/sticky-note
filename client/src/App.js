@@ -1,4 +1,5 @@
 import { Redirect, Route, Switch } from 'react-router-dom';
+import { useSelector } from 'react-redux'
 
 import HomePage from './pages/HomePage';
 import LandingPage from './pages/LandingPage';
@@ -6,7 +7,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 
 function App() {
-  const isAuthenticated = true;
+  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
 
   return (
     <Switch>
