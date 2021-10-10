@@ -1,5 +1,5 @@
 const User = require('../models/User')
-const passport = require('passport')
+const format = require('../utils/format')
 
 /* 
 GET     /api/user/      - get all users (friends) for logged in user
@@ -37,20 +37,13 @@ exports.authenticate = (req, res, next) => {
 }
 
 exports.addNew = (req, res, next) => {
-  const {
-    fullName,
-    username,
-    email,
-    password
-  } = req.body
+  const userData = req.body
 
-  new User({
-    fullName,
-    username,
-    email,
-    password
-  }).save((error, user) => {
-    if (error) res.sendStatus(400).json(error)
+  new User(userData).save((error, user) => {
+    if (error) {
+      const err = format.error(error)
+      res.status(400).json(err)
+    }
     else res.status(200).json(user)
   })
 }
