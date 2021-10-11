@@ -2,25 +2,26 @@ import { API_URL } from '../config'
 
 export const getUserData = async (userId) => {
   const response = await fetch(`${API_URL}/user/${userId}`)
+  const data = await response.json()
   if (!response.ok) {
-    throw response
+    throw data
   }
-  return response
+  return data
 }
 
 export const addNewUser = async (userData) => {
-  const res = await fetch(`${API_URL}/user`, {
+  const response = await fetch(`${API_URL}/user`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(userData)
   })
-  const response = await res.json()
+  const data = await response.json()
   if (!response.ok) {
-    throw response
+    throw data
   }
-  return response
+  return data
 }
 
 export const loginUser = async (userData) => {
@@ -31,9 +32,10 @@ export const loginUser = async (userData) => {
     },
     body: JSON.stringify(userData)
   })
+  const data = await response.json()
   if (!response.ok) {
-    throw response
+    throw data
   }
-  return response
+  return data
 }
 
