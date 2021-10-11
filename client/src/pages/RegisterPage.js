@@ -1,29 +1,79 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { Link } from 'react-router-dom'
-import { Box, Button, TextField } from '@mui/material'
 
 import { addNewUser } from '../api/user'
+import { authActions } from '../store/auth-slice'
+import useInput from '../hooks/use-input'
+import register from '../utils/formFields'
+
+import { Box, Button, TextField } from '@mui/material'
 
 export default function RegisterPage() {
-  const [userInput, setUserInput] = useState({
-    fullName: '',
-    username: '',
-    email: '',
-    password: ''
-  })
+  const dispatch = useDispatch();
+  const [formIsValid, setFormIsValid] = useState(false);
+  const [ fullName, username, email, password ] = register
+  
+  const fullNameInput = useInput(fullName.validate, fullName.initialValue)
+  const usernameInput = useInput(username.validate, username.initialValue)
+  const emailInput = useInput(email.validate, email.initialValue)
+  const passwordInput = useInput(password.validate, password.initialValue)
 
   const registerHandler = async (e) => {
-    e.preventDefault();
-    console.log(userInput)
-    const response = await addNewUser(userInput)
-    console.log(response);
+    e.preventDefault()
+    if (!formIsValid) return
+    const userInput = {
+      fullName: fullNameInput.value,
+      username: usernameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value
+    }
+    try {
+      const user = await addNewUser(userInput)
+      dispatch(authActions.login(user))
+    } catch (error) {
+      console.log(error)
+      //TODO: display error
+    }
   }
 
-  const inputChangeHandler = (e) => {
-    setUserInput(prevState => {
-      return {...prevState, [e.target.name]: e.target.value}
-    })
-  }
+  // validate form each time input isValid state changes
+  useEffect(() => {
+    setFormIsValid(
+      fullNameInput.isValid && 
+      usernameInput.isValid && 
+      emailInput.isValid && 
+      passwordInput.isValid
+    )
+  }, [
+    fullNameInput.isValid, 
+    usernameInput.isValid, 
+    emailInput.isValid, 
+    passwordInput.isValid
+  ])
+  
+  // combine field props from separate objects
+  const inputs = [
+    { ...fullNameInput, ...fullName }, 
+    { ...usernameInput, ...username }, 
+    { ...emailInput, ...email }, 
+    { ...passwordInput, ...password }, 
+  ]
+
+  const fieldsOutput = inputs.map((input, index) => {
+    return (
+      <TextField
+        key={index}
+        type={input.type}
+        name={input.name}
+        value={input.value}
+        onChange={input.onChange}
+        onBlur={input.onBlur}
+        label={input.label}
+        required={input.required}
+      />
+    )
+  })
 
   return (
     <div>
@@ -36,46 +86,11 @@ export default function RegisterPage() {
         }}
       >
         <div>
-          <TextField
-            required
-            id="outlined-required"
-            label="Full Name"
-            name="fullName"
-            placeholder="Your Name"
-            onChange={inputChangeHandler}
-            multiline
-          />
-          <TextField
-            required
-            id="outlined-required"
-            label="Username"
-            name="username"
-            placeholder="your_username"
-            onChange={inputChangeHandler}
-            multiline
-            />
-          <TextField
-            required
-            id="outlined-required"
-            label="Email"
-            type="email"
-            name="email"
-            placeholder="you@mail.com"
-            onChange={inputChangeHandler}
-            multiline
-          />
-          <TextField
-            id="outlined-password-input"
-            label="Password"
-            type="password"
-            name="password"
-            helperText="6 characters minimum"
-            onChange={inputChangeHandler}
-          />
+          {fieldsOutput}
         </div>
-        <Button type="submit">Submit</Button>
+        <Button disabled={!formIsValid} type="submit">Register</Button>
+        <Button type="button" component={Link} to='/login'>Already signed up?</Button>
       </Box>
-      <Link to='/login'>Login</Link>
     </div>
   )
 }
