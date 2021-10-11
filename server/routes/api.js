@@ -1,7 +1,5 @@
 const express = require('express')
 const router = express.Router()
-const passport = require('passport')
-const { ensureAuthenticated } = require('../utils/auth.js')
 
 const userAPI = require('../controllers/userAPI')
 const todoAPI = require('../controllers/todoAPI')
@@ -29,8 +27,8 @@ router.get('/user', userAPI.getAll)
 router.get('/todo/:id', todoAPI.getById)
 router.get('/user/:id', userAPI.getById)
 
-router.get('/user/auth', ensureAuthenticated, userAPI.authenticate)
-router.post('/user/auth', passport.authenticate('local'), userAPI.authenticate)
+router.get('/user/auth', userAPI.authenticate)
+router.post('/user/auth', userAPI.login)
 
 router.post('/todo', todoAPI.addNew)
 router.post('/user', userAPI.addNew)
