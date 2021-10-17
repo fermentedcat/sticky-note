@@ -6,8 +6,11 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 require('dotenv').config()
 
+const accessRouter = require('./routes/access')
+const stackRouter = require('./routes/stack')
+const todoRouter = require('./routes/todo')
+const userRouter = require('./routes/user')
 const indexRouter = require('./routes/index')
-const apiRouter = require('./routes/api')
 
 const app = express()
 
@@ -33,8 +36,11 @@ app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
 app.use(express.static(path.join(__dirname, 'public')))
 
+app.use('/api/access', accessRouter)
+app.use('/api/todo', todoRouter)
+app.use('/api/stack', stackRouter)
+app.use('/api/user', userRouter)
 app.use('/', indexRouter)
-app.use('/api', apiRouter)
 
 app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`)
