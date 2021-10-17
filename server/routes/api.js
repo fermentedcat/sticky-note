@@ -1,6 +1,9 @@
 const express = require('express')
 const router = express.Router()
 
+const userAuth = require('../utils/userAuth')
+const adminAuth = require('../utils/adminAuth')
+
 const userAPI = require('../controllers/userAPI')
 const todoAPI = require('../controllers/todoAPI')
 
@@ -18,17 +21,18 @@ POST    /api/user/:id   - update user
 DELETE  /api/user/:id   - delete user
 
 GET     /api/user/auth  - authenticate user
-POST    /api/user/auth  - login user
+POST    /api/user/login  - login user
 */
 
 router.get('/todo', todoAPI.getAll)
 router.get('/user', userAPI.getAll)
 
+router.get('/user/auth', userAuth, userAPI.authenticate)
+
 router.get('/todo/:id', todoAPI.getById)
 router.get('/user/:id', userAPI.getById)
 
-router.get('/user/auth', userAPI.authenticate)
-router.post('/user/auth', userAPI.login)
+router.post('/user/login', userAPI.login)
 
 router.post('/todo', todoAPI.addNew)
 router.post('/user', userAPI.addNew)
