@@ -4,9 +4,9 @@ const validate = require('../utils/validate')
 const { CustomError, InternalError } = require('../utils/error')
 
 const AccessSchema = new Schema({
-    collection: {
+    stack: {
       type: Schema.Types.ObjectId, 
-      ref: 'Collection'
+      ref: 'Stack'
     },
     user: {
       _id: {
