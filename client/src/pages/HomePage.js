@@ -1,9 +1,12 @@
 import React from 'react'
+import { useSelector } from 'react-redux'
 
 export default function HomePage() {
+  const username = useSelector(state => state.auth.username)
+
   return (
     <div>
-      Welcome home! Here are your todos.
+      Welcome home, { username }! Here are your pinned todos.
     </div>
   )
 }
