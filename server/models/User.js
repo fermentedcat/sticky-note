@@ -34,6 +34,7 @@ const UserSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
       validate: [
         validate.password,
         'Password needs to be at least 6 characters.',
@@ -54,8 +55,10 @@ const UserSchema = new Schema(
   }
 )
 
+// PRE VALIDATE:
+
 // check if email is registered
-UserSchema.pre('save', function (next, done) {
+UserSchema.pre('validate', function (next, done) {
   this.constructor.findOne({ email: this.email })
   .then(user => {
     if (user) {
@@ -70,7 +73,7 @@ UserSchema.pre('save', function (next, done) {
 })
 
 // check if username is taken
-UserSchema.pre('save', function (next, done) {
+UserSchema.pre('validate', function (next, done) {
   this.constructor.findOne({ username: this.username })
   .then(user => {
     if (user) {
@@ -81,12 +84,15 @@ UserSchema.pre('save', function (next, done) {
   })
 })
 
+// PRE SAVE:
+
 // hash password
 UserSchema.pre('save', async function (next) {
   if (!this.isModified('password')) {
     return next()
   }
-  const hash = await bcrypt.hash(this.password, 10)
+  const saltRounds = parseInt(process.env.SALT_ROUNDS)
+  const hash = await bcrypt.hash(this.password, saltRounds)
   this.password = hash
   next()
 })

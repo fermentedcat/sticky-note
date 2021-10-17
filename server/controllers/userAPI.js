@@ -1,5 +1,7 @@
 const User = require('../models/User')
 const format = require('../utils/format')
+const jwt = require('jsonwebtoken')
+const bcrypt = require('bcrypt')
 
 /* 
 GET     /api/user/      - get all users (friends) for logged in user
@@ -36,6 +38,29 @@ exports.authenticate = (req, res, next) => {
   res.status(200).json(req.user)
 }
 
+exports.login = async (req, res, next) => {
+  const { email, password } = req.body
+  const user = await User.findOne(
+    { $or: [{ email: email }, { username: email }]}
+    ).select('password username').exec()
+    
+  try {
+    const isMatch = await bcrypt.compare(password, user.password)
+    if (!isMatch) {
+      throw new Error('Failed to login.')
+    }
+    // Create token
+    const token = jwt.sign(
+      { username: user.username },
+      process.env.TOKEN_KEY,
+      { expiresIn: process.env.TOKEN_EXPIRATION }
+    )
+    res.status(200).send(token)
+  } catch (error) {
+    res.status(401).json({ error: error.message })    
+  }
+}
+
 exports.addNew = (req, res, next) => {
   const userData = req.body
 
@@ -44,7 +69,13 @@ exports.addNew = (req, res, next) => {
       const err = format.error(error)
       res.status(400).json(err)
     }
-    else res.status(200).json(user)
+    // Create token
+    const token = jwt.sign(
+      { username: user.username },
+      process.env.TOKEN_KEY,
+      { expiresIn: process.env.TOKEN_EXPIRATION }
+    )
+    res.status(200).json({ token: token })
   })
 }
 
