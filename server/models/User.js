@@ -3,7 +3,7 @@ const Schema = mongoose.Schema
 const bcrypt = require('bcrypt')
 
 const validate = require('../utils/validate')
-const { CustomError } = require('../utils/error')
+const { CustomError, InternalError } = require('../utils/error')
 
 const UserSchema = new Schema(
   {
@@ -12,7 +12,7 @@ const UserSchema = new Schema(
       required: true,
       validate: [
           validate.string, 
-          'Please enter a valid name.'
+          'FullName invalid.'
         ],
     },
     username: {
@@ -20,7 +20,7 @@ const UserSchema = new Schema(
       required: true,
       validate: [
           validate.string, 
-          'Please enter a valid username.'
+          'Username invalid.'
         ],
     },
     email: {
@@ -28,7 +28,7 @@ const UserSchema = new Schema(
       required: true,
       validate: [
           validate.email, 
-          'Please enter a valid email'
+          'Email invalid'
         ],
     },
     password: {
@@ -37,18 +37,12 @@ const UserSchema = new Schema(
       select: false,
       validate: [
         validate.password,
-        'Password needs to be at least 6 characters.',
+        'Password invalid.',
       ],
     },
     photo: {
       type: String,
     },
-    friends: [
-      {
-        type: Schema.Types.ObjectId,
-        ref: 'User',
-      },
-    ],
   },
   {
     timestamps: true,
@@ -81,6 +75,10 @@ UserSchema.pre('validate', function (next, done) {
       next(error)
     }
     next()
+  })
+  .catch(() => {
+    const err = new InternalError('internal', 'Database error.')
+    next(err)
   })
 })
 
