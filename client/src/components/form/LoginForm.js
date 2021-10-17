@@ -5,9 +5,12 @@ import useInput from '../../hooks/use-input'
 import useApi from '../../hooks/use-api'
 import { authActions } from '../../store/auth-slice'
 
+import { TextField } from '@mui/material'
+
 import { login } from '../../utils/formFields'
 
-import { Button, Box, TextField } from '@mui/material'
+import FormBox from './FormBox'
+import SubmitButton from '../button/SumbitButton'
 
 export default function LoginForm() {
   const [formIsValid, setFormIsValid] = useState(false)
@@ -66,17 +69,9 @@ export default function LoginForm() {
   }, [token, error, dispatch]);
 
   return (
-    <Box
-      onSubmit={handleLogin}
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-    >
+    <FormBox onSubmit={handleLogin}>
       {inputFields}
-      <Button type="submit" sx={{ display: 'block', mx: 'auto' }}>
-        Login
-      </Button>
-    </Box>
+      <SubmitButton title="Login"/>
+    </FormBox>
   )
 }

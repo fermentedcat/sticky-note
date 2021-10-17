@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react'
 
 import useInput from '../../hooks/use-input'
-import { Button, Box, TextField } from '@mui/material'
+import { TextField } from '@mui/material'
 import register from '../../utils/formFields'
+import SubmitButton from '../button/SumbitButton'
+import FormBox from './FormBox'
 
 export default function RegisterForm() {
   const [formIsValid, setFormIsValid] = useState(false)
@@ -57,17 +59,9 @@ export default function RegisterForm() {
   }, [emailInput.isValid, passwordInput.isValid])
 
   return (
-    <Box
-      onSubmit={handleRegister}
-      component="form"
-      sx={{
-        '& .MuiTextField-root': { m: 1, width: '25ch' },
-      }}
-    >
+    <FormBox onSubmit={handleRegister}>
       {inputFields}
-      <Button type="submit" sx={{ display: 'block', mx: 'auto' }}>
-        Register
-      </Button>
-    </Box>
+      <SubmitButton title="Register" />
+    </FormBox>
   )
 }
