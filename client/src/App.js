@@ -35,11 +35,12 @@ function App() {
         <Grid 
           container 
           justifyContent="space-between"
-          style={{
+          sx={{
             margin: 0,
-            padding: 15,
+            padding: 2,
+            height: '100vh',
             width: '100%',
-            columnGap: 17,
+            columnGap: 2,
           }}>
           {isAuthenticated && <SideBar />}
 
