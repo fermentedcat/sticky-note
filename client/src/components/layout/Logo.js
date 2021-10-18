@@ -5,8 +5,6 @@ export default function Logo() {
   return (
     <Box
       sx={{
-        // width: 800,
-        // height: 200,
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -20,7 +18,8 @@ export default function Logo() {
           width: 250,
           height: 250,
           boxShadow: 'none',
-          margin: 3
+          margin: 3,
+          backgroundColor: 'transparent',
         }}
       >
         <CardMedia

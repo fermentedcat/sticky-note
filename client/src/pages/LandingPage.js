@@ -16,8 +16,8 @@ export default function LandingPage() {
   }
 
   return (
-    <Container 
-      sx={{ 
+    <Container
+      sx={{
         mx: 'auto',
         height: '100vh',
         display: 'flex',
@@ -25,29 +25,30 @@ export default function LandingPage() {
         justifyContent: 'center',
       }}
     >
-      <Box 
-        sx={{ 
+      <Box
+        sx={{
           width: '85%',
           mx: 'auto',
           textAlign: 'center',
           display: 'flex',
           justifyContent: 'space-around',
-          height: 500
+          height: 400,
         }}
       >
         <Logo />
         <Box sx={{ maxWidth: 300, textAlign: 'center' }}>
-          <Typography 
+          <Typography
             gutterBottom
-            variant="h4" 
+            variant="h4"
             component="h3"
             align="center"
-            sx={{fontWeight: 800}}>
-              {showLogin ? 'Login' : 'Register'}
+            sx={{ fontWeight: 800 }}
+          >
+            {showLogin ? 'Login' : 'Register'}
           </Typography>
-            {showLogin ? <LoginForm /> : <RegisterForm />}
-            {!showLogin && <Button onClick={setLogin}>Login</Button>}
-            {showLogin && <Button onClick={setRegister}>Register</Button>}
+          {showLogin ? <LoginForm /> : <RegisterForm />}
+          {!showLogin && <Button onClick={setLogin}>Login</Button>}
+          {showLogin && <Button onClick={setRegister}>Register</Button>}
         </Box>
       </Box>
     </Container>
