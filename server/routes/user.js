@@ -4,7 +4,7 @@ const router = express.Router()
 const userAuth = require('../utils/userAuth')
 const adminAuth = require('../utils/adminAuth')
 
-const userAPI = require('../controllers/userAPI')
+const user = require('../controllers/user')
 
 /* 
 GET     /api/user/auth  - authenticate user
@@ -18,14 +18,14 @@ POST    /api/user/:id   - update user
 DELETE  /api/user/:id   - delete user
 */
 
-router.get('/auth', userAuth, userAPI.authenticate)
-router.get('/', userAPI.getAll)
-router.get('/:id', userAPI.getById)
+router.get('/auth', userAuth, user.authenticate)
+router.get('/', user.getAll)
+router.get('/:id', user.getById)
 
-router.post('/login', userAPI.login)
-router.post('/', userAPI.addNew)
-router.post('/:id', userAPI.update)
+router.post('/login', user.login)
+router.post('/', user.addNew)
+router.post('/:id', user.update)
 
-router.delete('/user/:id', userAPI.delete)
+router.delete('/user/:id', user.delete)
 
 module.exports = router
