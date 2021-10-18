@@ -3,7 +3,7 @@ import { Button, Box, Container } from '@mui/material'
 import Typography from '@mui/material/Typography'
 import LoginForm from '../components/form/LoginForm'
 import RegisterForm from '../components/form/RegisterForm'
-import Logo from '../components/layout/Logo'
+import LandingLogo from '../components/layout/LandingLogo'
 
 export default function LandingPage() {
   const [showLogin, setShowLogin] = useState(true)
@@ -35,14 +35,14 @@ export default function LandingPage() {
           height: 400,
         }}
       >
-        <Logo />
+        <LandingLogo />
         <Box sx={{ maxWidth: 300, textAlign: 'center' }}>
           <Typography
             gutterBottom
             variant="h4"
             component="h3"
             align="center"
-            sx={{ fontWeight: 800 }}
+            sx={{ fontWeight: 800, color: '#ffbfd1' }}
           >
             {showLogin ? 'Login' : 'Register'}
           </Typography>
