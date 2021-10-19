@@ -3,12 +3,18 @@ import React, { useState } from 'react'
 import { Card, Grid, Button, CardHeader, CardContent, Typography } from '@mui/material'
 import IconButton from '../button/IconButton'
 import ActionsMenu from '../menu/ActionsMenu'
+import useApi from '../../hooks/use-api'
 
 export default function TodoCard({ todo }) {
   const [showModal, setShowModal] = useState(false)
+  const { callPost } = useApi()
+  //TODO: get user to find pinned todo's
   const handleOpenTodo = () => { console.log(todo.description)}
   const handleOpenEditTodo = () => { console.log(todo.description)}
-  const handlePin = () => { console.log(todo.description)}
+  const handlePin = () => {
+    callPost({ todoId: todo._id }, 'user/addPin')
+    console.log(todo.description)
+  }
 
 
   return (

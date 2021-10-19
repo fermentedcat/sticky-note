@@ -93,6 +93,32 @@ exports.update = (req, res, next) => {
     })
 }
 
+exports.addTodoPin = async (req, res, next) => {
+  const { userId } =req.user
+  const todoId = req.body.todoId
+
+  User.findByIdAndUpdate(userId, { $push: { pinnedTodos: todoId } })
+  .then(() => {
+    res.status(200).send('Saved')
+  })
+  .catch((error) => {
+    res.status(500).json(error)
+  })
+}
+
+exports.removeTodoPin = async (req, res, next) => {
+  const { userId } =req.user
+  const todoId = req.body.todoId
+
+  User.findByIdAndUpdate(userId, { $pull: { pinnedTodos: todoId } })
+  .then(() => {
+    res.status(200).send('Saved')
+  })
+  .catch((error) => {
+    res.status(500).json(error)
+  })
+}
+
 exports.delete = (req, res, next) => {
   const id = req.params.id
   User.findByIdAndDelete(id)

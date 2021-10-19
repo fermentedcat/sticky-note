@@ -10,44 +10,36 @@ const UserSchema = new Schema(
     fullName: {
       type: String,
       required: true,
-      validate: [
-          validate.string, 
-          'FullName invalid.'
-        ],
+      validate: [validate.string, 'FullName invalid.'],
     },
     username: {
       type: String,
       required: true,
-      validate: [
-          validate.string, 
-          'Username invalid.'
-        ],
+      validate: [validate.string, 'Username invalid.'],
     },
     email: {
       type: String,
       required: true,
-      validate: [
-          validate.email, 
-          'Email invalid'
-        ],
+      validate: [validate.email, 'Email invalid'],
     },
     password: {
       type: String,
       required: true,
       select: false,
-      validate: [
-        validate.password,
-        'Password invalid.',
-      ],
+      validate: [validate.password, 'Password invalid.'],
+    },
+    pinnedTodos: {
+      type: [Schema.Types.ObjectId],
+      ref: 'Todo'
     },
     photo: {
       type: String,
     },
     role: {
-        type: String,
-        enum: ['user', 'admin'],
-        default: 'user'
-      },
+      type: String,
+      enum: ['user', 'admin'],
+      default: 'user',
+    },
   },
   {
     timestamps: true,
@@ -58,8 +50,7 @@ const UserSchema = new Schema(
 
 // check if email is registered
 UserSchema.pre('validate', function (next, done) {
-  this.constructor.findOne({ email: this.email })
-  .then(user => {
+  this.constructor.findOne({ email: this.email }).then((user) => {
     if (user) {
       const error = new CustomError(
         'email',
@@ -73,18 +64,19 @@ UserSchema.pre('validate', function (next, done) {
 
 // check if username is taken
 UserSchema.pre('validate', function (next, done) {
-  this.constructor.findOne({ username: this.username })
-  .then(user => {
-    if (user) {
-      const error = new CustomError('username', 'This username is taken.')
-      next(error)
-    }
-    next()
-  })
-  .catch(() => {
-    const err = new InternalError('internal', 'Database error.')
-    next(err)
-  })
+  this.constructor
+    .findOne({ username: this.username })
+    .then((user) => {
+      if (user) {
+        const error = new CustomError('username', 'This username is taken.')
+        next(error)
+      }
+      next()
+    })
+    .catch(() => {
+      const err = new InternalError('internal', 'Database error.')
+      next(err)
+    })
 })
 
 // PRE SAVE:
