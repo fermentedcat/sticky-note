@@ -1,0 +1,18 @@
+.icon.active:hover {
+  background-color: #ffbfd123;
+}
+
+.icon.active:active {
+  background-color: #ffbfd142;
+}
+
+.icon svg {
+  -webkit-transition: all 1s ease-in-out;
+  transition: all 1s ease-in-out;
+}
+
+.icon svg.pinned {
+  -webkit-transform: rotate(-38deg);
+          transform: rotate(-38deg);
+}
+/*# sourceMappingURL=IconButton.module.css.map */
