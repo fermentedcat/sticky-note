@@ -1,26 +1,13 @@
 import React from 'react'
-import { Grid, Box, Paper, Button, Typography } from '@mui/material'
-import { experimentalStyled as styled } from '@mui/material/styles'
+import { Grid, Box, Typography } from '@mui/material'
 import useApi from '../hooks/use-api'
 import { useParams } from 'react-router'
-
-const Item = styled(Paper)(({ theme }) => ({
-  ...theme.typography.body2,
-  padding: theme.spacing(2),
-  textAlign: 'center',
-  color: theme.palette.text.secondary,
-}))
+import TodoCard from '../components/card/TodoCard'
 
 export default function StackPage() {
   const { slug } = useParams()
 
-  const { data, error, token, callGet, callPost, callDelete, setData } = useApi(
-    `stack/${slug}`
-  )
-
-  const handleOpenTodo = (id) => {
-    console.log('open todo', id)
-  }
+  const { data, error } = useApi(`stack/${slug}`)
 
   return (
     <Grid
@@ -33,6 +20,17 @@ export default function StackPage() {
       }}
     >
       <Box sx={{ flexGrow: 1 }}>
+        {error && (
+          <Typography
+            variant="h6"
+            component="h2"
+            align="center"
+            sx={{ fontSize: '14px', marginTop: 3, color: 'rgb(25, 118, 210)' }}
+          >
+            {error}
+          </Typography>
+        )}
+
         {data && (
           <Typography
             variant="h6"
@@ -43,16 +41,7 @@ export default function StackPage() {
             {data.stack.title.toUpperCase()}
           </Typography>
         )}
-        { error && (
-          <Typography
-            variant="h6"
-            component="h2"
-            align="center"
-            sx={{ fontSize: '14px', marginTop: 3, color: 'rgb(25, 118, 210)' }}
-          >
-            {error}
-          </Typography>
-        )}
+
         <Grid
           container
           // justifyContent="stretch"
@@ -61,18 +50,8 @@ export default function StackPage() {
           padding={2}
         >
           {data &&
-            data.todos.map((todo) => {
-              return (
-                <Grid key={todo._id} item xs={2} sm={4} md={4} lg={4}>
-                  <Item
-                    component={Button}
-                    onClick={handleOpenTodo.bind(this, todo._id)}
-                    sx={{ width: '100%', height: '100%' }}
-                  >
-                    {todo.title}
-                  </Item>
-                </Grid>
-              )
+            data.todos.map((todo, index) => {
+              return <TodoCard key={index} todo={todo} />
             })}
         </Grid>
       </Box>
