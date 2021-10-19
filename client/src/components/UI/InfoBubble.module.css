@@ -1,0 +1,56 @@
+.bubble {
+  position: absolute;
+  top: -1.9em;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  z-index: 2;
+  font-size: 1.3rem;
+}
+
+.bubble .textBox {
+  background-color: black;
+  color: white;
+  min-width: -webkit-fit-content;
+  min-width: -moz-fit-content;
+  min-width: fit-content;
+  white-space: nowrap;
+  padding: .3em .4em;
+  border-radius: 5px;
+}
+
+.bubble .textBox p {
+  font-size: .6em;
+  font-weight: bold;
+  margin: 0;
+}
+
+.bubble .triangle {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 7px solid black;
+}
+
+.bubble.bottom {
+  top: unset;
+  bottom: -1.9em;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: column-reverse;
+          flex-direction: column-reverse;
+}
+
+.bubble.bottom .triangle {
+  border-bottom: 7px solid black;
+  border-top: none;
+}
+/*# sourceMappingURL=InfoBubble.module.css.map */
