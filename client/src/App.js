@@ -3,6 +3,9 @@ import { Route, Switch } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux'
 
 import { authenticate } from './store/auth-slice'
+import { todoActions } from './store/todo-slice'
+import { stackActions } from './store/stack-slice'
+import { api } from './store/todo-actions'
 
 import HomePage from './pages/HomePage';
 import LandingPage from './pages/LandingPage';
@@ -19,6 +22,14 @@ function App() {
   useEffect(() => {
     dispatch(authenticate())
   }, [dispatch])
+
+  useEffect(() => {
+    if (!isAuthenticated) {
+      dispatch(todoActions.clearTodos())
+      dispatch(stackActions.clearStacks())
+      api.reset()
+    } 
+  }, [dispatch, isAuthenticated])
 
   return (
 
