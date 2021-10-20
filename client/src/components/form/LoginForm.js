@@ -11,12 +11,14 @@ import { login } from '../../utils/formFields'
 
 import FormBox from './FormBox'
 import SubmitButton from '../button/SumbitButton'
+import { useHistory } from 'react-router'
 
 export default function LoginForm() {
   const [formIsValid, setFormIsValid] = useState(false)
   const { data: token, error, callPost: requestLogin } = useApi();
   const emailInput = useInput(login.loginName.validate)
   const passwordInput = useInput(login.password.validate)
+  const history = useHistory();
 
   const dispatch = useDispatch();
 
@@ -61,6 +63,7 @@ export default function LoginForm() {
     if (token) {
       window.localStorage.setItem('TODO_TOKEN', token)
       dispatch(authActions.login(token))
+      history.push('/')
     }
     if (error) {
       // dispatch(usiActions.setNotification(error))
