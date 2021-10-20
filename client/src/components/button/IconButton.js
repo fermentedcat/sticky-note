@@ -16,6 +16,7 @@ import {
 import { ImQuotesLeft } from 'react-icons/im'
 import { ImCancelCircle } from 'react-icons/im'
 import { HiOutlineBookOpen } from 'react-icons/hi'
+import { BsPatchPlus } from 'react-icons/bs'
 
 import InfoBubble from '../UI/InfoBubble'
 import { Box } from '@mui/material'
@@ -25,6 +26,7 @@ export default function IconButton({
   size = '1.4',
   m = '.05',
   p = '.3',
+  fixed,
   circle = true,
   active,
   description,
@@ -46,7 +48,11 @@ export default function IconButton({
     height: 'fit-content',
     borderRadius: circle ? '50%' : '3px',
     fontSize: `${size}em`,
-    margin: `${m}em`,
+    margin: fixed ? '0.2em' : `${m}em`,
+    position: fixed ? 'absolute' : 'inherit',
+    right: fixed ? 19 : 'auto',
+    border: fixed ? '3px solid rgba(255,191,209,0.64)' : 'none',
+    backgroundColor: fixed ? 'rgb(255,255,240)' : 'none'
   }
 
   const toggleDescription = () => {
@@ -93,6 +99,10 @@ export default function IconButton({
 
     case 'read':
       icon = <HiOutlineBookOpen />
+      break
+
+    case 'add':
+      icon = <BsPatchPlus />
       break
 
     case 'edit':

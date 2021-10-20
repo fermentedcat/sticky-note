@@ -1,0 +1,20 @@
+
+.icon{
+
+  &.active {
+    &:hover {
+      // background-color: #ffebc141;
+      background-color: #ffbfd123;
+    }
+    &:active {
+      background-color: #ffbfd142;
+    }
+  }
+  svg {
+    transition: all 1s ease-in-out;
+    &.pinned {
+      transform: rotate(-38deg);
+    }
+  }
+}
+
