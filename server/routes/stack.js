@@ -19,8 +19,8 @@ DELETE  /api/stack/:id   - delete stack
 router.get('/', userAuth, stack.getAll)
 router.get('/:slug', userAuth, stack.getBySlug)
 
-router.post('/', stack.addNew)
-router.post('/:id', stack.update)
+router.post('/', userAuth, stack.addNew)
+router.post('/:id', userAuth, stack.update)
 
-router.delete('/todo/:id', stack.delete)
+router.delete('/todo/:id', userAuth, stack.delete)
 module.exports = router
