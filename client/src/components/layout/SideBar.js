@@ -17,7 +17,7 @@ const Item = styled(Paper)(({ theme }) => ({
 
 export default function SideBar() {
   const { stacks, error } = useSelector((state) => state.stack)
-  const [showModal, setShowModal] = useState()
+  const [showModal, setShowModal] = useState(false)
   const dispatch = useDispatch()
 
   const toggleShowModal = () => {

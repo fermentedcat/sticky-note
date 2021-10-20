@@ -21,7 +21,7 @@ const inputStateReducer = (state, action) => {
   return inputStateReducer;
 }
 
-const useInput = (validate = () => {return true}, initialValue = "") => {
+const useInput = (validate, initialValue = "") => {
   const [
     inputState, 
     dispatch
