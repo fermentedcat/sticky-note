@@ -44,7 +44,7 @@ const fullName = {
     type: 'text',
     name: 'title',
     label: 'Title',
-    initialValue: 'My New Todo',
+    initialValue: '',
     validate: validate.string,
     required: true,
   },
@@ -52,14 +52,14 @@ const fullName = {
     type: 'text',
     name: 'description',
     label: 'Description',
-    initialValue: 'Todo list description',
+    initialValue: '',
     validate: validate.string,
   },
   markdown = {
     type: 'text',
     name: 'markdown',
     label: '',
-    initialValue: 'My new todo list',
+    initialValue: '',
     validate: validate.string,
   }
 
@@ -68,3 +68,4 @@ export default register
 
 export const login = { loginName, password }
 export const todo = { title, description, markdown }
+export const stack = { title, description }

@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
-import { fetchStacks, addStack } from '../../store/stack-actions'
+import { fetchStacks } from '../../store/stack-actions'
 
 import { Grid, Box, Paper, Typography, Button } from '@mui/material'
+import Modal from './Modal'
 import { experimentalStyled as styled } from '@mui/material/styles'
+import StackForm from '../form/StackForm'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
@@ -21,10 +23,7 @@ export default function SideBar() {
   const toggleShowModal = () => {
     setShowModal(!showModal)
   }
-  
-  const handleAddStack = (data) => {
-    dispatch(addStack(data))
-  }
+
   useEffect(() => {
     dispatch(fetchStacks())
   }, [dispatch])
@@ -94,6 +93,13 @@ export default function SideBar() {
           </Grid>
         </Grid>
       </Box>
+      <Modal
+        open={showModal}
+        onClose={toggleShowModal}
+        title="Add stack"
+      >
+        <StackForm closeForm={toggleShowModal}/>
+      </Modal>
     </Grid>
   )
 }
