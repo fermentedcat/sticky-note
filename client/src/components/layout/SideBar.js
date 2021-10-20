@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchStacks, addStack } from '../../store/stack-actions'
 
-import useApi from '../../hooks/use-api'
-
-import { Grid, Box, Paper, Typography } from '@mui/material'
+import { Grid, Box, Paper, Typography, Button } from '@mui/material'
 import { experimentalStyled as styled } from '@mui/material/styles'
 
 const Item = styled(Paper)(({ theme }) => ({
@@ -14,16 +14,21 @@ const Item = styled(Paper)(({ theme }) => ({
 }))
 
 export default function SideBar() {
-  const {
-    data: stacks,
-    error,
-    token,
-    callGet,
-    callPost,
-    callDelete,
-    setData,
-  } = useApi('stack')
+  const { stacks, error } = useSelector((state) => state.stack)
+  const [showModal, setShowModal] = useState()
+  const dispatch = useDispatch()
 
+  const toggleShowModal = () => {
+    setShowModal(!showModal)
+  }
+  
+  const handleAddStack = (data) => {
+    dispatch(addStack(data))
+  }
+  useEffect(() => {
+    dispatch(fetchStacks())
+  }, [dispatch])
+  
   return (
     <Grid
       item
@@ -55,6 +60,7 @@ export default function SideBar() {
         >
           YOUR STACKS
         </Typography>
+        <Button onClick={toggleShowModal}>Add Stack</Button>
 
         <Grid
           container
