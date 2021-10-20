@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react'
+import { useDispatch } from 'react-redux'
 
+import { addUser } from '../../store/user-actions'
 import useInput from '../../hooks/use-input'
-import { TextField } from '@mui/material'
 import register from '../../utils/formFields'
+
+import { TextField } from '@mui/material'
 import SubmitButton from '../button/SumbitButton'
 import FormBox from './FormBox'
 
 export default function RegisterForm() {
   const [formIsValid, setFormIsValid] = useState(false)
+  const dispatch = useDispatch()
+
   const fullNameInput = useInput(register.fullName.validate)
   const usernameInput = useInput(register.username.validate)
   const emailInput = useInput(register.email.validate)
@@ -36,22 +41,17 @@ export default function RegisterForm() {
   })
 
   const handleRegister = async (e) => {
-    e.target.preventDefault()
+    e.preventDefault()
     if (!formIsValid) {
       return
-    } else {
-      const data = {
-        fullName: emailInput.value,
-        username: usernameInput.value,
-        email: emailInput.value,
-        password: passwordInput.value,
-      }
-      try {
-        console.log(data)
-      } catch (error) {
-        console.log('Login failed.')
-      }
     }
+    const data = {
+      fullName: emailInput.value,
+      username: usernameInput.value,
+      email: emailInput.value,
+      password: passwordInput.value,
+    }
+    dispatch(addUser(data))
   }
 
   useEffect(() => {

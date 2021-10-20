@@ -2,16 +2,16 @@ import React from 'react'
 import { AppBar, Box, Button } from '@mui/material'
 import HeaderLogo from './HeaderLogo'
 import { useDispatch, useSelector } from 'react-redux'
-import { authActions } from '../../store/auth-slice'
+import { userActions } from '../../store/user-slice'
 
 export default function Header() {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
-  const username = useSelector(state => state.auth.username)
+  const isAuthenticated = useSelector(state => state.user.isAuthenticated)
+  const username = useSelector(state => state.user.username)
   const dispatch = useDispatch()
 
   const handleLogout = () => {
     window.localStorage.removeItem('TODO_TOKEN')
-    dispatch(authActions.logout())
+    dispatch(userActions.logout())
   }
 
   return (

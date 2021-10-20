@@ -6,41 +6,40 @@ const API_URL = process.env.REACT_APP_API_URL
 export default class Api {
   constructor() {
     this.apiURL = API_URL
-    this.token = window.localStorage.getItem('TODO_TOKEN')
   }
 
   callGet = (endpoint) =>
     axios({
-      url: `${API_URL}${endpoint}`,
-      headers: { 'x-auth-token': window.localStorage.getItem('TODO_TOKEN') },
+      url: `${this.apiURL}${endpoint}`,
+      headers: { 'x-auth-token': this.getToken() },
     })
 
   callPost = (data, endpoint) =>
     axios({
-      url: `${API_URL}${endpoint}`,
+      url: `${this.apiURL}${endpoint}`,
       method: 'POST',
       headers: {
-        'x-auth-token': window.localStorage.getItem('TODO_TOKEN'),
+        'x-auth-token': this.getToken(),
       },
       data: data,
     })
 
   callDelete = (endpoint) =>
     axios({
-      url: `${API_URL}${endpoint}`,
+      url: `${this.apiURL}${endpoint}`,
       method: 'DELETE',
       headers: {
-        'x-auth-token': window.localStorage.getItem('TODO_TOKEN'),
+        'x-auth-token': this.getToken(),
       },
     })
 
   isValidToken() {
-    const { exp } = jwtDecode(window.localStorage.getItem('TODO_TOKEN'))
+    const { exp } = jwtDecode(this.getToken())
     const expirationTime = exp * 1000 - 60000
     return Date.now() >= expirationTime
   }
- 
-  reset = () => {
-    this.token = ""
+
+  getToken() {
+    return window.localStorage.getItem('TODO_TOKEN')
   }
 }

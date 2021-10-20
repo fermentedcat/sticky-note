@@ -1,7 +1,5 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
-import Api from '../api/api'
-
-export const api = new Api()
+import { api } from '../App'
 
 export const fetchTodos = createAsyncThunk(
   'todo/fetchTodos',

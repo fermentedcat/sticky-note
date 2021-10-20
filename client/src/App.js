@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import { Route, Switch } from 'react-router-dom';
+import { useHistory } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { authenticate } from './store/auth-slice'
+import { authenticateUser } from './store/user-actions'
 import { todoActions } from './store/todo-slice'
 import { stackActions } from './store/stack-slice'
-import { api } from './store/todo-actions'
 
 import HomePage from './pages/HomePage';
 import LandingPage from './pages/LandingPage';
@@ -15,21 +15,26 @@ import { Grid } from '@mui/material';
 import StackPage from './pages/StackPage';
 import { Box } from '@mui/material';
 
+import Api from './api/api'
+export const api = new Api()
+
 function App() {
-  const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+  const { isAuthenticated } = useSelector(state => state.user)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   useEffect(() => {
-    dispatch(authenticate())
+    dispatch(authenticateUser())
   }, [dispatch])
 
   useEffect(() => {
     if (!isAuthenticated) {
+      // clean up redux store and url on logout
+      history.push('/')
       dispatch(todoActions.clearTodos())
       dispatch(stackActions.clearStacks())
-      api.reset()
-    } 
-  }, [dispatch, isAuthenticated])
+    }
+  }, [dispatch, isAuthenticated, history])
 
   return (
 
