@@ -1,17 +1,17 @@
-import { TextField } from '@mui/material'
 import React, { useEffect, useState } from 'react'
-import useApi from '../../hooks/use-api'
+import { useDispatch } from 'react-redux'
+
 import useInput from '../../hooks/use-input'
 import { todo } from '../../utils/formFields'
+import { addTodo, updateTodo } from '../../store/todo-actions'
+
+import { TextField } from '@mui/material'
 import SubmitButton from '../button/SumbitButton'
 import FormBox from './FormBox'
-import { addTodo, updateTodo } from '../../store/todo-actions'
-import { useDispatch } from 'react-redux'
 
 // new todo - props = { stackId } 
 // edit todo - props = { todo } 
 export default function TodoForm({stackId, todoItem = {}, closeForm}) {
-  const { data, error, callPost } = useApi()
   const [formIsValid, setFormIsValid] = useState(false)
   const dispatch = useDispatch()
   if (!stackId) stackId = todo.stack
@@ -69,15 +69,6 @@ export default function TodoForm({stackId, todoItem = {}, closeForm}) {
   useEffect(() => {
     setFormIsValid(titleInput.isValid)
   }, [titleInput.isValid])
-
-  useEffect(() => {
-    if (error) {
-      console.log(error)
-    }
-    if (data) {
-      closeForm()
-    }
-  }, [data, error, closeForm])
 
   return (
     <FormBox onSubmit={handleSubmitTodo}>
