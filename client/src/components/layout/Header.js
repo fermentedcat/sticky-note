@@ -6,6 +6,7 @@ import { authActions } from '../../store/auth-slice'
 
 export default function Header() {
   const isAuthenticated = useSelector(state => state.auth.isAuthenticated)
+  const username = useSelector(state => state.auth.username)
   const dispatch = useDispatch()
 
   const handleLogout = () => {
@@ -44,7 +45,7 @@ export default function Header() {
             {isAuthenticated && (
               <>
                 <Button>
-                  Profile
+                  {username ? username : 'Profile'}
                 </Button>
                 <Button onClick={handleLogout}>
                   Logout
