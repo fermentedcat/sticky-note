@@ -64,7 +64,7 @@ exports.delete = (req, res, next) => {
   Todo.findByIdAndDelete(id)
   .then((todo) => {
     if (!todo) res.sendStatus(404)
-    else res.sendStatus(204)
+    else res.status(200).send(id)
   })
   .catch(error => {
     res.status(500).json(error)

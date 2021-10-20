@@ -22,6 +22,6 @@ router.get('/:id', todo.getById)
 router.post('/', todo.addNew)
 router.post('/:id', todo.update)
 
-router.delete('/todo/:id', todo.delete)
+router.delete('/:id', todo.delete)
 
 module.exports = router
