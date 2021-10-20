@@ -1,0 +1,43 @@
+.bubble {
+  position: absolute;
+  top: -1.9em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+  font-size: 1.3rem;
+
+  .textBox {
+    background-color: black;
+    color: white;
+    min-width: fit-content;
+    white-space:nowrap;
+    padding: .3em .4em;
+    border-radius: 5px;
+    
+    p {
+      font-size: .6em;
+      font-weight: bold;
+      margin: 0;
+    }
+  }
+  .triangle {
+    width: 0;
+    height: 0;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 7px solid black;
+  }
+
+  // Display underneath component, arrow upwards
+  &.bottom {
+    top: unset;
+    bottom: -1.9em;
+    flex-direction: column-reverse;
+    .triangle {
+      border-bottom: 7px solid black;
+      border-top: none;
+    }
+  }
+}
+

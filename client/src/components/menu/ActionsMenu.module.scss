@@ -1,0 +1,17 @@
+.menu {
+  display: flex;
+  flex-direction: row;
+
+  .menuItem {
+    background: none;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    border: none;
+    padding: 0;
+
+    & + .menuItem {
+      margin-left: .2em;
+    }
+  }
+}

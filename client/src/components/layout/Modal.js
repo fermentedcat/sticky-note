@@ -14,14 +14,11 @@ const style = {
   bgcolor: 'background.paper',
   border: '2px solid #ffbfd1',
   boxShadow: 24,
-  p: 4,
+  p: 0,
   outline: 'none',
   borderRadius: '3px'
 };
 
-const StyledBox = styled(Box)(() => ({
-  paddingBottom: '1em'
-}));
 
 export default function Modal (props) {
   const { open, onClose, title, descriptions, children} = props;
@@ -34,7 +31,7 @@ export default function Modal (props) {
       aria-describedby="modal-modal-description"
     >
       <Box sx={style}>
-        <StyledBox>
+        <Box>
           {title && (
             <Typography id="modal-modal-title" variant="h5" component="h2">
               {title}
@@ -47,7 +44,7 @@ export default function Modal (props) {
               </Typography>
             )}
           )}
-        </StyledBox>
+        </Box>
         {children}
       </Box>
     </MuiModal>
