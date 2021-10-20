@@ -1,20 +1,27 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Grid, Box, Typography } from '@mui/material'
-import useApi from '../hooks/use-api'
 import { useParams } from 'react-router'
 import TodoCard from '../components/card/TodoCard'
 import IconButton from '../components/button/IconButton'
 import Modal from '../components/layout/Modal'
 import TodoForm from '../components/form/TodoForm'
+import { useSelector, useDispatch } from 'react-redux'
+import { fetchTodos } from '../store/todo-actions'
+
 
 export default function StackPage() {
   const [showModal, setShowModal] = useState(false)
+  const { stack, todos, error } = useSelector(state => state.todo)
   const { slug } = useParams()
-  const { data, error } = useApi(`stack/${slug}`)
-
+  const dispatch = useDispatch()
+  
   const toggleShowModal = () => {
     setShowModal(!showModal)
   }
+
+  useEffect(() => {
+    dispatch(fetchTodos(`stack/${slug}`))
+  }, [dispatch, slug])
 
   //TODO: Sort by lastEdit
   // const dateOrderedTodoList = []
@@ -44,14 +51,14 @@ export default function StackPage() {
             </Typography>
           )}
 
-          {data && (
+          {stack && (
             <Typography
               variant="h6"
               component="h2"
               align="center"
               sx={{ fontSize: '14px', marginTop: 3, color: 'rgb(25, 118, 210)' }}
             >
-              {data.stack.title.toUpperCase()}
+              {stack.title.toUpperCase()}
             </Typography>
           )}
 
@@ -62,8 +69,8 @@ export default function StackPage() {
             columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}
             padding={2}
           >
-            {data &&
-              data.todos.map((todo, index) => {
+            {todos &&
+              todos.map((todo, index) => {
                 return <TodoCard key={index} todo={todo} />
               })}
           </Grid>
@@ -74,7 +81,7 @@ export default function StackPage() {
         onClose={toggleShowModal}
         title="Add todo"
       >
-        { data && <TodoForm stackId={data.stack._id}/>}
+        { stack && <TodoForm stackId={stack._id} closeForm={toggleShowModal}/>}
       </Modal>
     </>
   )
