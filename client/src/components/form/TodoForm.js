@@ -5,12 +5,15 @@ import useInput from '../../hooks/use-input'
 import { todo } from '../../utils/formFields'
 import SubmitButton from '../button/SumbitButton'
 import FormBox from './FormBox'
+import { addTodo, updateTodo } from '../../store/todo-actions'
+import { useDispatch } from 'react-redux'
 
 // new todo - props = { stackId } 
 // edit todo - props = { todo } 
-export default function TodoForm({stackId, todoItem = {}}) {
+export default function TodoForm({stackId, todoItem = {}, closeForm}) {
   const { data, error, callPost } = useApi()
   const [formIsValid, setFormIsValid] = useState(false)
+  const dispatch = useDispatch()
   if (!stackId) stackId = todo.stack
 
   const titleInitVal = todoItem.title || todo.title.initialValue
@@ -53,12 +56,14 @@ export default function TodoForm({stackId, todoItem = {}}) {
       description: descrInput.value,
       markdown: markdownInput.value,
     }
-    // post new or edit existing
+    // edit existing or add new todo
     if (todoItem._id) {
-      callPost(data, `todo/${todoItem._id}`)
+      dispatch(updateTodo({...data, _id: todoItem._id}))
+      closeForm()
       return;
     }
-    callPost(data, 'todo') 
+    dispatch(addTodo(data)) 
+    closeForm()
   }
 
   useEffect(() => {
@@ -70,9 +75,9 @@ export default function TodoForm({stackId, todoItem = {}}) {
       console.log(error)
     }
     if (data) {
-      console.log(data)
+      closeForm()
     }
-  }, [data, error])
+  }, [data, error, closeForm])
 
   return (
     <FormBox onSubmit={handleSubmitTodo}>
