@@ -7,9 +7,11 @@ export default function FormBox({ onSubmit, children }) {
       onSubmit={onSubmit}
       component="form"
       sx={{
+        display: 'flex',
+        flexDirection: 'column',
         '& .MuiTextField-root': {
           m: 1,
-          width: '25ch',
+          width: 'auto',
         },
       }}
     >
