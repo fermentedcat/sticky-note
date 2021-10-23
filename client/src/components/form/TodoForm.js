@@ -31,6 +31,21 @@ export default function TodoForm({stackId, todoItem = {}, closeForm}) {
   ]
 
   const inputFields = inputs.map((input, index) => {
+    if (input.type === 'textarea') {
+      return (
+        <TextField
+          key={index}
+          type={input.type}
+          name={input.name}
+          value={input.value}
+          onChange={input.onChange}
+          onBlur={input.onBlur}
+          label={input.label}
+          required={input.required}
+          multiline
+        />
+      )
+    }
     return (
       <TextField
         key={index}

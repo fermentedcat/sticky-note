@@ -56,7 +56,7 @@ const fullName = {
     validate: validate.string,
   },
   markdown = {
-    type: 'text',
+    type: 'textarea',
     name: 'markdown',
     label: '',
     initialValue: '',
