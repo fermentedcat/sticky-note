@@ -1,85 +1,62 @@
-import React, { useState } from 'react'
+import React from 'react'
+import MuiCard from '@mui/material/Card'
 
-import useApi from '../../hooks/use-api'
+import CardHeader from '@mui/material/CardHeader'
+import IconButton from '../button/IconButton'
+import ActionsMenu from '../menu/ActionsMenu'
 
-import { Grid, Typography } from '@mui/material'
-import Modal from '../layout/Modal'
-import Card from '../card/Card'
-import CardContent from '../card/CardContent'
-import TodoForm from '../form/TodoForm'
-import TodoCardHeader from './TodoCardHeader'
-import TodoDetails from './TodoDetails'
-import { deleteTodo } from '../../store/todo-actions'
-import { useDispatch } from 'react-redux'
+const cardStyle = {
+  overflow: 'unset',
+  border: '1px dotted #ffbfd1',
+  boxShadow: '0px 7px 12px -4px rgba(50,30,10,0.15)',
+  height: '100%',
+  display: "flex",
+  flexDirection: "column",
+  backgroundColor: "rgb(255,255,249)",
+}
 
-export default function TodoCard({ todo }) {
-  const [showModal, setShowModal] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
-  const { callPost } = useApi()
-  const dispatch = useDispatch()
 
-  //TODO: get user to find pinned todo's from global array user pinned todos
+const headerStyle = {
+  height: 'fit-content',
+  padding: 1.1,
+  paddingRight: 1.6,
+  color: '#ffbfd1',
+  borderBottom: '1px dotted #ffbfd1',
+}
 
-  const handleOpenTodo = () => {
-    setIsEditing(false)
-    setShowModal(true)
-  }
+export default function Card({openEditHandler, toggleIsEditing, isEditing, removeHandler, pinHandler, isPinned, children}) {
 
-  const handleOpenEditTodo = () => {
-    setIsEditing(true)
-    setShowModal(true)
-  }
-
-  const handlePin = () => {
-    callPost({ todoId: todo._id }, 'user/addPin')
-  }
-
-  const handleRemoveTodo = () => {
-    dispatch(deleteTodo(todo._id))
-    setShowModal(false)
-  }
-
+  
   return (
-    <Grid key={todo._id} item xs={2} sm={4} md={4} lg={4} sx={{ height: 250 }}>
-      <Card>
-        <TodoCardHeader
-          editTodoHandler={handleOpenEditTodo}
-          pinHandler={handlePin}
-        />
-
-        <CardContent onClickHandler={handleOpenTodo.bind(this, todo._id)}>
-          <Typography
-            variant="body1"
-            color="text.primary"
-            sx={{ textAlign: 'left', alignSelf: 'start' }}
-          >
-            {todo.title}
-          </Typography>
-          <Typography
-            variant="body2"
-            color="text.secondary"
-            sx={{ textAlign: 'left', alignSelf: 'start' }}
-          >
-            {todo.description}
-          </Typography>
-        </CardContent>
-      </Card>
-      <Modal
-        open={showModal}
-        onClose={() => setShowModal(false)}
-        title={isEditing ? 'Edit todo' : false}
-      >
-        {isEditing ? (
-          <TodoForm todoItem={todo} closeForm={() => setIsEditing(false)}/>
-        ) : (
-          <TodoDetails
-            todo={todo}
-            editTodoHandler={handleOpenEditTodo}
-            removeTodoHandler={handleRemoveTodo}
-            pinHandler={handlePin}
+    <MuiCard sx={cardStyle}>
+      <CardHeader
+      sx={headerStyle}
+      action={
+        <ActionsMenu>
+          <IconButton
+            type={isPinned ? "unpin" : "pin"}
+            active
+            description={isPinned ? "unpin" : "pin"}
+            onClick={pinHandler}
           />
-        )}
-      </Modal>
-    </Grid>
+          <IconButton
+            type={!isEditing ? "edit" : "cancel"}
+            active
+            description={!isEditing ? "edit" : "cancel"}
+            onClick={!isEditing ? openEditHandler : toggleIsEditing}
+          />
+          {removeHandler && (
+            <IconButton
+              type="delete"
+              active
+              description="delete"
+              onClick={removeHandler}
+            />
+          )}
+        </ActionsMenu>
+      }
+    />
+      {children}
+    </MuiCard>
   )
 }
