@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Grid, Box, Typography } from '@mui/material'
 import { useParams } from 'react-router'
-import TodoCard from '../components/card/TodoCard'
+import TodoItem from '../components/todo/TodoItem'
 import IconButton from '../components/button/IconButton'
 import Modal from '../components/layout/Modal'
 import TodoForm from '../components/form/TodoForm'
@@ -71,7 +71,7 @@ export default function StackPage() {
           >
             {todos &&
               todos.map((todo, index) => {
-                return <TodoCard key={index} todo={todo} />
+                return <TodoItem key={index} todo={todo} />
               })}
           </Grid>
         </Box>
