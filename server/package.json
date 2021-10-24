@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon app.js",
+    "start": "nodemon server.js",
     "lint:js": "eslint . --ext .js",
     "lint:js:fix": "npm run lint:js -- --fix",
     "test:related": "jest --bail --findRelatedTests"
