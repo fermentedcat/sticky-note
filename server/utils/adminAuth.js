@@ -5,7 +5,7 @@ module.exports = (req, res, next) => {
     const token = req.header('x-auth-token')
     if (!token) return res.status(403).send('Access denied.')
 
-    const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY)
+    const decoded = jwt.verify(token, process.env.JWT_PRIVATE_KEY || 'secret')
 
     if (decoded.role !== 'admin') return res.status(403).send('Access denied.')
     req.user = decoded
