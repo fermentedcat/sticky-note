@@ -1,7 +1,6 @@
 const User = require('../models/User')
-const format = require('../utils/format')
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
+const createToken = require('../utils/createToken')
 
 /*
 GET     /api/user/auth  - authenticate user
@@ -77,16 +76,7 @@ exports.login = async (req, res, next) => {
     if (!isMatch) {
       throw new Error('Failed to login.')
     }
-    // Create token
-    const token = jwt.sign(
-      {
-        username: user.username,
-        userId: user._id,
-        role: user.role
-      },
-      process.env.TOKEN_KEY,
-      { expiresIn: process.env.TOKEN_EXPIRATION }
-    )
+    const token = createToken(user)
     res.status(200).send(token)
   } catch (error) {
     res.status(401).json(error)
@@ -124,14 +114,7 @@ exports.addNew = async (req, res, next) => {
 
   try {
     const user = await new User(userData).save()
-    // Create token
-    const token = jwt.sign({
-      username: user.username,
-      userId: user._id,
-      role: user.role
-    }, process.env.TOKEN_KEY, {
-      expiresIn: process.env.TOKEN_EXPIRATION
-    })
+    const token = createToken(user)
     res.status(200).send(token)
   } catch (error) {
     res.status(400).json(error)
