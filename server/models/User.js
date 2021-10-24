@@ -10,39 +10,39 @@ const UserSchema = new Schema(
     fullName: {
       type: String,
       required: true,
-      validate: [validate.string, 'FullName invalid.'],
+      validate: [validate.string, 'FullName invalid.']
     },
     username: {
       type: String,
       required: true,
-      validate: [validate.string, 'Username invalid.'],
+      validate: [validate.string, 'Username invalid.']
     },
     email: {
       type: String,
       required: true,
-      validate: [validate.email, 'Email invalid'],
+      validate: [validate.email, 'Email invalid']
     },
     password: {
       type: String,
       required: true,
       select: false,
-      validate: [validate.password, 'Password invalid.'],
+      validate: [validate.password, 'Password invalid.']
     },
     pinnedTodos: {
       type: [Schema.Types.ObjectId],
       ref: 'Todo'
     },
     photo: {
-      type: String,
+      type: String
     },
     role: {
       type: String,
       enum: ['user', 'admin'],
-      default: 'user',
-    },
+      default: 'user'
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 )
 

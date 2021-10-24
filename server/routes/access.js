@@ -6,7 +6,7 @@ const adminAuth = require('../utils/adminAuth')
 
 const access = require('../controllers/access')
 
-/* 
+/*
 GET     /api/access/      - get all accesses (admin)
 GET     /api/access/:id   - get one access
 

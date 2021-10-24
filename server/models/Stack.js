@@ -9,7 +9,7 @@ const StackSchema = new Schema(
     title: {
       type: String,
       required: true,
-      validate: [validate.string, 'Title invalid.'],
+      validate: [validate.string, 'Title invalid.']
     },
     slug: {
       type: String,
@@ -17,29 +17,25 @@ const StackSchema = new Schema(
     },
     description: {
       type: String,
-      default: "This is a collection of todo lists",
+      default: 'This is a collection of todo lists'
     },
     owner: {
       type: Schema.Types.ObjectId,
       ref: 'User',
-      required: true,
+      required: true
     },
     archived: {
       type: Boolean,
       default: false
-    },
-    private: {
-      type: Boolean,
-      default: true,
-    },
+    }
   },
   {
-    timestamps: true,
+    timestamps: true
   }
 )
 
 StackSchema.pre('save', function (next, done) {
-  //make url-friendly slug from title
+  // make url-friendly slug from title
   if (this.title) {
     this.slug = slugify(this.title, { lower: true, strict: true })
   }

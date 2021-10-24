@@ -6,7 +6,7 @@ const adminAuth = require('../utils/adminAuth')
 
 const todo = require('../controllers/todo')
 
-/* 
+/*
 GET     /api/todo/      - get all todos for logged in user
 GET     /api/todo/:id   - get one todo
 

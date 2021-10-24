@@ -3,7 +3,7 @@ const format = require('../utils/format')
 const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 
-/* 
+/*
 GET     /api/user/auth  - authenticate user
 GET     /api/user/me   - get logged in user
 GET     /api/user/search/:string   - get all by part of username
@@ -38,7 +38,7 @@ exports.getAllByUsername = async (req, res, next) => {
   const string = req.params.string
   try {
     const users = await User.find({
-      username: { $regex: string, $options: 'i' },
+      username: { $regex: string, $options: 'i' }
     })
     res.status(200).json(users)
   } catch (error) {
@@ -70,7 +70,7 @@ exports.login = async (req, res, next) => {
 
   try {
     const user = await User.findOne({
-      $or: [{ email: email }, { username: email }],
+      $or: [{ email: email }, { username: email }]
     }).select('password username role')
 
     const isMatch = await bcrypt.compare(password, user.password)
@@ -82,7 +82,7 @@ exports.login = async (req, res, next) => {
       {
         username: user.username,
         userId: user._id,
-        role: user.role,
+        role: user.role
       },
       process.env.TOKEN_KEY,
       { expiresIn: process.env.TOKEN_EXPIRATION }
@@ -128,9 +128,9 @@ exports.addNew = async (req, res, next) => {
     const token = jwt.sign({
       username: user.username,
       userId: user._id,
-      role: user.role,
+      role: user.role
     }, process.env.TOKEN_KEY, {
-      expiresIn: process.env.TOKEN_EXPIRATION,
+      expiresIn: process.env.TOKEN_EXPIRATION
     })
     res.status(200).send(token)
   } catch (error) {
