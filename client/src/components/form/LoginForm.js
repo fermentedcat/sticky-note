@@ -14,7 +14,7 @@ export default function LoginForm() {
   const emailInput = useInput(login.loginName.validate)
   const passwordInput = useInput(login.password.validate)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const inputs = [
     { ...emailInput, ...login.loginName },
@@ -38,9 +38,7 @@ export default function LoginForm() {
 
   const handleLogin = (e) => {
     e.preventDefault()
-    if (!formIsValid) {
-      return
-    } else {
+    if (formIsValid) {
       const data = {
         email: emailInput.value,
         password: passwordInput.value,
@@ -56,7 +54,7 @@ export default function LoginForm() {
   return (
     <FormBox onSubmit={handleLogin}>
       {inputFields}
-      <SubmitButton title="Login"/>
+      <SubmitButton title="Login" />
     </FormBox>
   )
 }

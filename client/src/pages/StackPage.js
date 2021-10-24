@@ -8,13 +8,12 @@ import TodoForm from '../components/form/TodoForm'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchTodos } from '../store/todo-actions'
 
-
 export default function StackPage() {
   const [showModal, setShowModal] = useState(false)
-  const { stack, todos, error } = useSelector(state => state.todo)
+  const { stack, todos, error } = useSelector((state) => state.todo)
   const { slug } = useParams()
   const dispatch = useDispatch()
-  
+
   const toggleShowModal = () => {
     setShowModal(!showModal)
   }
@@ -23,7 +22,7 @@ export default function StackPage() {
     dispatch(fetchTodos(`stack/${slug}`))
   }, [dispatch, slug])
 
-  //TODO: Sort by lastEdit
+  // TODO: Sort by lastEdit
   // const dateOrderedTodoList = []
 
   return (
@@ -35,17 +34,28 @@ export default function StackPage() {
           height: '100%',
           boxShadow: '5px 0px 19px 0px rgba(255,191,209,0.34)',
           paddingTop: 10,
-          overflow: 'scroll'
+          overflow: 'scroll',
         }}
       >
-        <IconButton type="add" fixed active bottomDescr description="add new todo" onClick={toggleShowModal}/>
+        <IconButton
+          type="add"
+          fixed
+          active
+          bottomDescr
+          description="add new todo"
+          onClick={toggleShowModal}
+        />
         <Box sx={{ flexGrow: 1 }}>
           {error && (
             <Typography
               variant="h6"
               component="h2"
               align="center"
-              sx={{ fontSize: '14px', marginTop: 3, color: 'rgb(25, 118, 210)' }}
+              sx={{
+                fontSize: '14px',
+                marginTop: 3,
+                color: 'rgb(25, 118, 210)',
+              }}
             >
               {error}
             </Typography>
@@ -56,7 +66,11 @@ export default function StackPage() {
               variant="h6"
               component="h2"
               align="center"
-              sx={{ fontSize: '14px', marginTop: 3, color: 'rgb(25, 118, 210)' }}
+              sx={{
+                fontSize: '14px',
+                marginTop: 3,
+                color: 'rgb(25, 118, 210)',
+              }}
             >
               {stack.title.toUpperCase()}
             </Typography>
@@ -76,12 +90,8 @@ export default function StackPage() {
           </Grid>
         </Box>
       </Grid>
-      <Modal
-        open={showModal}
-        onClose={toggleShowModal}
-        title="Add todo"
-      >
-        { stack && <TodoForm stackId={stack._id} closeForm={toggleShowModal}/>}
+      <Modal open={showModal} onClose={toggleShowModal} title="Add todo">
+        {stack && <TodoForm stackId={stack._id} closeForm={toggleShowModal} />}
       </Modal>
     </>
   )

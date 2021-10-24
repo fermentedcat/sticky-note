@@ -5,8 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../store/user-slice'
 
 export default function Header() {
-  const isAuthenticated = useSelector(state => state.user.isAuthenticated)
-  const username = useSelector(state => state.user.username)
+  const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
+  const username = useSelector((state) => state.user.username)
   const dispatch = useDispatch()
 
   const handleLogout = () => {
@@ -16,44 +16,40 @@ export default function Header() {
 
   return (
     <AppBar
-      sx={{ 
+      sx={{
         boxShadow: '0px 2px 22px 5px rgba(255,191,209,0.31);',
         backgroundColor: 'rgb(255,255,240)',
       }}
     >
-      <Box 
-        sx={{ 
+      <Box
+        sx={{
           // backgroundColor: "#ffbfd1",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "space-between",
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        <Box sx={{ 
-            display: "flex",
-          }}>
+        <Box
+          sx={{
+            display: 'flex',
+          }}
+        >
           <HeaderLogo />
         </Box>
         <Box
-          sx={{ 
-            display: "flex",
-            marginRight: 3
-          }}>
-          <Button>
-            About
-          </Button>
-            {isAuthenticated && (
-              <>
-                <Button>
-                  {username ? username : 'Profile'}
-                </Button>
-                <Button onClick={handleLogout}>
-                  Logout
-                </Button>
-              </>
-            )}
+          sx={{
+            display: 'flex',
+            marginRight: 3,
+          }}
+        >
+          <Button>About</Button>
+          {isAuthenticated && (
+            <>
+              <Button>{username || 'Profile'}</Button>
+              <Button onClick={handleLogout}>Logout</Button>
+            </>
+          )}
         </Box>
-        
       </Box>
     </AppBar>
   )

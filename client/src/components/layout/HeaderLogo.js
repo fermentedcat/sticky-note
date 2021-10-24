@@ -16,7 +16,7 @@ export default function HeaderLogo() {
         },
       }}
     >
-      <LogoCard size="xs"/>
+      <LogoCard size="xs" />
       <Box>
         <Typography
           variant="h6"

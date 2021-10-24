@@ -1,7 +1,7 @@
-import React from 'react';
+import React from 'react'
 
-import MuiModal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
+import MuiModal from '@mui/material/Modal'
+import Box from '@mui/material/Box'
 
 const style = {
   position: 'absolute',
@@ -14,12 +14,11 @@ const style = {
   p: 0,
   outline: 'none',
   borderRadius: '3px',
-  overflow: 'scroll'
-};
+  overflow: 'scroll',
+}
 
-
-export default function Modal (props) {
-  const { open, onClose, children } = props;
+export default function Modal(props) {
+  const { open, onClose, children } = props
 
   return (
     <MuiModal
@@ -28,9 +27,7 @@ export default function Modal (props) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Box sx={style}>
-        {children}
-      </Box>
+      <Box sx={style}>{children}</Box>
     </MuiModal>
-  );
-};
+  )
+}

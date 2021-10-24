@@ -10,11 +10,10 @@ const cardStyle = {
   border: '1px dotted #ffbfd1',
   boxShadow: '0px 7px 12px -4px rgba(50,30,10,0.15)',
   height: '100%',
-  display: "flex",
-  flexDirection: "column",
-  backgroundColor: "rgb(255,255,249)",
+  display: 'flex',
+  flexDirection: 'column',
+  backgroundColor: 'rgb(255,255,249)',
 }
-
 
 const headerStyle = {
   height: 'fit-content',
@@ -24,38 +23,44 @@ const headerStyle = {
   borderBottom: '1px dotted #ffbfd1',
 }
 
-export default function Card({openEditHandler, toggleIsEditing, isEditing, removeHandler, pinHandler, isPinned, children}) {
-
-  
+export default function Card({
+  openEditHandler,
+  toggleIsEditing,
+  isEditing,
+  removeHandler,
+  pinHandler,
+  isPinned,
+  children,
+}) {
   return (
     <MuiCard sx={cardStyle}>
       <CardHeader
-      sx={headerStyle}
-      action={
-        <ActionsMenu>
-          <IconButton
-            type={isPinned ? "unpin" : "pin"}
-            active
-            description={isPinned ? "unpin" : "pin"}
-            onClick={pinHandler}
-          />
-          <IconButton
-            type={!isEditing ? "edit" : "cancel"}
-            active
-            description={!isEditing ? "edit" : "cancel"}
-            onClick={!isEditing ? openEditHandler : toggleIsEditing}
-          />
-          {removeHandler && (
+        sx={headerStyle}
+        action={
+          <ActionsMenu>
             <IconButton
-              type="delete"
+              type={isPinned ? 'unpin' : 'pin'}
               active
-              description="delete"
-              onClick={removeHandler}
+              description={isPinned ? 'unpin' : 'pin'}
+              onClick={pinHandler}
             />
-          )}
-        </ActionsMenu>
-      }
-    />
+            <IconButton
+              type={!isEditing ? 'edit' : 'cancel'}
+              active
+              description={!isEditing ? 'edit' : 'cancel'}
+              onClick={!isEditing ? openEditHandler : toggleIsEditing}
+            />
+            {removeHandler && (
+              <IconButton
+                type="delete"
+                active
+                description="delete"
+                onClick={removeHandler}
+              />
+            )}
+          </ActionsMenu>
+        }
+      />
       {children}
     </MuiCard>
   )

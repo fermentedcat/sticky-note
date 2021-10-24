@@ -13,8 +13,7 @@ import {
   RiPushpinLine,
   RiPushpinFill,
 } from 'react-icons/ri'
-import { ImQuotesLeft } from 'react-icons/im'
-import { ImCancelCircle } from 'react-icons/im'
+import { ImQuotesLeft, ImCancelCircle } from 'react-icons/im'
 import { HiOutlineBookOpen } from 'react-icons/hi'
 import { BsPatchPlus } from 'react-icons/bs'
 
@@ -37,9 +36,9 @@ export default function IconButton({
   onMouseLeave = () => {},
 }) {
   const [showDescription, setShowDescription] = useState(false)
-  
+
   const wrapperClasses = `${classes.icon} ${active ? classes.active : ''}`
-  
+
   const styles = {
     display: 'flex',
     alignItems: 'center',
@@ -52,13 +51,13 @@ export default function IconButton({
     position: fixed ? 'absolute' : 'inherit',
     right: fixed ? 19 : 'auto',
     border: fixed ? '3px solid rgba(255,191,209,0.64)' : 'none',
-    backgroundColor: fixed ? 'rgb(255,255,240)' : 'none'
+    backgroundColor: fixed ? 'rgb(255,255,240)' : 'none',
   }
 
   const toggleDescription = () => {
     setShowDescription(!showDescription)
   }
-  
+
   const buttonProps = {
     onClick,
     onMouseEnter,
@@ -69,9 +68,9 @@ export default function IconButton({
     buttonProps.onMouseEnter = toggleDescription
     buttonProps.onMouseLeave = toggleDescription
   }
-  
+
   let icon
-  
+
   switch (type) {
     case 'actions':
       icon = <IoEllipsisVerticalSharp />
@@ -118,7 +117,7 @@ export default function IconButton({
       break
 
     case 'unpin':
-      icon = <RiPushpinFill className={classes.pinned}/>
+      icon = <RiPushpinFill className={classes.pinned} />
       break
 
     case 'cancel':

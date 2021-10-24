@@ -4,12 +4,9 @@ import remarkGfm from 'remark-gfm'
 import style from './Markdown.module.css'
 
 export default function Markdown({ text }) {
-
   return (
-    <ReactMarkdown 
-      children={text} 
-      remarkPlugins={[remarkGfm]} 
-      className={style.markdown} 
-    />
+    <ReactMarkdown remarkPlugins={[remarkGfm]} className={style.markdown}>
+      {text}
+    </ReactMarkdown>
   )
 }

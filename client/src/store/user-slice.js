@@ -34,7 +34,7 @@ const userSlice = createSlice({
   extraReducers: {
     [authenticateUser.fulfilled]: (state, { meta, payload }) => {
       if (meta.requestId === state.currentRequestId.requestId) {
-        const { username, userId } = payload;
+        const { username, userId } = payload
         state.isAuthenticated = true
         state.username = username
         state.userId = userId

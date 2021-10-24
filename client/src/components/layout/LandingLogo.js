@@ -16,11 +16,7 @@ export default function LandingLogo() {
     >
       <LogoCard />
       <Box>
-        <Typography 
-          variant="h3" 
-          component="h1" 
-          sx={{ fontWeight: 800 }}
-        >
+        <Typography variant="h3" component="h1" sx={{ fontWeight: 800 }}>
           STICKY NOTE
         </Typography>
         <Typography

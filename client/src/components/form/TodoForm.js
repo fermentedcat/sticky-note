@@ -9,9 +9,9 @@ import { TextField } from '@mui/material'
 import SubmitButton from '../button/SumbitButton'
 import FormBox from './FormBox'
 
-// new todo - props = { stackId } 
-// edit todo - props = { todo } 
-export default function TodoForm({stackId, todoItem = {}, closeForm}) {
+// new todo - props = { stackId }
+// edit todo - props = { todo }
+export default function TodoForm({ stackId, todoItem = {}, closeForm }) {
   const [formIsValid, setFormIsValid] = useState(false)
   const dispatch = useDispatch()
   if (!stackId) stackId = todo.stack
@@ -73,11 +73,11 @@ export default function TodoForm({stackId, todoItem = {}, closeForm}) {
     }
     // edit existing or add new todo
     if (todoItem._id) {
-      dispatch(updateTodo({...data, _id: todoItem._id}))
+      dispatch(updateTodo({ ...data, _id: todoItem._id }))
       closeForm()
-      return;
+      return
     }
-    dispatch(addTodo(data)) 
+    dispatch(addTodo(data))
     closeForm()
   }
 

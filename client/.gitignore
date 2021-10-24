@@ -24,4 +24,6 @@ yarn-error.log*
 
 wip
 *css.map
+*css
+
 .env

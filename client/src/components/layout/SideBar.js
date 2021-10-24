@@ -27,7 +27,7 @@ export default function SideBar() {
   useEffect(() => {
     dispatch(fetchStacks())
   }, [dispatch])
-  
+
   return (
     <Grid
       item
@@ -89,16 +89,12 @@ export default function SideBar() {
             })}
 
           <Grid component={Link} to="/todo/all" item xs={2} sm={4} md={4}>
-            <Item>All todo's</Item>
+            <Item>All todo lists</Item>
           </Grid>
         </Grid>
       </Box>
-      <Modal
-        open={showModal}
-        onClose={toggleShowModal}
-        title="Add stack"
-      >
-        <StackForm closeForm={toggleShowModal}/>
+      <Modal open={showModal} onClose={toggleShowModal} title="Add stack">
+        <StackForm closeForm={toggleShowModal} />
       </Modal>
     </Grid>
   )

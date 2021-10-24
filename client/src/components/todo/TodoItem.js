@@ -11,7 +11,7 @@ import TodoCard from '../card/TodoCard'
 export default function TodoItem({ todo }) {
   const [showModal, setShowModal] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-  const [isPinned, setIsPinned] = useState(false) //TODO: use this
+  // const [isPinned, setIsPinned] = useState(false) // TODO: use this
   const dispatch = useDispatch()
 
   const handleOpenTodo = () => {
@@ -42,7 +42,7 @@ export default function TodoItem({ todo }) {
     toggleIsEditing: toggleIsEditing,
     isEditing: isEditing,
     pinHandler: handlePin,
-    isPinned: isPinned,
+    // isPinned: isPinned,
   }
 
   const contentProps = { todo }

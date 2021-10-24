@@ -11,10 +11,10 @@ const reducer = {
 
 const store = configureStore({
   reducer,
-  middleware: getDefaultMiddleware =>
+  middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       serializableCheck: false,
     }),
 })
 
-export default store;
+export default store

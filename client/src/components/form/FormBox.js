@@ -1,5 +1,5 @@
-import React from 'react';
-import { Box } from '@mui/material';
+import React from 'react'
+import { Box } from '@mui/material'
 
 export default function FormBox({ onSubmit, children }) {
   return (
@@ -17,5 +17,5 @@ export default function FormBox({ onSubmit, children }) {
     >
       {children}
     </Box>
-  );
+  )
 }

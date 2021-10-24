@@ -2,7 +2,7 @@ import React from 'react'
 
 import { Button } from '@mui/material'
 
-export default function SubmitButton({title}) {
+export default function SubmitButton({ title }) {
   return (
     <Button
       type="submit"

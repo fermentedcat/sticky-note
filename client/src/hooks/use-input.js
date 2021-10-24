@@ -18,28 +18,28 @@ const inputStateReducer = (state, action) => {
     return { value: '', isTouched: false }
   }
 
-  return inputStateReducer;
+  return inputStateReducer
 }
 
-const useInput = (validate, initialValue = "") => {
-  const [
-    inputState, 
-    dispatch
-  ] = useReducer(inputStateReducer, initialInputState(initialValue))
+const useInput = (validate, initialValue = '') => {
+  const [inputState, dispatch] = useReducer(
+    inputStateReducer,
+    initialInputState(initialValue)
+  )
 
   const isValid = validate(inputState.value)
   const hasError = !isValid && inputState.isTouched
 
-  const onChange = e => {
+  const onChange = (e) => {
     dispatch({ type: 'INPUT', value: e.target.value })
   }
 
   const onBlur = (event) => {
-    dispatch({ type: 'BLUR' });
+    dispatch({ type: 'BLUR' })
   }
 
   const reset = () => {
-    dispatch({ type: 'RESET' });
+    dispatch({ type: 'RESET' })
   }
 
   return {
@@ -48,8 +48,8 @@ const useInput = (validate, initialValue = "") => {
     hasError,
     onChange,
     onBlur,
-    reset
+    reset,
   }
 }
 
-export default useInput;
+export default useInput

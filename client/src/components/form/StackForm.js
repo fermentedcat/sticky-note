@@ -50,17 +50,17 @@ export default function StackForm({ stackData = {}, closeForm }) {
     }
     // edit existing or add new todo
     if (stackData._id) {
-      dispatch(updateStack({...data, _id: stackData._id}))
+      dispatch(updateStack({ ...data, _id: stackData._id }))
       closeForm()
-      return;
+      return
     }
-    dispatch(addStack(data)) 
+    dispatch(addStack(data))
     closeForm()
   }
   useEffect(() => {
     setFormIsValid(titleInput.isValid)
   }, [titleInput.isValid])
-  
+
   return (
     <FormBox onSubmit={handleSubmitStack}>
       {inputFields}
