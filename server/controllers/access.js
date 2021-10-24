@@ -1,5 +1,4 @@
 const Access = require('../models/Access')
-const Stack = require('../models/Stack')
 
 exports.getAll = (req, res, next) => {
   Access.find()

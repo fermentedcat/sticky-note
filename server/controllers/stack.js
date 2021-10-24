@@ -1,7 +1,6 @@
 const Stack = require('../models/Stack')
 const Access = require('../models/Access')
 const Todo = require('../models/Todo')
-const User = require('../models/User')
 const mongoose = require('mongoose')
 
 exports.getAll = async (req, res, next) => {

@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
-const userAuth = require('../utils/userAuth')
-const adminAuth = require('../utils/adminAuth')
+// const userAuth = require('../utils/userAuth')
+// const adminAuth = require('../utils/adminAuth')
 
 const access = require('../controllers/access')
 
