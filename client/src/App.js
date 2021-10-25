@@ -3,7 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import { useHistory } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { authenticateUser } from './store/user-actions'
+// import { authenticateUser } from './store/user-actions'
 import { todoActions } from './store/todo-slice'
 import { stackActions } from './store/stack-slice'
 
@@ -15,6 +15,7 @@ import { Grid, Box } from '@mui/material'
 import StackPage from './pages/StackPage'
 
 import Api from './api/api'
+import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
 export const api = new Api()
 
 function App() {
@@ -23,13 +24,7 @@ function App() {
   const history = useHistory()
 
   useEffect(() => {
-    dispatch(authenticateUser())
-  }, [dispatch])
-
-  useEffect(() => {
     if (!isAuthenticated) {
-      // clean up redux store and url on logout
-      history.push('/')
       dispatch(todoActions.clearTodos())
       dispatch(stackActions.clearStacks())
     }
@@ -60,12 +55,9 @@ function App() {
           {isAuthenticated && <SideBar />}
 
           <Switch>
-            <Route path="/" exact>
-              {isAuthenticated ? <HomePage /> : <LandingPage />}
-            </Route>
-            <Route path="/stack/:slug" exact>
-              {isAuthenticated ? <StackPage /> : <LandingPage />}
-            </Route>
+            <Route path="/login" component={LandingPage} />
+            <ProtectedRoute path="/stack/:slug" component={StackPage} />
+            <ProtectedRoute path="/" exact component={HomePage} />
           </Switch>
         </Grid>
       </Box>
