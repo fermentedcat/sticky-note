@@ -7,12 +7,14 @@ import { useDispatch, useSelector } from 'react-redux'
 import { todoActions } from './store/todo-slice'
 import { stackActions } from './store/stack-slice'
 
-import HomePage from './pages/HomePage'
-import LandingPage from './pages/LandingPage'
+import { Grid, Box } from '@mui/material'
 import Header from './components/layout/Header'
 import SideBar from './components/layout/SideBar'
-import { Grid, Box } from '@mui/material'
+// import HomePage from './pages/HomePage'
+import LandingPage from './pages/LandingPage'
 import StackPage from './pages/StackPage'
+import PinnedTodosPage from './pages/PinnedTodosPage'
+import AllTodosPage from './pages/AllTodosPage'
 
 import Api from './api/api'
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
@@ -57,7 +59,13 @@ function App() {
           <Switch>
             <Route path="/login" component={LandingPage} />
             <ProtectedRoute path="/stack/:slug" component={StackPage} />
-            <ProtectedRoute path="/" exact component={HomePage} />
+            <ProtectedRoute
+              path="/todo/pinned"
+              exact
+              component={PinnedTodosPage}
+            />
+            <ProtectedRoute path="/todo/all" exact component={AllTodosPage} />
+            <ProtectedRoute path="/" exact component={PinnedTodosPage} />
           </Switch>
         </Grid>
       </Box>
