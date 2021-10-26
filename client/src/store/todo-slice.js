@@ -14,8 +14,9 @@ const todoSlice = createSlice({
   initialState: initialTodoSlice,
   reducers: {
     setTodos(state, action) {
-      state.stack = action.payload.stack
-      state.todos = action.payload.todos
+      state.stack = action.payload.stack || null
+      state.todos = action.payload.todos || action.payload
+      state.requestId = ''
     },
     clearTodos(state) {
       return initialTodoSlice
@@ -24,9 +25,8 @@ const todoSlice = createSlice({
   extraReducers: {
     [fetchTodos.fulfilled]: (state, { meta, payload }) => {
       if (meta.requestId === state.currentRequestId.requestId) {
-        const { stack, todos } = payload
-        state.todos = todos
-        state.stack = stack
+        state.todos = payload.todos || payload
+        state.stack = payload.stack || state.stack
         state.loading = false
         state.currentRequestId = meta
       }
@@ -67,7 +67,7 @@ const todoSlice = createSlice({
         const index = state.todos.findIndex((todo) => todo._id === payload._id)
         state.todos[index] = payload
         state.loading = false
-        state.currentRequestId = ''
+        state.currentRequestId = meta
       }
     },
     [updateTodo.pending]: (state, { meta }) => {
@@ -86,7 +86,7 @@ const todoSlice = createSlice({
       if (meta.requestId === state.currentRequestId.requestId) {
         state.todos = state.todos.filter((todo) => todo._id !== payload)
         state.loading = false
-        state.currentRequestId = ''
+        state.currentRequestId = meta
       }
     },
     [deleteTodo.pending]: (state, { meta }) => {

@@ -9,6 +9,7 @@ const user = require('../controllers/user')
 /*
 GET     /api/user/auth  - authenticate user
 GET     /api/user/me   - get logged in user
+GET     /api/user/pinned - get user's pinned todo lists
 GET     /api/user/search/:string   - get all by part of username
 GET     /api/user/      - get all users (friends) for logged in user
 GET     /api/user/:id   - get one user
@@ -24,6 +25,7 @@ DELETE  /api/user/:id   - delete user
 
 router.get('/auth', userAuth, user.authenticate)
 router.get('/me', userAuth, user.getLoggedInUser)
+router.get('/pinned', userAuth, user.getPinnedTodos)
 router.get('/search/:string', user.getAllByUsername)
 router.get('/', adminAuth, user.getAll)
 router.get('/:id', adminAuth, user.getById)

@@ -5,6 +5,7 @@ const createToken = require('../utils/createToken')
 /*
 GET     /api/user/auth  - authenticate user
 GET     /api/user/me   - get logged in user
+GET     /api/user/pinned - get user's pinned todo lists
 GET     /api/user/search/:string   - get all by part of username
 GET     /api/user/      - get all users (friends) for logged in user
 GET     /api/user/:id   - get one user
@@ -28,6 +29,22 @@ exports.getLoggedInUser = async (req, res, next) => {
     const user = await User.findOne({ username })
     if (!user) res.sendStatus(404)
     res.status(200).json(user)
+  } catch (error) {
+    res.status(500).json(error)
+  }
+}
+
+exports.getPinnedTodos = async (req, res, next) => {
+  const { userId } = req.user
+
+  try {
+    const user = await User.findOne({ _id: userId })
+      .select('pinnedTodos')
+      .populate('pinnedTodos')
+      .exec()
+    console.log(user)
+    const pinned = user.pinnedTodos
+    res.status(200).json(pinned)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -84,10 +101,14 @@ exports.login = async (req, res, next) => {
 }
 
 exports.addTodoPin = (req, res, next) => {
-  const { username } = req.user
+  const { userId } = req.user
   const todoId = req.body.todoId
+  console.log(todoId)
 
-  User.findOneAndUpdate({ username }, { $push: { pinnedTodos: todoId } })
+  User.findOneAndUpdate(
+    { _id: userId, pinnedTodos: { $ne: [todoId] } },
+    { $push: { pinnedTodos: todoId } }
+  )
     .then(() => {
       res.status(200).send('Saved')
     })
@@ -97,10 +118,10 @@ exports.addTodoPin = (req, res, next) => {
 }
 
 exports.removeTodoPin = (req, res, next) => {
-  const { username } = req.user
+  const { userId } = req.user
   const todoId = req.body.todoId
 
-  User.findOneAndUpdate({ username }, { $pull: { pinnedTodos: todoId } })
+  User.findOneAndUpdate({ _id: userId }, { $pull: { pinnedTodos: todoId } })
     .then(() => {
       res.status(200).send('Saved')
     })
