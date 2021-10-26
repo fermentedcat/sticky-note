@@ -12,6 +12,9 @@ const indexRouter = require('./routes/index')
 
 const app = express()
 
+// to not send status 304, but I still have to figure this out
+app.disable('etag')
+
 app.use(logger('dev'))
 app.use(cors())
 app.use(express.json())
