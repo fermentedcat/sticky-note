@@ -1,8 +1,9 @@
 import React from 'react'
-import { Grid, Box, Typography } from '@mui/material'
+import { Grid, Box, Typography, Button } from '@mui/material'
 import TodoItem from './TodoItem'
+// import IconButton from '../button/IconButton'
 
-export default function TodoList({ todos, title }) {
+export default function TodoList({ stack, addTodoHandler, todos, title }) {
   return (
     <Grid
       item
@@ -12,23 +13,47 @@ export default function TodoList({ todos, title }) {
         boxShadow: '5px 0px 19px 0px rgba(255,191,209,0.34)',
         paddingTop: 10,
         overflow: 'scroll',
+        '&::-webkit-scrollbar': {
+          width: '0.25em',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: '#ffbfd173',
+        },
       }}
     >
       <Box sx={{ flexGrow: 1 }}>
-        {title && (
-          <Typography
-            variant="h6"
-            component="h2"
-            align="center"
-            sx={{
-              fontSize: '14px',
-              marginTop: 3,
-              color: 'rgb(25, 118, 210)',
-            }}
-          >
-            {title}
-          </Typography>
-        )}
+        <Box
+          sx={{
+            padding: 2,
+            boxSizing: 'border-box',
+            width: '100%',
+            height: '5em',
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+          }}
+        >
+          {title && (
+            <Typography
+              variant="h6"
+              component="h2"
+              align="center"
+              sx={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+                color: 'rgb(25, 118, 210)',
+              }}
+            >
+              {title}
+            </Typography>
+          )}
+          {stack && (
+            <Box>
+              <Button>Edit Stack</Button>
+              <Button onClick={addTodoHandler}>Add todo</Button>
+            </Box>
+          )}
+        </Box>
 
         <Grid
           container
