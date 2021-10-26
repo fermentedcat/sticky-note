@@ -1,27 +1,28 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchStacks } from '../../store/stack-actions'
 
 import { Grid, Box, Paper, Typography, Button } from '@mui/material'
-import Modal from './Modal'
 import { experimentalStyled as styled } from '@mui/material/styles'
-import StackForm from '../form/StackForm'
+import { uiActions } from '../../store/ui-slice'
 
 const Item = styled(Paper)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
   textAlign: 'center',
+  border: '1px dotted #ffbfd1',
+  boxShadow: '0px 6px 12px -6px rgba(50,30,10,0.15)',
+  backgroundColor: 'rgb(255,255,249)',
   color: theme.palette.text.secondary,
 }))
 
 export default function SideBar() {
   const { stacks, error } = useSelector((state) => state.stack)
-  const [showModal, setShowModal] = useState(false)
   const dispatch = useDispatch()
 
-  const toggleShowModal = () => {
-    setShowModal(!showModal)
+  const handleShowModal = () => {
+    dispatch(uiActions.setModal({ type: 'add_stack' }))
   }
 
   useEffect(() => {
@@ -37,6 +38,13 @@ export default function SideBar() {
         minWidth: '240px',
         boxShadow: '-2px 0px 19px 0px rgba(255,191,209,0.34)',
         paddingTop: 10,
+        overflow: 'scroll',
+        '&::-webkit-scrollbar': {
+          width: '0.25em',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          backgroundColor: '#ffbfd173',
+        },
       }}
     >
       <Box sx={{ flexGrow: 1 }}>
@@ -59,7 +67,7 @@ export default function SideBar() {
         >
           YOUR STACKS
         </Typography>
-        <Button onClick={toggleShowModal}>Add Stack</Button>
+        <Button onClick={handleShowModal}>Add Stack</Button>
 
         <Grid
           container
@@ -93,9 +101,6 @@ export default function SideBar() {
           </Grid>
         </Grid>
       </Box>
-      <Modal open={showModal} onClose={toggleShowModal} title="Add stack">
-        <StackForm closeForm={toggleShowModal} />
-      </Modal>
     </Grid>
   )
 }
