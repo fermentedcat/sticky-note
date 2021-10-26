@@ -27,9 +27,21 @@ export const searchUsers = createAsyncThunk(
 
 export const fetchUser = createAsyncThunk(
   'user/fetchUser',
-  async (username, { rejectWithValue }) => {
+  async (endpoint, { rejectWithValue }) => {
     try {
-      const response = await api.callGet(`user/${username}`)
+      const response = await api.callGet(`user/${endpoint}`)
+      return response.data
+    } catch (err) {
+      return rejectWithValue([], err)
+    }
+  }
+)
+
+export const fetchPinned = createAsyncThunk(
+  'user/fetchPinned',
+  async (endpoint = '', { rejectWithValue }) => {
+    try {
+      const response = await api.callGet(`user/pinned/${endpoint}`)
       return response.data
     } catch (err) {
       return rejectWithValue([], err)
@@ -66,6 +78,30 @@ export const updateUser = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     try {
       const response = await api.callPost(data, `user/${data._id}`)
+      return response.data
+    } catch (err) {
+      return rejectWithValue([], err)
+    }
+  }
+)
+
+export const addPin = createAsyncThunk(
+  'user/addPin',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.callPost(data, `user/addPin`)
+      return response.data
+    } catch (err) {
+      return rejectWithValue([], err)
+    }
+  }
+)
+
+export const removePin = createAsyncThunk(
+  'user/removePin',
+  async (data, { rejectWithValue }) => {
+    try {
+      const response = await api.callPost(data, `user/removePin`)
       return response.data
     } catch (err) {
       return rejectWithValue([], err)
