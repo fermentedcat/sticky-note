@@ -7,6 +7,7 @@ import TodoForm from '../form/TodoForm'
 import { deleteTodo } from '../../store/todo-actions'
 import { useDispatch } from 'react-redux'
 import TodoCard from '../card/TodoCard'
+import { addPin } from '../../store/user-actions'
 
 export default function TodoItem({ todo }) {
   const [showModal, setShowModal] = useState(false)
@@ -34,7 +35,7 @@ export default function TodoItem({ todo }) {
   }
 
   const handlePin = () => {
-    // callPost({ todoId: todo._id }, 'user/addPin')
+    dispatch(addPin({ todoId: todo._id }))
   }
 
   const cardProps = {

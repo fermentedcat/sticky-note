@@ -3,7 +3,7 @@ import { api } from '../App'
 
 export const fetchTodos = createAsyncThunk(
   'todo/fetchTodos',
-  async (endpoint = '', { rejectWithValue }) => {
+  async (endpoint = 'todo', { rejectWithValue }) => {
     try {
       const response = await api.callGet(endpoint)
       return response.data
