@@ -5,14 +5,9 @@ import { todoActions } from '../store/todo-slice'
 import TodoList from '../components/todo/TodoList'
 
 export default function HomePage() {
-  const { todos, error } = useSelector((state) => state.todo)
+  const { todos } = useSelector((state) => state.todo)
 
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    // TODO: dispatch notification
-    console.log(error)
-  }, [error])
 
   useEffect(async () => {
     try {
