@@ -1,13 +1,12 @@
 import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
-import { useHistory } from 'react-router'
 import { useDispatch, useSelector } from 'react-redux'
 
-// import { authenticateUser } from './store/user-actions'
 import { todoActions } from './store/todo-slice'
 import { stackActions } from './store/stack-slice'
+import { uiActions } from './store/ui-slice'
 
-import { Grid, Box } from '@mui/material'
+import { Grid, Box, Snackbar, Alert } from '@mui/material'
 import Header from './components/layout/Header'
 import SideBar from './components/layout/SideBar'
 // import HomePage from './pages/HomePage'
@@ -15,22 +14,24 @@ import LandingPage from './pages/LandingPage'
 import StackPage from './pages/StackPage'
 import PinnedTodosPage from './pages/PinnedTodosPage'
 import AllTodosPage from './pages/AllTodosPage'
+import Modal from './components/layout/Modal'
 
 import Api from './api/api'
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
+import { ModalContent } from './components/layout/ModalContent'
 export const api = new Api()
 
 function App() {
   const { isAuthenticated } = useSelector((state) => state.user)
+  const { modal, notification } = useSelector((state) => state.ui)
   const dispatch = useDispatch()
-  const history = useHistory()
 
   useEffect(() => {
     if (!isAuthenticated) {
       dispatch(todoActions.clearTodos())
       dispatch(stackActions.clearStacks())
     }
-  }, [dispatch, isAuthenticated, history])
+  }, [dispatch, isAuthenticated])
 
   return (
     <div
@@ -68,6 +69,30 @@ function App() {
             <ProtectedRoute path="/" exact component={PinnedTodosPage} />
           </Switch>
         </Grid>
+        <Snackbar
+          open={notification.show}
+          autoHideDuration={6000}
+          anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
+          onClose={() => dispatch(uiActions.closeNotification())}
+        >
+          <Alert
+            onClose={() => dispatch(uiActions.closeNotification())}
+            severity={notification.type || 'info'}
+            sx={{ width: '100%' }}
+          >
+            {notification.message}
+          </Alert>
+        </Snackbar>
+        <Modal
+          open={modal.show}
+          onClose={() => dispatch(uiActions.closeModal())}
+        >
+          <ModalContent
+            {...modal.props}
+            modal={modal}
+            onClose={() => dispatch(uiActions.closeModal())}
+          />
+        </Modal>
       </Box>
     </div>
   )
