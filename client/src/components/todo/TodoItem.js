@@ -5,14 +5,16 @@ import Modal from '../layout/Modal'
 import TodoCardContent from '../card/TodoCardContent'
 import TodoForm from '../form/TodoForm'
 import { deleteTodo } from '../../store/todo-actions'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import TodoCard from '../card/TodoCard'
-import { addPin } from '../../store/user-actions'
+import { addPin, removePin } from '../../store/user-actions'
 
 export default function TodoItem({ todo }) {
   const [showModal, setShowModal] = useState(false)
   const [isEditing, setIsEditing] = useState(false)
-  // const [isPinned, setIsPinned] = useState(false) // TODO: use this
+  const isPinned = useSelector((state) => {
+    return state.user.pinnedTodos.includes(todo._id)
+  })
   const dispatch = useDispatch()
 
   const handleOpenTodo = () => {
@@ -35,6 +37,10 @@ export default function TodoItem({ todo }) {
   }
 
   const handlePin = () => {
+    if (isPinned) {
+      dispatch(removePin({ todoId: todo._id }))
+      return
+    }
     dispatch(addPin({ todoId: todo._id }))
   }
 
@@ -43,35 +49,38 @@ export default function TodoItem({ todo }) {
     toggleIsEditing: toggleIsEditing,
     isEditing: isEditing,
     pinHandler: handlePin,
-    // isPinned: isPinned,
+    isPinned: isPinned,
+    title: todo.title,
   }
 
-  const contentProps = { todo }
-
-  // remove-option on opened todo
-  if (showModal) cardProps.removeHandler = handleRemoveTodo
-
-  // opened card scrollable, not clickable
-  if (!showModal) contentProps.onClickHandler = handleOpenTodo
-  else contentProps.scroll = true
-
-  const todoContent = (
-    <TodoCard {...cardProps}>
-      <TodoCardContent {...contentProps} />
-    </TodoCard>
-  )
+  const contentProps = {
+    todo,
+    small: !showModal,
+  }
 
   return (
     <Grid key={todo._id} item xs={2} sm={4} md={4} lg={4} sx={{ height: 250 }}>
-      {todoContent}
+      <TodoCard {...cardProps}>
+        <TodoCardContent {...contentProps} onClickHandler={handleOpenTodo} />
+      </TodoCard>
 
       <Modal open={showModal} onClose={toggleShowModal}>
         {isEditing ? (
           <TodoCard {...cardProps}>
-            <TodoForm todoItem={todo} closeForm={() => setIsEditing(false)} />
+            <TodoForm
+              todoItem={todo}
+              removeHandler={handleRemoveTodo}
+              closeForm={() => setIsEditing(false)}
+            />
           </TodoCard>
         ) : (
-          todoContent
+          <TodoCard
+            {...cardProps}
+            lastEdit={todo.updatedAt}
+            removeHandler={handleRemoveTodo}
+          >
+            <TodoCardContent {...contentProps} />
+          </TodoCard>
         )}
       </Modal>
     </Grid>
