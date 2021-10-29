@@ -1,18 +1,14 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { api } from '../App'
-import { uiActions } from './ui-slice'
+import { userActions } from './user-slice'
+import { handleSuccessMsg, handleErrorMsg } from './ui-actions'
 
 export const authenticateUser = createAsyncThunk(
   'user/authenticateUser',
-  async (username = '', { rejectWithValue, dispatch }) => {
+  async (token = '', { rejectWithValue, dispatch }) => {
     try {
       const response = await api.callGet(`user/auth/`)
-      dispatch(
-        uiActions.setNotification({
-          type: 'success',
-          message: 'You are logged in.',
-        })
-      )
+      handleSuccessMsg(dispatch, 'You are logged in.')
       return response.data
     } catch (err) {
       return rejectWithValue([], err)
@@ -27,12 +23,7 @@ export const searchUsers = createAsyncThunk(
       const response = await api.callGet(`user/search/${username}`)
       return response.data
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Failed fetching user data.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Failed fetching user data.')
       return rejectWithValue([], err)
     }
   }
@@ -45,12 +36,21 @@ export const fetchUser = createAsyncThunk(
       const response = await api.callGet(`user/${endpoint}`)
       return response.data
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Failed fetching user data.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Failed fetching user data.')
+      return rejectWithValue([], err)
+    }
+  }
+)
+
+export const fetchCurrentUser = createAsyncThunk(
+  'user/fetchCurrentUser',
+  async (endpoint, { rejectWithValue, dispatch }) => {
+    try {
+      const response = await api.callGet(`user/me`)
+      dispatch(userActions.setUser(response.data))
+      return response.data
+    } catch (err) {
+      handleErrorMsg(err, dispatch, 'Failed fetching user data.')
       return rejectWithValue([], err)
     }
   }
@@ -63,12 +63,7 @@ export const fetchPinned = createAsyncThunk(
       const response = await api.callGet(`user/pinned/${endpoint}`)
       return response.data
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Failed fetching data.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Failed fetching data.')
       return rejectWithValue([], err)
     }
   }
@@ -79,20 +74,10 @@ export const loginUser = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const response = await api.callPost(data, 'user/login')
-      dispatch(
-        uiActions.setNotification({
-          type: 'success',
-          message: 'Successfully logged in.',
-        })
-      )
+      handleSuccessMsg(dispatch, 'Successfully logged in.')
       return response.data
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Login failed.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Login failed.')
       return rejectWithValue([], err)
     }
   }
@@ -103,20 +88,10 @@ export const addUser = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const response = await api.callPost(data, 'user')
-      dispatch(
-        uiActions.setNotification({
-          type: 'success',
-          message: 'Successfully registered.',
-        })
-      )
+      handleSuccessMsg(dispatch, 'Successfully registered.')
       return response.data
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Registration failed.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Registration failed.')
       return rejectWithValue([], err)
     }
   }
@@ -127,20 +102,10 @@ export const updateUser = createAsyncThunk(
   async (data, { rejectWithValue, dispatch }) => {
     try {
       const response = await api.callPost(data, `user/${data._id}`)
-      dispatch(
-        uiActions.setNotification({
-          type: 'success',
-          message: 'Successfully updated.',
-        })
-      )
+      handleSuccessMsg(dispatch, 'Successfully updated.')
       return response.data
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Update failed.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Update failed.')
       return rejectWithValue([], err)
     }
   }
@@ -150,21 +115,11 @@ export const addPin = createAsyncThunk(
   'user/addPin',
   async (data, { rejectWithValue, dispatch }) => {
     try {
-      const response = await api.callPost(data, `user/addPin`)
-      dispatch(
-        uiActions.setNotification({
-          type: 'Success',
-          message: 'Todo list pinned.',
-        })
-      )
-      return response.data
+      await api.callPost(data, `user/addPin`)
+      handleSuccessMsg(dispatch, 'Todo list pinned.')
+      return data.todoId
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Failed adding pin.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Failed adding pin.')
       return rejectWithValue([], err)
     }
   }
@@ -174,21 +129,11 @@ export const removePin = createAsyncThunk(
   'user/removePin',
   async (data, { rejectWithValue, dispatch }) => {
     try {
-      const response = await api.callPost(data, `user/removePin`)
-      dispatch(
-        uiActions.setNotification({
-          type: 'success',
-          message: 'Todo list unpinned.',
-        })
-      )
-      return response.data
+      await api.callPost(data, `user/removePin`)
+      handleSuccessMsg(dispatch, 'Todo list unpinned.')
+      return data.todoId
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Failed removing pin.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Failed removing pin.')
       return rejectWithValue([], err)
     }
   }
@@ -199,20 +144,10 @@ export const deleteUser = createAsyncThunk(
   async (id, { rejectWithValue, dispatch }) => {
     try {
       const response = await api.callDelete(`user/${id}`)
-      dispatch(
-        uiActions.setNotification({
-          type: 'success',
-          message: 'Account deleted successfully.',
-        })
-      )
+      handleSuccessMsg(dispatch, 'Account deleted successfully.')
       return response.data
     } catch (err) {
-      dispatch(
-        uiActions.setNotification({
-          type: 'error',
-          message: 'Failed deleting account.',
-        })
-      )
+      handleErrorMsg(err, dispatch, 'Failed deleting account.')
       return rejectWithValue([], err)
     }
   }
