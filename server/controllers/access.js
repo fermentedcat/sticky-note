@@ -2,11 +2,11 @@ const Access = require('../models/Access')
 
 exports.getAll = (req, res, next) => {
   Access.find()
-    .then(accesses => {
+    .then((accesses) => {
       if (!accesses) res.sendStatus(404)
       else res.status(200).json(accesses)
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(500).json(error)
     })
 }
@@ -15,32 +15,23 @@ exports.getById = (req, res, next) => {
   // TODO: check req.user.role === admin || user id === stack owner
   const id = req.params.id
   Access.findById(id)
-    .then(access => {
+    .then((access) => {
       if (!access) res.sendStatus(404)
       else res.status(200).json(access)
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(500).json(error)
     })
 }
 
-exports.addNew = (req, res, next) => {
-  // TODO: check req.user.role === admin || user id === stack owner
-  // const data = req.body
-  const data = {
-    stack: '616c4376a4d3ccc82fd85cf0',
-    user: {
-      _id: '616c4347ac52c0bd5ec9b529'
-    }
+exports.addNew = async (req, res, next) => {
+  const data = req.body
+  try {
+    const access = await new Access(data).save()
+    res.status(201).json(access)
+  } catch (error) {
+    res.status(500).json(error)
   }
-  new Access(data)
-    .save()
-    .then(access => {
-      res.status(201).json(access)
-    })
-    .catch(error => {
-      res.status(500).json(error)
-    })
 }
 
 exports.update = (req, res, next) => {
@@ -48,15 +39,11 @@ exports.update = (req, res, next) => {
 
   const id = req.params.id
   const data = req.body
-  Access.findByIdAndUpdate(
-    id,
-    data,
-    { new: true }
-  )
-    .then(access => {
+  Access.findByIdAndUpdate(id, data, { new: true })
+    .then((access) => {
       res.status(201).json(access)
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(500).json(error)
     })
 }
@@ -69,7 +56,7 @@ exports.delete = (req, res, next) => {
       if (!access) res.sendStatus(404)
       else res.sendStatus(204)
     })
-    .catch(error => {
+    .catch((error) => {
       res.status(500).json(error)
     })
 }
