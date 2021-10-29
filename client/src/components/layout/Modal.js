@@ -9,13 +9,12 @@ const style = {
   left: '50%',
   transform: 'translate(-50%, -50%)',
   width: 600,
-  height: '70vh',
   boxShadow: 24,
   backgroundColor: 'white',
   p: 0,
   outline: 'none',
   borderRadius: '3px',
-  overflow: 'scroll',
+  overflow: 'visible',
 }
 
 export default function Modal(props) {
