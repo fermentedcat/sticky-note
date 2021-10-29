@@ -2,23 +2,22 @@ import React, { useEffect } from 'react'
 import { Route, Switch } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { todoActions } from './store/todo-slice'
-import { stackActions } from './store/stack-slice'
 import { uiActions } from './store/ui-slice'
+import { authenticateUser, fetchCurrentUser } from './store/user-actions'
 
 import { Grid, Box, Snackbar, Alert } from '@mui/material'
 import Header from './components/layout/Header'
 import SideBar from './components/layout/SideBar'
-// import HomePage from './pages/HomePage'
 import LandingPage from './pages/LandingPage'
 import StackPage from './pages/StackPage'
 import PinnedTodosPage from './pages/PinnedTodosPage'
 import AllTodosPage from './pages/AllTodosPage'
 import Modal from './components/layout/Modal'
 
-import Api from './api/api'
 import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
 import { ModalContent } from './components/layout/ModalContent'
+
+import Api from './api/api'
 export const api = new Api()
 
 function App() {
@@ -28,8 +27,9 @@ function App() {
 
   useEffect(() => {
     if (!isAuthenticated) {
-      dispatch(todoActions.clearTodos())
-      dispatch(stackActions.clearStacks())
+      dispatch(authenticateUser())
+    } else {
+      dispatch(fetchCurrentUser())
     }
   }, [dispatch, isAuthenticated])
 

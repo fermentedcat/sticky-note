@@ -3,6 +3,8 @@ import { AppBar, Box, Button } from '@mui/material'
 import HeaderLogo from './HeaderLogo'
 import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../store/user-slice'
+import { todoActions } from '../../store/todo-slice'
+import { stackActions } from '../../store/stack-slice'
 
 export default function Header() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
@@ -12,6 +14,8 @@ export default function Header() {
   const handleLogout = () => {
     window.localStorage.removeItem('TODO_TOKEN')
     dispatch(userActions.logout())
+    dispatch(todoActions.clearTodos())
+    dispatch(stackActions.clearStacks())
   }
 
   return (
@@ -23,7 +27,6 @@ export default function Header() {
     >
       <Box
         sx={{
-          // backgroundColor: "#ffbfd1",
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
