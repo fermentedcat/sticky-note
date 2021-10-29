@@ -1,4 +1,22 @@
 .markdown {
   text-align: left;
-  color: rgb(34, 34, 34)
+  color: rgb(34, 34, 34);
+  &.small {
+    color: rgb(87, 87, 87);
+    &:after {
+      content: ' ';
+      position: absolute;
+      left: 0;
+      right: 0;
+      height: 3em;
+      bottom: 0;
+      background: linear-gradient(
+        0deg,
+        rgba(255, 255, 255, 1) 0%,
+        rgba(255, 255, 255, 1) 40%,
+        rgba(255, 255, 255, 0) 100%
+      );
+      z-index: 2;
+    }
+  }
 }
