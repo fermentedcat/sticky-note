@@ -46,7 +46,7 @@ export default function RegisterForm() {
       return
     }
     const data = {
-      fullName: emailInput.value,
+      fullName: fullNameInput.value,
       username: usernameInput.value,
       email: emailInput.value,
       password: passwordInput.value,
