@@ -18,6 +18,10 @@ export default function StackPage() {
     )
   }
 
+  const handleOpenEditStack = () => {
+    dispatch(uiActions.setModal({ type: 'edit_stack' }))
+  }
+
   useEffect(() => {
     dispatch(fetchTodos(`stack/${slug}`))
   }, [dispatch, slug])
@@ -33,6 +37,7 @@ export default function StackPage() {
       <TodoList
         stack={stack}
         addTodoHandler={toggleShowModal}
+        openEditStackHandler={handleOpenEditStack}
         todos={todos}
         title={title}
       />

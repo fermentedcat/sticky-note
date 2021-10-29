@@ -3,7 +3,13 @@ import { Grid, Box, Typography, Button } from '@mui/material'
 import TodoItem from './TodoItem'
 // import IconButton from '../button/IconButton'
 
-export default function TodoList({ stack, addTodoHandler, todos, title }) {
+export default function TodoList({
+  stack,
+  addTodoHandler,
+  openEditStackHandler,
+  todos,
+  title,
+}) {
   return (
     <Grid
       item
@@ -49,7 +55,7 @@ export default function TodoList({ stack, addTodoHandler, todos, title }) {
           )}
           {stack && (
             <Box>
-              <Button>Edit Stack</Button>
+              <Button onClick={openEditStackHandler}>Edit Stack</Button>
               <Button onClick={addTodoHandler}>Add todo</Button>
             </Box>
           )}
@@ -57,7 +63,6 @@ export default function TodoList({ stack, addTodoHandler, todos, title }) {
 
         <Grid
           container
-          // justifyContent="stretch"
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}
           padding={2}
