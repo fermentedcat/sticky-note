@@ -67,5 +67,5 @@ const register = { fullName, username, email, password }
 export default register
 
 export const login = { loginName, password }
-export const todo = { title, description, markdown }
+export const todo = { title, markdown }
 export const stack = { title, description }

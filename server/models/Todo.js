@@ -16,9 +16,6 @@ const TodoSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: 'Stack'
   },
-  description: {
-    type: String
-  },
   markdown: {
     type: String,
     required: true
@@ -26,10 +23,6 @@ const TodoSchema = new Schema({
   creator: {
     type: Schema.Types.ObjectId,
     ref: 'User'
-  },
-  archived: {
-    type: Boolean,
-    required: false
   },
   lastEditBy: {
     type: Schema.Types.ObjectId,

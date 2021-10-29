@@ -1,12 +1,13 @@
 import React from 'react'
 import MuiCardContent from '@mui/material/CardContent'
-import { Button, Box, Typography } from '@mui/material'
+import { Button, Box } from '@mui/material'
 import Markdown from '../markdown/Markdown'
 
 const cardStyle = {
   boxShadow: 'none',
   textTransform: 'none',
   color: 'unset',
+  maxHeight: '100%',
   overflow: 'hidden',
   padding: '1.2em',
   paddingBottom: '1.2em !important',
@@ -20,7 +21,7 @@ const innerStyle = {
   overflow: 'hidden',
 }
 
-export default function TodoCardContent({ onClickHandler, scroll, todo }) {
+export default function TodoCardContent({ onClickHandler, small, todo }) {
   const cardProps = { sx: cardStyle }
 
   if (onClickHandler) {
@@ -28,28 +29,14 @@ export default function TodoCardContent({ onClickHandler, scroll, todo }) {
     cardProps.onClick = onClickHandler
   }
 
-  if (scroll) {
-    innerStyle.overflow = 'scroll'
+  if (!small) {
+    cardStyle.overflow = 'scroll'
   }
 
   return (
     <MuiCardContent {...cardProps}>
       <Box sx={innerStyle}>
-        <Typography
-          variant="body1"
-          color="text.primary"
-          sx={{ textAlign: 'left' }}
-        >
-          {todo.title}
-        </Typography>
-        <Typography
-          variant="body2"
-          color="text.secondary"
-          sx={{ textAlign: 'left' }}
-        >
-          {todo.description}
-        </Typography>
-        <Markdown text={todo.markdown} />
+        <Markdown text={todo.markdown} small={small} />
       </Box>
     </MuiCardContent>
   )

@@ -17,48 +17,10 @@ export default function TodoForm({ stackId, todoItem = {}, closeForm }) {
   if (!stackId) stackId = todo.stack
 
   const titleInitVal = todoItem.title || todo.title.initialValue
-  const descrInitVal = todoItem.description || todo.description.initialValue
   const markdownInitVal = todoItem.markdown || todo.markdown.initialValue
 
   const titleInput = useInput(todo.title.validate, titleInitVal)
-  const descrInput = useInput(todo.description.validate, descrInitVal)
   const markdownInput = useInput(todo.markdown.validate, markdownInitVal)
-
-  const inputs = [
-    { ...titleInput, ...todo.title },
-    { ...descrInput, ...todo.description },
-    { ...markdownInput, ...todo.markdown },
-  ]
-
-  const inputFields = inputs.map((input, index) => {
-    if (input.type === 'textarea') {
-      return (
-        <TextField
-          key={index}
-          type={input.type}
-          name={input.name}
-          value={input.value}
-          onChange={input.onChange}
-          onBlur={input.onBlur}
-          label={input.label}
-          required={input.required}
-          multiline
-        />
-      )
-    }
-    return (
-      <TextField
-        key={index}
-        type={input.type}
-        name={input.name}
-        value={input.value}
-        onChange={input.onChange}
-        onBlur={input.onBlur}
-        label={input.label}
-        required={input.required}
-      />
-    )
-  })
 
   const handleSubmitTodo = async (e) => {
     e.preventDefault()
@@ -68,7 +30,6 @@ export default function TodoForm({ stackId, todoItem = {}, closeForm }) {
     const data = {
       stack: stackId,
       title: titleInput.value,
-      description: descrInput.value,
       markdown: markdownInput.value,
     }
     // edit existing or add new todo
@@ -87,7 +48,27 @@ export default function TodoForm({ stackId, todoItem = {}, closeForm }) {
 
   return (
     <FormBox onSubmit={handleSubmitTodo}>
-      {inputFields}
+      <TextField
+        type={todo.title.type}
+        name={todo.title.name}
+        value={titleInput.value}
+        onChange={titleInput.onChange}
+        onBlur={titleInput.onBlur}
+        label={todo.title.label}
+        required={todo.title.required}
+      />
+      <TextField
+        type={todo.markdown.type}
+        name={todo.markdown.name}
+        value={markdownInput.value}
+        onChange={markdownInput.onChange}
+        onBlur={markdownInput.onBlur}
+        label={todo.markdown.label}
+        required={todo.markdown.required}
+        multiline
+        rows={16}
+        sx={{ flexGrow: 1 }}
+      />
       <SubmitButton title="Save" />
     </FormBox>
   )
