@@ -6,6 +6,7 @@ import {
   deleteStack,
 } from './stack-actions'
 
+// Handles stacks in sidebar
 const initialStackSlice = {
   stacks: null,
   loading: false,
@@ -87,7 +88,8 @@ const stackSlice = createSlice({
 
     [deleteStack.fulfilled]: (state, { meta, payload }) => {
       if (meta.requestId === state.currentRequestId.requestId) {
-        state.stacks = state.stacks.filter((stack) => stack._id !== payload)
+        const stackId = meta.arg
+        state.stacks = state.stacks.filter((stack) => stack._id !== stackId)
         state.loading = false
         state.currentRequestId = meta
       }

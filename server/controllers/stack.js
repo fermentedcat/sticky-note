@@ -82,15 +82,21 @@ exports.update = (req, res, next) => {
     })
 }
 
-exports.delete = (req, res, next) => {
-  // TODO: check req.user.role === admin || req user id === stack owner
+exports.delete = async (req, res, next) => {
+  const { userId, role } = req.user
   const id = req.params.id
-  Stack.findByIdAndDelete(id)
-    .then((stack) => {
-      if (!stack) res.sendStatus(404)
+  try {
+    const stack = await Stack.findById(id)
+    // check that user owns this stack or is admin
+    if (stack.owner != userId && role !== 'admin') {
+      res.sendStatus(403)
+    } else {
+      await Todo.deleteMany({ stack: id })
+      const stackDelete = await Stack.findByIdAndDelete(id)
+      if (!stackDelete) res.sendStatus(404)
       else res.sendStatus(204)
-    })
-    .catch((error) => {
-      res.status(500).json(error)
-    })
+    }
+  } catch (error) {
+    res.status(500).json(error)
+  }
 }
