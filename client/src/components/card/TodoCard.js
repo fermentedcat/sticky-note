@@ -1,41 +1,61 @@
 import React from 'react'
-import MuiCard from '@mui/material/Card'
 
 import CardHeader from '@mui/material/CardHeader'
 import IconButton from '../button/IconButton'
 import ActionsMenu from '../menu/ActionsMenu'
-
-const cardStyle = {
-  overflow: 'unset',
-  border: '1px dotted #ffbfd1',
-  boxShadow: '0px 7px 12px -4px rgba(50,30,10,0.15)',
-  height: '100%',
-  display: 'flex',
-  flexDirection: 'column',
-  backgroundColor: 'rgb(255,255,249)',
-}
+import Card from './Card'
+import { Typography } from '@mui/material'
 
 const headerStyle = {
   height: 'fit-content',
+  maxHeight: '10ch',
   padding: 1.1,
   paddingRight: 1.6,
   color: '#ffbfd1',
   borderBottom: '1px dotted #ffbfd1',
+  div: {
+    maxHeight: '100%',
+  },
+  '.MuiCardHeader-content': {
+    overflow: 'hidden',
+  },
+  '.MuiCardHeader-action': {
+    overflow: 'unset',
+  },
 }
 
-export default function Card({
-  openEditHandler,
-  toggleIsEditing,
-  isEditing,
-  removeHandler,
-  pinHandler,
-  isPinned,
-  children,
-}) {
+export default function TodoCard(props) {
+  const {
+    title,
+    lastEdit,
+    openEditHandler,
+    toggleIsEditing,
+    isEditing,
+    removeHandler,
+    pinHandler,
+    isPinned,
+    children,
+  } = props
+
+  let subheader
+  if (lastEdit) {
+    const date = new Date(lastEdit).toLocaleDateString('en-GB', 'DD-MM-YY')
+    subheader = <Typography>Last edited: {date}</Typography>
+  }
   return (
-    <MuiCard sx={cardStyle}>
+    <Card>
       <CardHeader
         sx={headerStyle}
+        title={
+          <Typography
+            variant="h6"
+            component="h4"
+            sx={{ overflow: 'unset', fontSize: '16px', fontWeight: 'bold' }}
+          >
+            {title}
+          </Typography>
+        }
+        subheader={subheader}
         action={
           <ActionsMenu>
             <IconButton
@@ -62,6 +82,6 @@ export default function Card({
         }
       />
       {children}
-    </MuiCard>
+    </Card>
   )
 }
