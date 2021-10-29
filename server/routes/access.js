@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-// const userAuth = require('../utils/userAuth')
+const userAuth = require('../utils/userAuth')
 // const adminAuth = require('../utils/adminAuth')
 
 const access = require('../controllers/access')
@@ -16,6 +16,6 @@ POST    /api/access/:id   - update access
 DELETE  /api/access/:id   - delete access
 */
 
-router.post('/', access.addNew)
+router.post('/', userAuth, access.addNew)
 
 module.exports = router

@@ -21,5 +21,5 @@ router.get('/:slug', userAuth, stack.getBySlug)
 router.post('/', userAuth, stack.addNew)
 router.post('/:id', userAuth, stack.update)
 
-router.delete('/todo/:id', userAuth, stack.delete)
+router.delete('/:id', userAuth, stack.delete)
 module.exports = router
