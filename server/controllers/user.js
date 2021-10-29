@@ -42,7 +42,6 @@ exports.getPinnedTodos = async (req, res, next) => {
       .select('pinnedTodos')
       .populate('pinnedTodos')
       .exec()
-    console.log(user)
     const pinned = user.pinnedTodos
     res.status(200).json(pinned)
   } catch (error) {
@@ -54,7 +53,10 @@ exports.getAllByUsername = async (req, res, next) => {
   const string = req.params.string
   try {
     const users = await User.find({
-      username: { $regex: string, $options: 'i' }
+      $or: [
+        { username: { $regex: string, $options: 'i' } },
+        { fullName: { $regex: string, $options: 'i' } }
+      ]
     })
     res.status(200).json(users)
   } catch (error) {

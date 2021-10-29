@@ -1,6 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit'
 import { fetchTodos, addTodo, updateTodo, deleteTodo } from './todo-actions'
 
+// Handles currently displaying todos (and stack)
 const initialTodoSlice = {
   stack: null,
   todos: null,

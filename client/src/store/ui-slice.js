@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
 
+// Handles notification and modal
 const initialUiSlice = {
   notification: {
     show: false,

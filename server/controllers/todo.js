@@ -26,11 +26,9 @@ exports.getAll = async (req, res, next) => {
       const accesses = await Access.find({ 'user._id': userId })
       const accessArr = accesses.map((access) => access.stack)
       // find todo lists matching those stacks created by user
-      console.log(accessArr)
       const todos = await Todo.find({
         $or: [{ stack: { $in: accessArr } }, { creator: userId }]
       })
-      console.log(todos)
       res.status(200).json(todos)
     } catch (error) {
       res.status(500).json(error)
