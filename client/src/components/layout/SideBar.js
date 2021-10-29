@@ -1,13 +1,22 @@
 import React, { useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchStacks } from '../../store/stack-actions'
 
-import { Grid, Box, Paper, Typography, Button } from '@mui/material'
+import { Grid, Box, Typography, Button } from '@mui/material'
 import { experimentalStyled as styled } from '@mui/material/styles'
 import { uiActions } from '../../store/ui-slice'
 
-const Item = styled(Paper)(({ theme }) => ({
+const Link = styled(Grid)(({ theme }) => ({
+  '&.active': {
+    button: {
+      backgroundColor: 'rgba(255, 191, 209, 0.11)',
+      boxShadow: '0px 3px 12px -6px rgba(50,30,10,0.15)',
+    },
+  },
+}))
+
+const Item = styled(Button)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
   textAlign: 'center',
@@ -15,10 +24,14 @@ const Item = styled(Paper)(({ theme }) => ({
   boxShadow: '0px 6px 12px -6px rgba(50,30,10,0.15)',
   backgroundColor: 'rgb(255,255,249)',
   color: theme.palette.text.secondary,
+  width: '100%',
+  '&:hover': {
+    backgroundColor: 'rgba(255, 191, 209, 0.11)',
+  },
 }))
 
 export default function SideBar() {
-  const { stacks, error } = useSelector((state) => state.stack)
+  const { stacks } = useSelector((state) => state.stack)
   const dispatch = useDispatch()
 
   const handleShowModal = () => {
@@ -48,17 +61,6 @@ export default function SideBar() {
       }}
     >
       <Box sx={{ flexGrow: 1 }}>
-        {error && (
-          <Typography
-            variant="h6"
-            component="h2"
-            align="center"
-            sx={{ fontSize: '14px', marginTop: 3, color: 'rgb(25, 118, 210)' }}
-          >
-            {error}
-          </Typography>
-        )}
-
         <Typography
           variant="h6"
           component="h2"
@@ -75,16 +77,16 @@ export default function SideBar() {
           spacing={{ xs: 1, md: 2 }}
           padding={2}
         >
-          <Grid component={Link} to="/todo/pinned" item xs={2} sm={4} md={4}>
+          <Link component={NavLink} to="/todo/pinned" item xs={2} sm={4} md={4}>
             <Item>Pinned</Item>
-          </Grid>
+          </Link>
 
           {stacks &&
             stacks.map((stack) => {
               return (
-                <Grid
+                <Link
                   key={stack._id}
-                  component={Link}
+                  component={NavLink}
                   to={`/stack/${stack.slug}`}
                   item
                   xs={2}
@@ -92,13 +94,13 @@ export default function SideBar() {
                   md={4}
                 >
                   <Item>{stack.title}</Item>
-                </Grid>
+                </Link>
               )
             })}
 
-          <Grid component={Link} to="/todo/all" item xs={2} sm={4} md={4}>
+          <Link component={NavLink} to="/todo/all" item xs={2} sm={4} md={4}>
             <Item>All todo lists</Item>
-          </Grid>
+          </Link>
         </Grid>
       </Box>
     </Grid>
