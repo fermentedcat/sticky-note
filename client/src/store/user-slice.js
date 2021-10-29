@@ -4,19 +4,21 @@ import jwtDecode from 'jwt-decode'
 import {
   authenticateUser,
   loginUser,
-  fetchUser,
   addUser,
   updateUser,
+  addPin,
+  removePin,
   deleteUser,
 } from './user-actions'
 
+// Handles logged in user data
 const initialUserSlice = {
   isAuthenticated: false,
   fullName: '',
   username: '',
   email: '',
   userId: '',
-  // pinnedTodos: [],
+  pinnedTodos: [],
   userSearch: [],
   currentRequestId: '',
   loading: false,
@@ -29,6 +31,13 @@ const userSlice = createSlice({
   reducers: {
     logout(state) {
       return initialUserSlice
+    },
+    setUser(state, action) {
+      const { fullName, username, email, pinnedTodos } = action.payload
+      state.fullName = fullName
+      state.username = username
+      state.email = email
+      state.pinnedTodos = pinnedTodos
     },
   },
   extraReducers: {
@@ -77,28 +86,6 @@ const userSlice = createSlice({
       }
     },
 
-    [fetchUser.fulfilled]: (state, { meta, payload }) => {
-      if (meta.requestId === state.currentRequestId.requestId) {
-        const { fullName, username, email } = payload
-        state.fullName = fullName
-        state.username = username
-        state.email = email
-        state.loading = false
-        state.currentRequestId = meta
-      }
-    },
-    [fetchUser.pending]: (state, { meta }) => {
-      state.currentRequestId = meta
-      state.loading = true
-    },
-    [fetchUser.rejected]: (state, { meta, payload, error }) => {
-      if (meta.requestId === state.currentRequestId.requestId) {
-        state.currentRequestId = meta
-        state.loading = false
-        state.error = error.message
-      }
-    },
-
     [addUser.fulfilled]: (state, { meta, payload }) => {
       if (meta.requestId === state.currentRequestId.requestId) {
         window.localStorage.setItem('TODO_TOKEN', payload)
@@ -137,6 +124,46 @@ const userSlice = createSlice({
       state.loading = true
     },
     [updateUser.rejected]: (state, { meta, payload, error }) => {
+      if (meta.requestId === state.currentRequestId.requestId) {
+        state.currentRequestId = meta
+        state.loading = false
+        state.error = error.message
+      }
+    },
+
+    [addPin.fulfilled]: (state, { meta, payload }) => {
+      if (meta.requestId === state.currentRequestId.requestId) {
+        const todoId = payload
+        state.pinnedTodos.push(todoId)
+        state.loading = false
+        state.currentRequestId = meta
+      }
+    },
+    [addPin.pending]: (state, { meta }) => {
+      state.currentRequestId = meta
+      state.loading = true
+    },
+    [addPin.rejected]: (state, { meta, payload, error }) => {
+      if (meta.requestId === state.currentRequestId.requestId) {
+        state.currentRequestId = meta
+        state.loading = false
+        state.error = error.message
+      }
+    },
+
+    [removePin.fulfilled]: (state, { meta, payload }) => {
+      if (meta.requestId === state.currentRequestId.requestId) {
+        const todoId = payload
+        state.pinnedTodos = state.pinnedTodos.filter((i) => i !== todoId)
+        state.loading = false
+        state.currentRequestId = meta
+      }
+    },
+    [removePin.pending]: (state, { meta }) => {
+      state.currentRequestId = meta
+      state.loading = true
+    },
+    [removePin.rejected]: (state, { meta, payload, error }) => {
       if (meta.requestId === state.currentRequestId.requestId) {
         state.currentRequestId = meta
         state.loading = false
