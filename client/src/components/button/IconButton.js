@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useState } from 'react'
 
 import classes from './IconButton.module.css'
 
@@ -36,7 +36,6 @@ export default function IconButton({
   onMouseLeave = () => {},
 }) {
   const [showDescription, setShowDescription] = useState(false)
-  const timer = useRef(null)
 
   const wrapperClasses = `${classes.icon} ${active ? classes.active : ''}`
 
@@ -57,26 +56,25 @@ export default function IconButton({
 
   const handleShowDescription = () => {
     setShowDescription(true)
-    timer.current = setTimeout(() => {
-      setShowDescription(false)
-    }, 3000)
   }
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(timer.current)
-    }
-  }, [])
+  const handleHideDescription = () => {
+    setShowDescription(false)
+  }
 
   const buttonProps = {
-    onClick,
+    onClick: () => {
+      setShowDescription(false)
+      onClick()
+    },
     onMouseEnter,
     onMouseLeave,
   }
 
   if (description) {
     buttonProps.onMouseEnter = handleShowDescription
-    buttonProps.onMouseLeave = () => setShowDescription(false)
+    buttonProps.onMouseOver = handleShowDescription
+    buttonProps.onMouseLeave = handleHideDescription
   }
 
   let icon
