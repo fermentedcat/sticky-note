@@ -79,6 +79,26 @@ UserSchema.pre('validate', function (next, done) {
     })
 })
 
+// check if username is taken
+UserSchema.pre('findOneAndUpdate', function (next, done) {
+  if (this._update.username) {
+    this.model
+      .findOne({ username: this._update.username })
+      .then((user) => {
+        if (user && user._id != this._update._id) {
+          const error = new CustomError('username', 'This username is taken.')
+          next(error)
+        }
+        next()
+      })
+      .catch(() => {
+        const err = new InternalError('internal', 'Database error.')
+        next(err)
+      })
+  }
+  next()
+})
+
 // PRE SAVE:
 
 // hash password
