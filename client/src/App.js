@@ -7,7 +7,6 @@ import { authenticateUser, fetchCurrentUser } from './store/user-actions'
 
 import { Grid, Box, Snackbar, Alert } from '@mui/material'
 import Header from './components/layout/Header'
-import SideBar from './components/layout/SideBar'
 import LandingPage from './pages/LandingPage'
 import StackPage from './pages/StackPage'
 import PinnedTodosPage from './pages/PinnedTodosPage'
@@ -18,6 +17,8 @@ import ProtectedRoute from './components/protectedRoute/ProtectedRoute'
 import { ModalContent } from './components/layout/ModalContent'
 
 import Api from './api/api'
+import AboutPage from './pages/AboutPage'
+import ProfilePage from './pages/ProfilePage'
 export const api = new Api()
 
 function App() {
@@ -55,18 +56,22 @@ function App() {
             columnGap: 2,
           }}
         >
-          {isAuthenticated && <SideBar />}
-
           <Switch>
             <Route path="/login" component={LandingPage} />
-            <ProtectedRoute path="/stack/:slug" component={StackPage} />
+            <Route path="/about" component={AboutPage} />
+            <ProtectedRoute path="/profile" component={ProfilePage} />
+            <ProtectedRoute
+              path="/todo/stack/:slug"
+              sideBar
+              component={StackPage}
+            />
             <ProtectedRoute
               path="/todo/pinned"
-              exact
+              sideBar
               component={PinnedTodosPage}
             />
-            <ProtectedRoute path="/todo/all" exact component={AllTodosPage} />
-            <ProtectedRoute path="/" exact component={PinnedTodosPage} />
+            <ProtectedRoute path="/todo/all" sideBar component={AllTodosPage} />
+            <ProtectedRoute path="/" sideBar component={PinnedTodosPage} />
           </Switch>
         </Grid>
         <Snackbar
