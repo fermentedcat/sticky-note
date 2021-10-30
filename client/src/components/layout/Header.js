@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../store/user-slice'
 import { todoActions } from '../../store/todo-slice'
 import { stackActions } from '../../store/stack-slice'
-import { NavLink } from 'react-router-dom'
+import { NavLink, useHistory } from 'react-router-dom'
 
 const btnStyles = {
   '&.active': {
@@ -16,12 +16,14 @@ const btnStyles = {
 export default function Header() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const handleLogout = () => {
     window.localStorage.removeItem('TODO_TOKEN')
     dispatch(userActions.logout())
     dispatch(todoActions.clearTodos())
     dispatch(stackActions.clearStacks())
+    history.push('/login')
   }
 
   return (
