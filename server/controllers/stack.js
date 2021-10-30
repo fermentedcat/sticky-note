@@ -14,7 +14,7 @@ exports.getAll = async (req, res, next) => {
     }
 
     // make array of and find stacks user has access to (or is owner of)
-    const accesses = await Access.find({ 'user._id': userId })
+    const accesses = await Access.find({ user: userId })
     const accessArr = accesses.map((access) => access.stack)
     const stacks = await Stack.find({
       $or: [{ _id: { $in: accessArr } }, { owner: userId }]

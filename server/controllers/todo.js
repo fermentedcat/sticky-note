@@ -23,7 +23,7 @@ exports.getAll = async (req, res, next) => {
   } else {
     try {
       // find user's stack accesses
-      const accesses = await Access.find({ 'user._id': userId })
+      const accesses = await Access.find({ user: userId })
       const accessArr = accesses.map((access) => access.stack)
       // find todo lists matching those stacks created by user
       const todos = await Todo.find({

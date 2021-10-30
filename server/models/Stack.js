@@ -43,7 +43,6 @@ StackSchema.pre('save', function (next, done) {
 
 StackSchema.pre('findOneAndUpdate', function (next, done) {
   // update url-friendly slug from title
-  console.log(this)
   if (this._update.title) {
     this._update.slug = slugify(this._update.title, { lower: true, strict: true })
   }
