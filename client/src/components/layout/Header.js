@@ -5,10 +5,16 @@ import { useDispatch, useSelector } from 'react-redux'
 import { userActions } from '../../store/user-slice'
 import { todoActions } from '../../store/todo-slice'
 import { stackActions } from '../../store/stack-slice'
+import { NavLink } from 'react-router-dom'
+
+const btnStyles = {
+  '&.active': {
+    textDecoration: 'underline',
+  },
+}
 
 export default function Header() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
-  const username = useSelector((state) => state.user.username)
   const dispatch = useDispatch()
 
   const handleLogout = () => {
@@ -45,12 +51,25 @@ export default function Header() {
             marginRight: 3,
           }}
         >
-          <Button>About</Button>
           {isAuthenticated && (
             <>
-              <Button>{username || 'Profile'}</Button>
-              <Button onClick={handleLogout}>Logout</Button>
+              <Button sx={btnStyles} component={NavLink} to="/todo">
+                My Todo&apos;s
+              </Button>
+              <Button sx={btnStyles} component={NavLink} to="/profile">
+                My Profile
+              </Button>
             </>
+          )}
+          <Button sx={btnStyles} component={NavLink} to="/about">
+            About
+          </Button>
+          {isAuthenticated ? (
+            <Button onClick={handleLogout}>Logout</Button>
+          ) : (
+            <Button sx={btnStyles} component={NavLink} to="/login">
+              Login / Register
+            </Button>
           )}
         </Box>
       </Box>
