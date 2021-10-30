@@ -145,11 +145,11 @@ exports.addNew = async (req, res, next) => {
 }
 
 exports.update = async (req, res, next) => {
-  const username = req.params.username
+  const id = req.params.id
   const data = req.body
 
   try {
-    const user = await User.findOneAndUpdate({ username }, data, { new: true })
+    const user = await User.findByIdAndUpdate(id, data, { new: true })
     res.status(201).json(user)
   } catch (error) {
     res.status(400).json(error)

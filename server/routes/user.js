@@ -34,7 +34,7 @@ router.post('/login', user.login)
 router.post('/addPin', userAuth, user.addTodoPin)
 router.post('/removePin', userAuth, user.removeTodoPin)
 router.post('/', user.addNew)
-router.post('/:username', userAuth, user.update)
+router.post('/:id', userAuth, user.update)
 
 router.delete('/user/:id', userAuth, user.delete)
 
