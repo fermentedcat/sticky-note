@@ -59,7 +59,12 @@ export default function StackForm({ edit, closeForm }) {
     }
     // edit existing or add new todo
     if (edit) {
-      dispatch(updateStack({ ...data, _id: currentStack._id }))
+      const response = await dispatch(
+        updateStack({ ...data, _id: currentStack._id })
+      )
+      // update url with new slug
+      const newSlug = response.payload.slug
+      history.push(`/stack/${newSlug}`)
       closeForm()
       return
     }
