@@ -10,7 +10,7 @@ export default function ProtectedRoute({
   sideBar,
   ...restOfProps
 }) {
-  const { isAuthenticated, loading } = useSelector((state) => state.user)
+  const { isAuthenticated, loadingAuth } = useSelector((state) => state.user)
   const [dispatched, setDispatched] = useState(false)
   const dispatch = useDispatch()
 
@@ -25,7 +25,7 @@ export default function ProtectedRoute({
     <Route
       {...restOfProps}
       render={(props) => {
-        if (loading && dispatched) {
+        if (loadingAuth && dispatched) {
           return (
             <CircularProgress
               sx={{ mx: 'auto', my: 'auto', animationDuration: '550ms' }}
@@ -41,7 +41,7 @@ export default function ProtectedRoute({
             </>
           )
         }
-        if (!loading && dispatched && !isAuthenticated) {
+        if (!loadingAuth && dispatched && !isAuthenticated) {
           return <Redirect to="/login" />
         }
       }}

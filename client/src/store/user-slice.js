@@ -17,10 +17,12 @@ const initialUserSlice = {
   fullName: '',
   username: '',
   email: '',
+  createdAt: '',
   userId: '',
   pinnedTodos: [],
   userSearch: [],
   currentRequestId: '',
+  loadingAuth: false,
   loading: false,
   error: null,
 }
@@ -33,9 +35,11 @@ const userSlice = createSlice({
       return initialUserSlice
     },
     setUser(state, action) {
-      const { fullName, username, email, pinnedTodos } = action.payload
+      const { fullName, username, email, pinnedTodos, createdAt } =
+        action.payload
       state.fullName = fullName
       state.username = username
+      state.createdAt = createdAt
       state.email = email
       state.pinnedTodos = pinnedTodos
     },
@@ -47,17 +51,20 @@ const userSlice = createSlice({
         state.isAuthenticated = true
         state.username = username
         state.userId = userId
+        state.loadingAuth = false
         state.loading = false
         state.currentRequestId = meta
       }
     },
     [authenticateUser.pending]: (state, { meta }) => {
       state.currentRequestId = meta
+      state.loadingAuth = true
       state.loading = true
     },
     [authenticateUser.rejected]: (state, { meta, payload, error }) => {
       if (meta.requestId === state.currentRequestId.requestId) {
         state.currentRequestId = meta
+        state.loadingAuth = false
         state.loading = false
         state.error = error.message
       }
