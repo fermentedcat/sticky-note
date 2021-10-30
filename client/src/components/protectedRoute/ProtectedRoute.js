@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { Redirect, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { authenticateUser } from '../../store/user-actions'
+import { CircularProgress } from '@mui/material'
 
 export default function ProtectedRoute({
   component: Component,
@@ -21,13 +22,22 @@ export default function ProtectedRoute({
   return (
     <Route
       {...restOfProps}
-      render={(props) =>
-        finished && !isAuthenticated ? (
-          <Redirect to="/login" />
-        ) : (
-          <Component {...props} />
-        )
-      }
+      render={(props) => {
+        if (!finished) {
+          return (
+            <CircularProgress
+              sx={{ mx: 'auto', my: 'auto', animationDuration: '550ms' }}
+              disableShrink
+            />
+          )
+        }
+        if (finished && isAuthenticated) {
+          return <Component {...props} />
+        }
+        if (finished && !isAuthenticated) {
+          return <Redirect to="/login" />
+        }
+      }}
     />
   )
 }
