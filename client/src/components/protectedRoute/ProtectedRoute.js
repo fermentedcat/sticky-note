@@ -3,9 +3,11 @@ import { Redirect, Route } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { authenticateUser } from '../../store/user-actions'
 import { CircularProgress } from '@mui/material'
+import SideBar from '../layout/SideBar'
 
 export default function ProtectedRoute({
   component: Component,
+  sideBar,
   ...restOfProps
 }) {
   const { isAuthenticated, loading } = useSelector((state) => state.user)
@@ -13,17 +15,17 @@ export default function ProtectedRoute({
   const dispatch = useDispatch()
 
   useEffect(() => {
-    dispatch(authenticateUser())
-    setDispatched(true)
+    if (!isAuthenticated) {
+      dispatch(authenticateUser())
+      setDispatched(true)
+    }
   }, [dispatch])
-
-  const finished = !loading && dispatched
 
   return (
     <Route
       {...restOfProps}
       render={(props) => {
-        if (!finished) {
+        if (loading && dispatched) {
           return (
             <CircularProgress
               sx={{ mx: 'auto', my: 'auto', animationDuration: '550ms' }}
@@ -31,10 +33,15 @@ export default function ProtectedRoute({
             />
           )
         }
-        if (finished && isAuthenticated) {
-          return <Component {...props} />
+        if (isAuthenticated) {
+          return (
+            <>
+              {sideBar && <SideBar />}
+              <Component {...props} />
+            </>
+          )
         }
-        if (finished && !isAuthenticated) {
+        if (!loading && dispatched && !isAuthenticated) {
           return <Redirect to="/login" />
         }
       }}
