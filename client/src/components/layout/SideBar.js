@@ -50,7 +50,7 @@ export default function SideBar() {
         height: '100%',
         minWidth: '240px',
         boxShadow: '-2px 0px 19px 0px rgba(255,191,209,0.34)',
-        paddingTop: 10,
+        paddingTop: 14,
         overflow: 'scroll',
         '&::-webkit-scrollbar': {
           width: '0.25em',
@@ -61,16 +61,30 @@ export default function SideBar() {
       }}
     >
       <Box sx={{ flexGrow: 1 }}>
-        <Typography
-          variant="h6"
-          component="h2"
-          align="center"
-          sx={{ fontSize: '14px', marginTop: 3, color: 'rgb(25, 118, 210)' }}
+        <Box
+          sx={{
+            padding: 2,
+            boxSizing: 'border-box',
+            width: '100%',
+            height: '2em',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
         >
-          YOUR STACKS
-        </Typography>
-        <Button onClick={handleShowModal}>Add Stack</Button>
-
+          <Typography
+            variant="h6"
+            component="h2"
+            align="center"
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '14px',
+              color: 'rgb(25, 118, 210)',
+            }}
+          >
+            MY TODO&apos;S
+          </Typography>
+        </Box>
         <Grid
           container
           direction="column"
@@ -80,14 +94,47 @@ export default function SideBar() {
           <Link component={NavLink} to="/todo/pinned" item xs={2} sm={4} md={4}>
             <Item>Pinned</Item>
           </Link>
-
+          <Link component={NavLink} to="/todo/all" item xs={2} sm={4} md={4}>
+            <Item>All todo&apos;s</Item>
+          </Link>
+        </Grid>
+        <Box
+          sx={{
+            padding: 2,
+            boxSizing: 'border-box',
+            width: '100%',
+            height: '2em',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Typography
+            variant="h6"
+            component="h2"
+            align="center"
+            sx={{
+              fontWeight: 'bold',
+              fontSize: '14px',
+              color: 'rgb(25, 118, 210)',
+            }}
+          >
+            STACKS
+          </Typography>
+        </Box>
+        <Grid
+          container
+          direction="column"
+          spacing={{ xs: 1, md: 2 }}
+          padding={2}
+        >
           {stacks &&
             stacks.map((stack) => {
               return (
                 <Link
                   key={stack._id}
                   component={NavLink}
-                  to={`/stack/${stack.slug}`}
+                  to={`/todo/stack/${stack.slug}`}
                   item
                   xs={2}
                   sm={4}
@@ -97,11 +144,20 @@ export default function SideBar() {
                 </Link>
               )
             })}
-
-          <Link component={NavLink} to="/todo/all" item xs={2} sm={4} md={4}>
-            <Item>All todo lists</Item>
-          </Link>
         </Grid>
+        <Box
+          sx={{
+            padding: 2,
+            boxSizing: 'border-box',
+            width: '100%',
+            height: '2em',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <Button onClick={handleShowModal}>Add Stack</Button>
+        </Box>
       </Box>
     </Grid>
   )

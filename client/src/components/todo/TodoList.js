@@ -17,7 +17,7 @@ export default function TodoList({
       sx={{
         height: '100%',
         boxShadow: '5px 0px 19px 0px rgba(255,191,209,0.34)',
-        paddingTop: 10,
+        paddingTop: 14,
         overflow: 'scroll',
         '&::-webkit-scrollbar': {
           width: '0.25em',
@@ -33,7 +33,7 @@ export default function TodoList({
             padding: 2,
             boxSizing: 'border-box',
             width: '100%',
-            height: '5em',
+            height: '2em',
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
@@ -45,6 +45,7 @@ export default function TodoList({
               component="h2"
               align="center"
               sx={{
+                marginLeft: 0.5,
                 fontSize: '14px',
                 fontWeight: 'bold',
                 color: 'rgb(25, 118, 210)',
