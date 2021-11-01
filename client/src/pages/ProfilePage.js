@@ -32,14 +32,17 @@ export default function ProfilePage() {
     setIsEditing(!isEditing)
   }
 
-  const handleOnSave = () => {
+  const handleOnSave = async () => {
     if (!formIsValid) return
     const data = {
       _id: user.userId,
       fullName: fullNameInput.value,
       username: usernameInput.value,
     }
-    dispatch(updateUser(data))
+    const res = await dispatch(updateUser(data))
+    if (res.statusCode >= 200 || res.statusCode < 300) {
+      toggleEdit()
+    }
   }
 
   useEffect(() => {
