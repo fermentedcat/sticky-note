@@ -21,10 +21,13 @@ export const handleErrorMsg = (error, dispatch, message) => {
     )
     return
   }
+
+  const errorMessage = error.response.data.errorMessage || message
+
   dispatch(
     uiActions.setNotification({
       type: 'error',
-      message: message,
+      message: errorMessage,
     })
   )
 }
