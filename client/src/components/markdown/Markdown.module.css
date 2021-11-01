@@ -1,0 +1,21 @@
+.markdown {
+  text-align: left;
+  color: #222222;
+}
+
+.markdown.small {
+  color: #575757;
+}
+
+.markdown.small:after {
+  content: ' ';
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3em;
+  bottom: 0;
+  background: -webkit-gradient(linear, left bottom, left top, from(white), color-stop(40%, white), to(rgba(255, 255, 255, 0)));
+  background: linear-gradient(0deg, white 0%, white 40%, rgba(255, 255, 255, 0) 100%);
+  z-index: 2;
+}
+/*# sourceMappingURL=Markdown.module.css.map */

@@ -14,5 +14,10 @@ code {
 
 a {
   text-decoration: none;
-  color: rgba(255, 191, 209, 0.11);
+  color: rgb(25, 118, 210);
+}
+
+ul.contains-task-list {
+  list-style-type: none;
+  padding-inline-start: 0;
 }
