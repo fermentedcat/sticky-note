@@ -80,21 +80,24 @@ UserSchema.pre('validate', function (next, done) {
 })
 
 // check if username is taken
-UserSchema.pre('findOneAndUpdate', function (next, done) {
-  if (this._update.username) {
-    this.model
-      .findOne({ username: this._update.username })
-      .then((user) => {
-        if (user && user._id != this._update._id) {
-          const error = new CustomError('username', 'This username is taken.')
-          next(error)
-        }
-        next()
-      })
-      .catch(() => {
-        const err = new InternalError('internal', 'Database error.')
-        next(err)
-      })
+UserSchema.pre('findOneAndUpdate', async function (next, done) {
+  if (!this._update.username) {
+    return next()
+  }
+  try {
+    const user = await this.model.findOne({ username: this._update.username })
+    if (!user) {
+      return next()
+    }
+    const userId = JSON.stringify(user._id)
+    const updatedUserId = JSON.stringify(this._update._id)
+    if (updatedUserId !== userId) {
+      const error = new CustomError('username', 'This username is taken.')
+      next(error)
+    }
+  } catch (error) {
+    const err = new InternalError('internal', 'Database error.')
+    next(err)
   }
   next()
 })
