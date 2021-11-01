@@ -1,8 +1,26 @@
 import React from 'react'
 import { Card, CardMedia } from '@mui/material'
 
-export default function LogoCard({ size = 'lg' }) {
-  const dimensions = size === 'lg' ? 250 : 50
+export default function LogoCard({ size }) {
+  let dimensions = 250
+  switch (size) {
+    case 'lg': {
+      dimensions = 250
+      break
+    }
+    case 'sm': {
+      dimensions = 120
+      break
+    }
+    case 'xs': {
+      dimensions = 50
+      break
+    }
+    default: {
+      dimensions = 250
+      break
+    }
+  }
 
   return (
     <Card
