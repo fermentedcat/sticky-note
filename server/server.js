@@ -6,8 +6,11 @@ const PORT = process.env.PORT || 8000
 const URI = process.env.DB_URI
 
 mongoose.connect(URI, {
-  useUnifiedTopology: true,
-  useNewUrlParser: true
+  dbName: process.env.DB_NAME,
+  user: process.env.DB_USER,
+  pass: process.env.DB_PASS,
+  useNewUrlParser: true,
+  useUnifiedTopology: true
 })
 
 const db = mongoose.connection
