@@ -37,7 +37,11 @@ export default function AboutPage() {
           <b>Sticky Note</b> is a todo app where your todo lists are written
           using markdown. You can use this{' '}
           <span>
-            <a href="https://www.markdownguide.org/cheat-sheet/">
+            <a
+              href="https://www.markdownguide.org/cheat-sheet/"
+              target="_blank"
+              rel="noreferrer"
+            >
               Markdown Cheat Sheet
             </a>
           </span>{' '}
