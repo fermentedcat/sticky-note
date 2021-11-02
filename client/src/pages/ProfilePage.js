@@ -40,7 +40,7 @@ export default function ProfilePage() {
       username: usernameInput.value,
     }
     const res = await dispatch(updateUser(data))
-    if (res.statusCode >= 200 || res.statusCode < 300) {
+    if (!res.error) {
       toggleEdit()
     }
   }

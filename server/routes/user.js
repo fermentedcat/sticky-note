@@ -33,8 +33,8 @@ router.get('/:id', adminAuth, user.getById)
 router.post('/login', user.login)
 router.post('/addPin', userAuth, user.addTodoPin)
 router.post('/removePin', userAuth, user.removeTodoPin)
-router.post('/', user.addNew)
 router.post('/:id', userAuth, user.update)
+router.post('/', user.addNew)
 
 router.delete('/user/:id', userAuth, user.delete)
 

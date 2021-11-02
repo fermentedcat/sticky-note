@@ -28,7 +28,7 @@ exports.getLoggedInUser = async (req, res, next) => {
   try {
     const user = await User.findOne({ username })
     if (!user) res.sendStatus(404)
-    res.status(200).json(user)
+    else res.status(200).json(user)
   } catch (error) {
     res.status(500).json(error)
   }
@@ -105,7 +105,6 @@ exports.login = async (req, res, next) => {
 exports.addTodoPin = (req, res, next) => {
   const { userId } = req.user
   const todoId = req.body.todoId
-  console.log(todoId)
 
   User.findOneAndUpdate(
     { _id: userId, pinnedTodos: { $ne: [todoId] } },

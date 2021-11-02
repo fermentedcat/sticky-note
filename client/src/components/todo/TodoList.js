@@ -86,7 +86,7 @@ export default function TodoList({
               align="center"
               sx={{ color: '#ffbfd1' }}
             >
-              Nothing here...
+              Nothing here yet...
             </Typography>
           </div>
         ) : (
