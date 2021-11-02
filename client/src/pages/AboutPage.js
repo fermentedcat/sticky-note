@@ -1,9 +1,9 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { Button, Box, Container, Typography, IconButton } from '@mui/material'
+import { Button, Box, Container, Typography } from '@mui/material'
 import LogoCard from '../components/layout/LogoCard'
-import GitHubIcon from '@mui/icons-material/GitHub'
 import { useSelector } from 'react-redux'
+import Footer from '../components/layout/Footer'
 
 export default function AboutPage() {
   const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
@@ -151,31 +151,7 @@ export default function AboutPage() {
           </Typography>
         </Box>
       </Box>
-      <Box
-        component="footer"
-        sx={{
-          position: 'fixed',
-          width: '100vw',
-          bottom: 0,
-          left: 0,
-          p: 2,
-          mt: 'auto',
-          borderTop: '1px solid #ffbfd1',
-        }}
-      >
-        <Container
-          sx={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        >
-          <Typography>Maja Thunberg 2021</Typography>
-          <IconButton href="https://github.com/fermentedcat/todo-app">
-            <GitHubIcon sx={{ color: 'rgb(25, 118, 210)' }} />
-          </IconButton>
-        </Container>
-      </Box>
+      <Footer />
     </Container>
   )
 }
