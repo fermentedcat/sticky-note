@@ -57,19 +57,23 @@ export default function StackForm({ edit, closeForm }) {
       title: titleInput.value,
       description: descrInput.value,
     }
-    // edit existing or add new todo
+
+    let newSlug
+    // edit existing or add new stack
     if (edit) {
       const response = await dispatch(
         updateStack({ ...data, _id: currentStack._id })
       )
-      // update url with new slug
-      const newSlug = response.payload.slug
-      history.push(`/stack/${newSlug}`)
-      closeForm()
-      return
+      newSlug = response.payload.slug
+    } else {
+      const response = await dispatch(addStack(data))
+      newSlug = response.payload.slug
     }
-    dispatch(addStack(data))
-    closeForm()
+    if (newSlug) {
+      // go to stack or update url with new slug
+      history.push(`/todo/stack/${newSlug}`)
+      closeForm()
+    }
   }
 
   const handleDeleteStack = async () => {
@@ -82,7 +86,6 @@ export default function StackForm({ edit, closeForm }) {
     }
     const response = await dispatch(deleteStack(currentStack._id))
     if (response.meta.requestStatus === 'fulfilled') {
-      console.log(response.meta.requestStatus)
       history.push('/todo/all')
       closeForm()
     }
