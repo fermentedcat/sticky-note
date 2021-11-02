@@ -19,6 +19,7 @@ import { ModalContent } from './components/layout/ModalContent'
 import Api from './api/api'
 import AboutPage from './pages/AboutPage'
 import ProfilePage from './pages/ProfilePage'
+import StarterPage from './pages/StarterPage'
 export const api = new Api()
 
 function App() {
@@ -71,6 +72,7 @@ function App() {
               component={PinnedTodosPage}
             />
             <ProtectedRoute path="/todo/all" sideBar component={AllTodosPage} />
+            <ProtectedRoute path="/start" component={StarterPage} />
             <ProtectedRoute path="/" sideBar component={PinnedTodosPage} />
           </Switch>
         </Grid>

@@ -8,10 +8,12 @@ import register from '../../utils/formFields'
 import { TextField } from '@mui/material'
 import SubmitButton from '../button/SumbitButton'
 import FormBox from './FormBox'
+import { useHistory } from 'react-router'
 
 export default function RegisterForm() {
   const [formIsValid, setFormIsValid] = useState(false)
   const dispatch = useDispatch()
+  const history = useHistory()
 
   const fullNameInput = useInput(register.fullName.validate)
   const usernameInput = useInput(register.username.validate)
@@ -51,7 +53,10 @@ export default function RegisterForm() {
       email: emailInput.value,
       password: passwordInput.value,
     }
-    dispatch(addUser(data))
+    const res = await dispatch(addUser(data))
+    if (!res.error) {
+      history.push('/start')
+    }
   }
 
   useEffect(() => {
