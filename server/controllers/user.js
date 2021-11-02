@@ -24,9 +24,9 @@ exports.authenticate = (req, res, next) => {
 }
 
 exports.getLoggedInUser = async (req, res, next) => {
-  const { username } = req.user
+  const { userId } = req.user
   try {
-    const user = await User.findOne({ username })
+    const user = await User.findById(userId)
     if (!user) res.sendStatus(404)
     else res.status(200).json(user)
   } catch (error) {
@@ -149,7 +149,8 @@ exports.update = async (req, res, next) => {
 
   try {
     const user = await User.findByIdAndUpdate(id, data, { new: true })
-    res.status(201).json(user)
+    const token = createToken(user)
+    res.status(201).json({ user, token })
   } catch (error) {
     res.status(400).json(error)
   }

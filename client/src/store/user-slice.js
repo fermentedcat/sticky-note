@@ -118,10 +118,11 @@ const userSlice = createSlice({
 
     [updateUser.fulfilled]: (state, { meta, payload }) => {
       if (meta.requestId === state.currentRequestId.requestId) {
-        const { fullName, username, email } = payload
-        state.fullName = fullName
-        state.username = username
-        state.email = email
+        const { user, token } = payload
+        window.localStorage.setItem('TODO_TOKEN', token)
+        state.fullName = user.fullName
+        state.username = user.username
+        state.email = user.email
         state.loading = false
         state.currentRequestId = meta
       }
