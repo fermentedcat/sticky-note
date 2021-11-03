@@ -21,7 +21,7 @@ const innerStyle = {
   overflow: 'hidden',
 }
 
-export default function TodoCardContent({ onClickHandler, small, todo }) {
+export default function TodoCardContent({ onClickHandler, small, todoItem }) {
   const cardProps = { sx: cardStyle }
 
   if (onClickHandler) {
@@ -36,7 +36,7 @@ export default function TodoCardContent({ onClickHandler, small, todo }) {
   return (
     <MuiCardContent {...cardProps}>
       <Box sx={innerStyle}>
-        <Markdown text={todo.markdown} small={small} />
+        <Markdown text={todoItem.markdown} small={small} />
       </Box>
     </MuiCardContent>
   )
