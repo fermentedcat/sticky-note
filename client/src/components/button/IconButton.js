@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 
 import classes from './IconButton.module.css'
 
-import { IoEllipsisVerticalSharp, IoExitOutline } from 'react-icons/io5'
+import { IoEllipsisVerticalSharp } from 'react-icons/io5'
 import { AiOutlineInfoCircle } from 'react-icons/ai'
 import { FiSettings, FiEdit } from 'react-icons/fi'
 import { CgFormatSlash } from 'react-icons/cg'
@@ -13,9 +13,14 @@ import {
   RiPushpinLine,
   RiPushpinFill,
 } from 'react-icons/ri'
-import { ImQuotesLeft, ImCancelCircle } from 'react-icons/im'
+import { ImQuotesLeft } from 'react-icons/im'
 import { HiOutlineBookOpen } from 'react-icons/hi'
-import { BsPatchPlus } from 'react-icons/bs'
+import {
+  BsDashCircle,
+  BsCheckCircle,
+  BsPlusCircle,
+  BsXCircle,
+} from 'react-icons/bs'
 
 import InfoBubble from '../UI/InfoBubble'
 import { Box } from '@mui/material'
@@ -109,7 +114,7 @@ export default function IconButton({
       break
 
     case 'add':
-      icon = <BsPatchPlus />
+      icon = <BsPlusCircle />
       break
 
     case 'edit':
@@ -129,11 +134,15 @@ export default function IconButton({
       break
 
     case 'cancel':
-      icon = <ImCancelCircle />
+      icon = <BsDashCircle />
+      break
+
+    case 'save':
+      icon = <BsCheckCircle />
       break
 
     case 'exit':
-      icon = <IoExitOutline />
+      icon = <BsXCircle />
       break
 
     default:
