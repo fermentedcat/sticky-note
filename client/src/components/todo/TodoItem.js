@@ -1,39 +1,27 @@
 import React, { useState } from 'react'
 
 import { Grid } from '@mui/material'
-import Modal from '../layout/Modal'
 import TodoCardContent from '../card/TodoCardContent'
-import TodoForm from '../form/TodoForm'
 import { deleteTodo } from '../../store/todo-actions'
 import { useDispatch, useSelector } from 'react-redux'
 import TodoCard from '../card/TodoCard'
 import { addPin, removePin } from '../../store/user-actions'
+import { uiActions } from '../../store/ui-slice'
+import TodoDetails from './TodoDetails'
+import TodoForm from '../form/TodoForm'
+import Modal from '../layout/Modal'
 
 export default function TodoItem({ todo }) {
-  const [showModal, setShowModal] = useState(false)
-  const [isEditing, setIsEditing] = useState(false)
   const isPinned = useSelector((state) => {
     return state.user.pinnedTodos.includes(todo._id)
   })
+  const [showModal, setShowModal] = useState(false)
+  const [isEditing, setIsEditing] = useState(false)
   const dispatch = useDispatch()
 
-  const handleOpenTodo = () => {
-    setIsEditing(false)
-    setShowModal(true)
-  }
-
-  const handleOpenEditTodo = () => {
-    setIsEditing(true)
-    setShowModal(true)
-  }
-
-  const toggleIsEditing = () => setIsEditing(!isEditing)
-
-  const toggleShowModal = () => setShowModal(!showModal)
-
-  const handleRemoveTodo = () => {
+  const handleRemove = () => {
     dispatch(deleteTodo(todo._id))
-    setShowModal(false)
+    dispatch(uiActions.closeModal())
   }
 
   const handlePin = () => {
@@ -44,43 +32,55 @@ export default function TodoItem({ todo }) {
     dispatch(addPin({ todoId: todo._id }))
   }
 
+  const handleOpenEdit = () => {
+    setShowModal(true)
+    setIsEditing(true)
+  }
+  const handleOpenDetails = () => {
+    setShowModal(true)
+    setIsEditing(false)
+  }
+  const handleCloseModal = () => {
+    setShowModal(false)
+    setIsEditing(false)
+  }
+
   const cardProps = {
-    openEditHandler: handleOpenEditTodo,
-    toggleIsEditing: toggleIsEditing,
-    isEditing: isEditing,
+    openEditHandler: handleOpenEdit,
     pinHandler: handlePin,
     isPinned: isPinned,
     title: todo.title,
-  }
-
-  const contentProps = {
-    todo,
-    small: !showModal,
+    itemExists: true,
+    removeHandler: handleRemove,
   }
 
   return (
     <Grid key={todo._id} item xs={2} sm={4} md={4} lg={4} sx={{ height: 250 }}>
       <TodoCard {...cardProps}>
-        <TodoCardContent {...contentProps} onClickHandler={handleOpenTodo} />
+        <TodoCardContent
+          todoItem={todo}
+          small
+          onClickHandler={handleOpenDetails}
+        />
       </TodoCard>
-
-      <Modal open={showModal} onClose={toggleShowModal}>
+      <Modal open={showModal} onClose={handleCloseModal}>
         {isEditing ? (
-          <TodoCard {...cardProps}>
-            <TodoForm
-              todoItem={todo}
-              removeHandler={handleRemoveTodo}
-              closeForm={() => setIsEditing(false)}
-            />
-          </TodoCard>
+          <TodoForm
+            todoItem={todo}
+            isPinned={isPinned}
+            pinHandler={handlePin}
+            exitEditMode={handleOpenDetails}
+          />
         ) : (
-          <TodoCard
-            {...cardProps}
+          <TodoDetails
+            todoItem={todo}
+            isPinned={isPinned}
+            pinHandler={handlePin}
+            openEditHandler={handleOpenEdit}
+            removeHandler={handleRemove}
             lastEdit={todo.updatedAt}
-            removeHandler={handleRemoveTodo}
-          >
-            <TodoCardContent {...contentProps} />
-          </TodoCard>
+            onClose={handleCloseModal}
+          />
         )}
       </Modal>
     </Grid>

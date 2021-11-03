@@ -6,12 +6,18 @@ import { todo } from '../../utils/formFields'
 import { addTodo, updateTodo } from '../../store/todo-actions'
 
 import { TextField } from '@mui/material'
-import SubmitButton from '../button/SumbitButton'
 import FormBox from './FormBox'
+import TodoCard from '../card/TodoCard'
+import { uiActions } from '../../store/ui-slice'
 
 // new todo - props = { stackId }
 // edit todo - props = { todo }
-export default function TodoForm({ stackId, todoItem = {}, closeForm }) {
+export default function TodoForm({
+  stackId,
+  todoItem = {},
+  exitEditMode,
+  onClose,
+}) {
   const [formIsValid, setFormIsValid] = useState(false)
   const dispatch = useDispatch()
   if (!stackId) stackId = todo.stack
@@ -22,8 +28,7 @@ export default function TodoForm({ stackId, todoItem = {}, closeForm }) {
   const titleInput = useInput(todo.title.validate, titleInitVal)
   const markdownInput = useInput(todo.markdown.validate, markdownInitVal)
 
-  const handleSubmitTodo = async (e) => {
-    e.preventDefault()
+  const handleSubmitTodo = async () => {
     if (!formIsValid) {
       return
     }
@@ -34,12 +39,12 @@ export default function TodoForm({ stackId, todoItem = {}, closeForm }) {
     }
     // edit existing or add new todo
     if (todoItem._id) {
-      dispatch(updateTodo({ ...data, _id: todoItem._id }))
-      closeForm()
+      await dispatch(updateTodo({ ...data, _id: todoItem._id }))
+      exitEditMode()
       return
     }
-    dispatch(addTodo(data))
-    closeForm()
+    await dispatch(addTodo(data))
+    dispatch(uiActions.closeModal())
   }
 
   useEffect(() => {
@@ -47,29 +52,37 @@ export default function TodoForm({ stackId, todoItem = {}, closeForm }) {
   }, [titleInput.isValid])
 
   return (
-    <FormBox onSubmit={handleSubmitTodo}>
-      <TextField
-        type={todo.title.type}
-        name={todo.title.name}
-        value={titleInput.value}
-        onChange={titleInput.onChange}
-        onBlur={titleInput.onBlur}
-        label={todo.title.label}
-        required={todo.title.required}
-      />
-      <TextField
-        type={todo.markdown.type}
-        name={todo.markdown.name}
-        value={markdownInput.value}
-        onChange={markdownInput.onChange}
-        onBlur={markdownInput.onBlur}
-        label={todo.markdown.label}
-        required={todo.markdown.required}
-        multiline
-        rows={16}
-        sx={{ flexGrow: 1 }}
-      />
-      <SubmitButton title="Save" />
-    </FormBox>
+    <TodoCard
+      onClose={onClose}
+      title={todoItem.title ? `Edit ${todoItem.title}` : 'Add Todo'}
+      isEditing={todoItem.title}
+      exitEditMode={exitEditMode}
+      submitHandler={handleSubmitTodo}
+      itemExists={todoItem.title}
+    >
+      <FormBox onSubmit={handleSubmitTodo}>
+        <TextField
+          type={todo.title.type}
+          name={todo.title.name}
+          value={titleInput.value}
+          onChange={titleInput.onChange}
+          onBlur={titleInput.onBlur}
+          label={todo.title.label}
+          required={todo.title.required}
+        />
+        <TextField
+          type={todo.markdown.type}
+          name={todo.markdown.name}
+          value={markdownInput.value}
+          onChange={markdownInput.onChange}
+          onBlur={markdownInput.onBlur}
+          label={todo.markdown.label}
+          required={todo.markdown.required}
+          multiline
+          rows={16}
+          sx={{ flexGrow: 1 }}
+        />
+      </FormBox>
+    </TodoCard>
   )
 }
