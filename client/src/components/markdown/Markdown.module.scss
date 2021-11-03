@@ -3,6 +3,7 @@
   color: rgb(34, 34, 34);
   &.small {
     color: rgb(87, 87, 87);
+    font-size: .85em;
     &:after {
       content: ' ';
       position: absolute;

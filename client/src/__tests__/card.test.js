@@ -5,7 +5,7 @@ import { React } from 'react'
 import '@testing-library/jest-dom'
 import Card from '../components/card/Card'
 
-test('useInput hook returns isValid = false if empty string', () => {
+test('Test that card renders title and children', () => {
   render(
     <Card title="Header">
       <p>Hello World</p>

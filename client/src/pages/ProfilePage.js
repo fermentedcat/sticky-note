@@ -53,68 +53,64 @@ export default function ProfilePage() {
     <Container sx={{ width: '60vw', height: '60vh', mx: 'auto', my: 'auto' }}>
       <Card title="My Profile">
         <Box sx={{ p: 5, height: '100%' }}>
-          <Grid item container direction="column" xs={12} sm={12}>
-            <Grid container sx={{ mt: 5 }}>
-              <Grid item lg={3} sx={{ height: '4ch' }}>
-                <Typography
+          <Grid container xs={12} sm={12} lg={12} sx={{ mt: 5 }}>
+            <Grid item xs={4} sm={4} lg={4} sx={{ height: '4ch' }}>
+              <Typography
+                sx={{
+                  p: 0,
+                  m: 0,
+                  fontWeight: 'bold',
+                }}
+              >
+                Name:
+              </Typography>
+            </Grid>
+            <Grid item xs={8} sm={8} lg={8} sx={{ height: '4ch' }}>
+              {isEditing ? (
+                <TextField
+                  variant="standard"
                   sx={{
-                    p: 0,
-                    m: 0,
-                    fontWeight: 'bold',
+                    input: { paddingTop: 0, color: 'gray', width: '23ch' },
                   }}
-                >
-                  Name:
-                </Typography>
-              </Grid>
-              <Grid item lg={9} sx={{ height: '4ch' }}>
-                {isEditing ? (
-                  <TextField
-                    variant="standard"
-                    sx={{
-                      input: { paddingTop: 0, color: 'gray', width: '23ch' },
-                    }}
-                    name={register.fullName.name}
-                    value={fullNameInput.value}
-                    onChange={fullNameInput.onChange}
-                    onBlur={fullNameInput.onBlur}
-                  />
-                ) : (
-                  <Typography>{user.fullName}</Typography>
-                )}
-              </Grid>
-              <Grid item lg={3} sx={{ height: '4ch' }}>
-                <Typography sx={{ fontWeight: 'bold' }}>Username:</Typography>
-              </Grid>
-              <Grid item lg={9} sx={{ height: '4ch' }}>
-                {isEditing ? (
-                  <TextField
-                    variant="standard"
-                    sx={{
-                      input: { paddingTop: 0, color: 'gray', width: '23ch' },
-                    }}
-                    name={register.username.name}
-                    value={usernameInput.value}
-                    onChange={usernameInput.onChange}
-                    onBlur={usernameInput.onBlur}
-                  />
-                ) : (
-                  <Typography>{user.username}</Typography>
-                )}
-              </Grid>
-              <Grid item lg={3} sx={{ height: '4ch' }}>
-                <Typography sx={{ fontWeight: 'bold' }}>Email:</Typography>
-              </Grid>
-              <Grid item lg={9} sx={{ height: '4ch' }}>
-                <Typography>{user.email}</Typography>
-              </Grid>
-              <Grid item lg={3} sx={{ height: '4ch' }}>
-                <Typography sx={{ fontWeight: 'bold' }}>
-                  Member since:
-                </Typography>
-              </Grid>
-              <Grid item lg={9} sx={{ height: '4ch' }}>
-                <Typography>{registered}</Typography>
-              </Grid>
+                  name={register.fullName.name}
+                  value={fullNameInput.value}
+                  onChange={fullNameInput.onChange}
+                  onBlur={fullNameInput.onBlur}
+                />
+              ) : (
+                <Typography>{user.fullName}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={4} sm={4} lg={4} sx={{ height: '4ch' }}>
+              <Typography sx={{ fontWeight: 'bold' }}>Username:</Typography>
+            </Grid>
+            <Grid item xs={8} sm={8} lg={8} sx={{ height: '4ch' }}>
+              {isEditing ? (
+                <TextField
+                  variant="standard"
+                  sx={{
+                    input: { paddingTop: 0, color: 'gray', width: '23ch' },
+                  }}
+                  name={register.username.name}
+                  value={usernameInput.value}
+                  onChange={usernameInput.onChange}
+                  onBlur={usernameInput.onBlur}
+                />
+              ) : (
+                <Typography>{user.username}</Typography>
+              )}
+            </Grid>
+            <Grid item xs={4} sm={4} lg={4} sx={{ height: '4ch' }}>
+              <Typography sx={{ fontWeight: 'bold' }}>Email:</Typography>
+            </Grid>
+            <Grid item xs={8} sm={8} lg={8} sx={{ height: '4ch' }}>
+              <Typography>{user.email}</Typography>
+            </Grid>
+            <Grid item xs={4} sm={4} lg={4} sx={{ height: '4ch' }}>
+              <Typography sx={{ fontWeight: 'bold' }}>Member since:</Typography>
+            </Grid>
+            <Grid item xs={8} sm={8} lg={8} sx={{ height: '4ch' }}>
+              <Typography>{registered}</Typography>
             </Grid>
           </Grid>
         </Box>

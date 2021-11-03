@@ -5,6 +5,7 @@
 
 .markdown.small {
   color: #575757;
+  font-size: .85em;
 }
 
 .markdown.small:after {
