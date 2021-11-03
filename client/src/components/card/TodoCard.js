@@ -28,11 +28,14 @@ export default function TodoCard(props) {
   const {
     title,
     lastEdit,
-    openEditHandler,
-    toggleIsEditing,
     isEditing,
+    exitEditMode,
+    openEditHandler,
+    submitHandler,
     removeHandler,
     pinHandler,
+    onClose,
+    itemExists,
     isPinned,
     children,
   } = props
@@ -58,19 +61,40 @@ export default function TodoCard(props) {
         subheader={subheader}
         action={
           <ActionsMenu>
-            <IconButton
-              type={isPinned ? 'unpin' : 'pin'}
-              active
-              description={isPinned ? 'unpin' : 'pin'}
-              onClick={pinHandler}
-            />
-            <IconButton
-              type={!isEditing ? 'edit' : 'cancel'}
-              active
-              description={!isEditing ? 'edit' : 'cancel'}
-              onClick={!isEditing ? openEditHandler : toggleIsEditing}
-            />
-            {removeHandler && (
+            {itemExists && !isEditing && (
+              <IconButton
+                type={isPinned ? 'unpin' : 'pin'}
+                active
+                description={isPinned ? 'unpin' : 'pin'}
+                onClick={pinHandler}
+              />
+            )}
+            {onClose && (
+              <IconButton
+                type={'exit'}
+                active
+                description={'close'}
+                onClick={onClose}
+              />
+            )}
+            {itemExists && (
+              <IconButton
+                type={!isEditing ? 'edit' : 'cancel'}
+                active
+                description={!isEditing ? 'edit' : 'cancel'}
+                onClick={!isEditing ? openEditHandler : exitEditMode}
+              />
+            )}
+
+            {(!itemExists || isEditing) && (
+              <IconButton
+                type="save"
+                active
+                description={'save'}
+                onClick={submitHandler}
+              />
+            )}
+            {itemExists && !isEditing && (
               <IconButton
                 type="delete"
                 active
