@@ -10,6 +10,7 @@ import { NavLink, useHistory } from 'react-router-dom'
 const btnStyles = {
   '&.active': {
     textDecoration: 'underline',
+    textUnderlineOffset: 5,
   },
 }
 

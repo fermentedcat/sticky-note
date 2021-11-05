@@ -3,7 +3,7 @@ import { Box, Container } from '@mui/material'
 
 export default function FormBox({ onSubmit, children }) {
   return (
-    <Container onSubmit={onSubmit} sx={{ p: '.5em !important' }}>
+    <Container sx={{ p: '.5em !important' }}>
       <Box
         onSubmit={onSubmit}
         component="form"

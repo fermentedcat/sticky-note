@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { styled, alpha } from '@mui/material/styles'
+import { styled } from '@mui/material/styles'
 import InputBase from '@mui/material/InputBase'
 import SearchIcon from '@mui/icons-material/Search'
 import validate from '../../utils/validate'
@@ -10,19 +10,11 @@ import { searchUsers } from '../../store/user-actions'
 
 const Search = styled('div')(({ theme }) => ({
   position: 'relative',
+  border: '1px solid lightgray',
   borderRadius: theme.shape.borderRadius,
-  backgroundColor: alpha(theme.palette.common.white, 0.15),
-  '&:hover': {
-    backgroundColor: alpha(theme.palette.common.white, 0.25),
-  },
-  marginRight: theme.spacing(2),
-  marginLeft: 0,
-  width: '100%',
-  [theme.breakpoints.up('sm')]: {
-    marginLeft: theme.spacing(3),
-    width: 'auto',
-  },
+  margin: 0,
   display: 'inline-flex',
+  justifyContent: 'flex-start',
 }))
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -39,13 +31,9 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
   color: 'inherit',
   '& .MuiInputBase-input': {
     padding: theme.spacing(1, 1, 1, 0),
-    // vertical padding + font size from searchIcon
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     transition: theme.transitions.create('width'),
-    width: '100%',
-    [theme.breakpoints.up('md')]: {
-      width: '20ch',
-    },
+    width: '34.5ch',
   },
 }))
 
@@ -84,6 +72,7 @@ export const SearchField = () => {
         <SearchIcon />
       </SearchIconWrapper>
       <StyledInputBase
+        label="Search"
         autoComplete="off"
         placeholder="Search users..."
         inputProps={{ 'aria-label': 'search' }}

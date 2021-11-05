@@ -22,24 +22,26 @@ const ResultList = styled(List)(() => ({
     opacity: '0.8',
     backgroundColor: '#rgba(255, 191, 209, 0.11)',
     fontWeight: 'bold',
+    color: 'rgb(25, 118, 210)',
     fontFamily: 'Roboto, Helvetica, Arial, sans-serif',
     '&:hover': {
-      backgroundColor: 'rgba(255, 191, 209, 0.31)',
+      backgroundColor: 'rgba(25, 118, 210, 0.30)',
       opacity: '1',
+      'div + p': {
+        visibility: 'unset',
+      },
     },
     '&  + .MuiListItemButton-root': {
       borderTop: '1px solid rgba(255, 191, 209, 0.11)',
     },
     div: {
       display: 'flex',
+      span: {
+        backgroundColor: 'rgba(25, 118, 210, 0.30)',
+      },
     },
     'div + p': {
       visibility: 'hidden',
-    },
-  },
-  '.MuiListItemButton-root:hover': {
-    'div + p': {
-      visibility: 'unset',
     },
   },
 }))

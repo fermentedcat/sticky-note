@@ -10,8 +10,13 @@ import { uiActions } from '../../store/ui-slice'
 const Link = styled(Grid)(({ theme }) => ({
   '&.active': {
     button: {
-      backgroundColor: 'rgba(255, 191, 209, 0.11)',
+      backgroundColor: 'rgba(255, 191, 209, 0.20)',
       boxShadow: '0px 3px 12px -6px rgba(50,30,10,0.15)',
+      border: 'solid 1px rgba(255, 191, 209, 0.05)',
+      span: {
+        color: '#ffbfd1',
+        fontWeight: 'bold',
+      },
     },
   },
 }))
@@ -20,13 +25,22 @@ const Item = styled(Button)(({ theme }) => ({
   ...theme.typography.body2,
   padding: theme.spacing(2),
   textAlign: 'center',
-  border: '1px dotted #ffbfd1',
-  boxShadow: '0px 6px 12px -6px rgba(50,30,10,0.15)',
+  border: '1px dashed rgb(255,255,249)',
+  boxShadow: '0px 6px 16px -6px rgba(50,30,10,0.15)',
   backgroundColor: 'rgb(255,255,249)',
-  color: theme.palette.text.secondary,
+  color: '#ffbfd1',
   width: '100%',
+  transition: 'all .3s ease-in-out',
+  '.MuiTypography-root': {
+    color: 'rgba(25, 118, 210, 0.8)',
+  },
   '&:hover': {
-    backgroundColor: 'rgba(255, 191, 209, 0.11)',
+    backgroundColor: 'rgb(255,255,249)',
+    border: '1px dashed rgba(255, 191, 209, 0.50)',
+  },
+  '&:active': {
+    backgroundColor: 'rgba(255, 191, 209, 0.41)',
+    border: 'solid 1px rgba(255, 191, 209, 0.05)',
   },
 }))
 
@@ -64,6 +78,7 @@ export default function SideBar() {
         <Box
           sx={{
             padding: 2,
+            baddingBottom: 0,
             boxSizing: 'border-box',
             width: '100%',
             height: '2em',
@@ -72,18 +87,20 @@ export default function SideBar() {
             alignItems: 'center',
           }}
         >
-          <Typography
-            variant="h6"
-            component="h2"
-            align="center"
-            sx={{
-              fontWeight: 'bold',
-              fontSize: '14px',
-              color: 'rgb(25, 118, 210)',
-            }}
-          >
-            MY TODO&apos;S
-          </Typography>
+          <Box sx={{ borderBottom: '1px solid rgb(25, 118, 210)' }}>
+            <Typography
+              variant="h6"
+              component="h2"
+              align="center"
+              sx={{
+                fontWeight: 'bold',
+                fontSize: '14px',
+                color: 'rgb(25, 118, 210)',
+              }}
+            >
+              MY TODO&apos;S
+            </Typography>
+          </Box>
         </Box>
         <Grid
           container
@@ -92,10 +109,14 @@ export default function SideBar() {
           padding={2}
         >
           <Link component={NavLink} to="/todo/pinned" item xs={2} sm={4} md={4}>
-            <Item>Pinned</Item>
+            <Item color="secondary">
+              <Typography variant="p">Pinned</Typography>
+            </Item>
           </Link>
           <Link component={NavLink} to="/todo/all" item xs={2} sm={4} md={4}>
-            <Item>All todo&apos;s</Item>
+            <Item color="secondary">
+              <Typography variant="p">All todo&apos;s</Typography>
+            </Item>
           </Link>
         </Grid>
         <Box
@@ -109,18 +130,20 @@ export default function SideBar() {
             alignItems: 'center',
           }}
         >
-          <Typography
-            variant="h6"
-            component="h2"
-            align="center"
-            sx={{
-              fontWeight: 'bold',
-              fontSize: '14px',
-              color: 'rgb(25, 118, 210)',
-            }}
-          >
-            STACKS
-          </Typography>
+          <Box sx={{ borderBottom: '1px solid rgb(25, 118, 210)' }}>
+            <Typography
+              variant="h6"
+              component="h2"
+              align="center"
+              sx={{
+                fontWeight: 'bold',
+                fontSize: '14px',
+                color: 'rgb(25, 118, 210)',
+              }}
+            >
+              STACKS
+            </Typography>
+          </Box>
         </Box>
         <Grid
           container
@@ -140,7 +163,9 @@ export default function SideBar() {
                   sm={4}
                   md={4}
                 >
-                  <Item>{stack.title}</Item>
+                  <Item color="secondary">
+                    <Typography variant="p">{stack.title}</Typography>
+                  </Item>
                 </Link>
               )
             })}

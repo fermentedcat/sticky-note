@@ -13,10 +13,12 @@
   position: absolute;
   left: 0;
   right: 0;
-  height: 3em;
+  height: 3.5em;
   bottom: 0;
-  background: -webkit-gradient(linear, left bottom, left top, from(white), color-stop(40%, white), to(rgba(255, 255, 255, 0)));
-  background: linear-gradient(0deg, white 0%, white 40%, rgba(255, 255, 255, 0) 100%);
+  background: -webkit-gradient(linear, left bottom, left top, from(#fffff9), color-stop(30%, #fffff9), color-stop(65%, rgba(255, 255, 249, 0.8)), to(rgba(255, 255, 249, 0)));
+  background: linear-gradient(0deg, #fffff9 0%, #fffff9 30%, rgba(255, 255, 249, 0.8) 65%, rgba(255, 255, 249, 0) 100%);
   z-index: 2;
+  -webkit-transition: all .6s ease-in-out;
+  transition: all .6s ease-in-out;
 }
 /*# sourceMappingURL=Markdown.module.css.map */

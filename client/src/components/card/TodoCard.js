@@ -12,7 +12,7 @@ const headerStyle = {
   padding: 1.1,
   paddingRight: 1.6,
   color: '#ffbfd1',
-  borderBottom: '1px dotted #ffbfd1',
+  borderBottom: '1px dashed #ffbfd1',
   div: {
     maxHeight: '100%',
   },
@@ -94,7 +94,7 @@ export default function TodoCard(props) {
                 onClick={submitHandler}
               />
             )}
-            {itemExists && !isEditing && (
+            {itemExists && isEditing && (
               <IconButton
                 type="delete"
                 active

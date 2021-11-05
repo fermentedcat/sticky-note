@@ -26,7 +26,6 @@ const boxStyle = {
 }
 
 const titleStyle = {
-  marginLeft: 0.5,
   fontSize: '14px',
   fontWeight: 'bold',
   color: 'rgb(25, 118, 210)',
@@ -49,7 +48,13 @@ export default function TodoList({
     <Grid item xs sx={gridItemStyle}>
       <Box sx={{ flexGrow: 1 }}>
         <Box sx={boxStyle}>
-          <Box sx={{ display: 'flex' }}>
+          <Box
+            sx={{
+              marginLeft: 0.5,
+              display: 'flex',
+              borderBottom: '1px solid rgb(25, 118, 210)',
+            }}
+          >
             {title && (
               <Typography
                 variant="h6"
@@ -60,7 +65,7 @@ export default function TodoList({
                 {title}
               </Typography>
             )}
-            {stack && (
+            {stack && stack.description.length > 0 && (
               <Typography
                 variant="h6"
                 component="h2"

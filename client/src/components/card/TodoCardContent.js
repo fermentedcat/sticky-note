@@ -6,13 +6,15 @@ import Markdown from '../markdown/Markdown'
 const cardStyle = {
   boxShadow: 'none',
   textTransform: 'none',
-  color: 'unset',
   maxHeight: '100%',
   overflow: 'hidden',
   padding: '1.2em',
   paddingBottom: '1.2em !important',
   flexGrow: 1,
   alignItems: 'flex-start',
+  '.MuiTouchRipple-root': {
+    zIndex: '3',
+  },
 }
 
 const innerStyle = {
@@ -27,6 +29,7 @@ export default function TodoCardContent({ onClickHandler, small, todoItem }) {
   if (onClickHandler) {
     cardProps.component = Button
     cardProps.onClick = onClickHandler
+    cardProps.color = 'secondary'
   }
 
   if (!small) {

@@ -1,6 +1,5 @@
 
 .icon{
-
   &.active {
     &:hover {
       // background-color: #ffebc141;
@@ -11,10 +10,10 @@
     }
   }
   svg {
+    color: rgb(255, 191, 209);
     transition: all 1s ease-in-out;
     &.pinned {
       transform: rotate(-38deg);
     }
   }
 }
-
