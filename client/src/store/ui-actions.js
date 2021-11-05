@@ -22,7 +22,7 @@ export const handleErrorMsg = (error, dispatch, message) => {
     return
   }
 
-  const errorMessage = error.response.data.errorMessage || message
+  const errorMessage = getErrorMessage(error.response.data) || message
 
   dispatch(
     uiActions.setNotification({
@@ -30,4 +30,22 @@ export const handleErrorMsg = (error, dispatch, message) => {
       message: errorMessage,
     })
   )
+}
+
+const getErrorMessage = (data) => {
+  let message = false
+  if (data.errorMessage) {
+    message = data.errorMessage
+  } else if (data.errors) {
+    if (data.name === 'ValidationError') {
+      let messages = ''
+      const errorsArr = Object.values(data.errors)
+      messages += 'Please fill in your'
+      errorsArr.forEach((err) => {
+        messages += ` ${err.path}`
+      })
+      message = `${messages} correctly.`
+    }
+  }
+  return message
 }

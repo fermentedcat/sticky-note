@@ -2,6 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit'
 import { api } from '../App'
 import { userActions } from './user-slice'
 import { handleSuccessMsg, handleErrorMsg } from './ui-actions'
+import { uiActions } from './ui-slice'
 
 export const authenticateUser = createAsyncThunk(
   'user/authenticateUser',
@@ -77,7 +78,16 @@ export const loginUser = createAsyncThunk(
       handleSuccessMsg(dispatch, 'Successfully logged in.')
       return response.data
     } catch (err) {
-      handleErrorMsg(err, dispatch, 'Login failed.')
+      if (err.response.status === 401) {
+        dispatch(
+          uiActions.setNotification({
+            type: 'error',
+            message: 'Incorrect email/username or password.',
+          })
+        )
+      } else {
+        handleErrorMsg(err, dispatch, 'Login failed.')
+      }
       return rejectWithValue([], err)
     }
   }

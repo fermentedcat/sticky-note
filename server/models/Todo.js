@@ -9,7 +9,7 @@ const TodoSchema = new Schema({
     required: true,
     validate: [
       validate.string,
-      'Please enter a valid name.'
+      'Invalid title.'
     ]
   },
   stack: {
@@ -17,8 +17,7 @@ const TodoSchema = new Schema({
     ref: 'Stack'
   },
   markdown: {
-    type: String,
-    required: true
+    type: String
   },
   creator: {
     type: Schema.Types.ObjectId,
