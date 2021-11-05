@@ -6,7 +6,6 @@ import { deleteTodo } from '../../store/todo-actions'
 import { useDispatch, useSelector } from 'react-redux'
 import TodoCard from '../card/TodoCard'
 import { addPin, removePin } from '../../store/user-actions'
-import { uiActions } from '../../store/ui-slice'
 import TodoDetails from './TodoDetails'
 import TodoForm from '../form/TodoForm'
 import Modal from '../layout/Modal'
@@ -21,7 +20,7 @@ export default function TodoItem({ todo }) {
 
   const handleRemove = () => {
     dispatch(deleteTodo(todo._id))
-    dispatch(uiActions.closeModal())
+    setShowModal(false)
   }
 
   const handlePin = () => {

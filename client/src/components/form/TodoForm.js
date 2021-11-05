@@ -10,8 +10,8 @@ import FormBox from './FormBox'
 import TodoCard from '../card/TodoCard'
 import { uiActions } from '../../store/ui-slice'
 
-// new todo - props = { stackId }
-// edit todo - props = { todo }
+// new todo - receives stackId
+// edit todo - receives todoItem
 export default function TodoForm({
   stackId,
   todoItem = {},
