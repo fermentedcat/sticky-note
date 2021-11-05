@@ -6,10 +6,10 @@ import useInput from '../../hooks/use-input'
 import { stack } from '../../utils/formFields'
 
 import FormBox from './FormBox'
-import { Button, TextField, Box } from '@mui/material'
+import { TextField, Box, Typography } from '@mui/material'
 import { useHistory } from 'react-router'
 import { SearchField } from './SearchField'
-import Card from '../card/Card'
+import TodoCard from '../card/TodoCard'
 
 export default function StackForm({ edit, closeForm }) {
   const [formIsValid, setFormIsValid] = useState(false)
@@ -49,7 +49,6 @@ export default function StackForm({ edit, closeForm }) {
   })
 
   const handleSubmitStack = async (e) => {
-    e.preventDefault()
     if (!formIsValid) {
       return
     }
@@ -95,16 +94,30 @@ export default function StackForm({ edit, closeForm }) {
     setFormIsValid(titleInput.isValid)
   }, [titleInput.isValid])
 
+  const cardProps = {
+    title: edit ? 'Edit Stack' : 'Add Stack',
+    submitHandler: handleSubmitStack,
+  }
+
+  if (edit) {
+    cardProps.itemExists = true
+    cardProps.isEditing = true
+    cardProps.removeHandler = handleDeleteStack
+  }
+
   return (
-    <Card title={edit ? 'Edit stack' : 'Add stack'}>
-      <FormBox onSubmit={handleSubmitStack}>
+    <TodoCard {...cardProps}>
+      <FormBox>
         {inputFields}
-        <SearchField />
-        <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-          <Button type="submit">Save</Button>
-          {edit && <Button onClick={handleDeleteStack}>Delete</Button>}
-        </Box>
+        {edit && (
+          <Box sx={{ p: 1 }}>
+            <Typography sx={{ fontWeight: 'bold', color: '#ffbfd1' }}>
+              Collaborate with others:
+            </Typography>
+            <SearchField />
+          </Box>
+        )}
       </FormBox>
-    </Card>
+    </TodoCard>
   )
 }
