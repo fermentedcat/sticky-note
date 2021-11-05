@@ -19,6 +19,9 @@ const todoSlice = createSlice({
       state.todos = action.payload.todos || action.payload
       state.requestId = ''
     },
+    setStack(state, action) {
+      state.stack = action.payload
+    },
     clearTodos(state) {
       return initialTodoSlice
     },

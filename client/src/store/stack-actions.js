@@ -1,5 +1,6 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import { api } from '../App'
+import { todoActions } from './todo-slice'
 import { handleSuccessMsg, handleErrorMsg } from './ui-actions'
 
 export const fetchStacks = createAsyncThunk(
@@ -35,6 +36,7 @@ export const updateStack = createAsyncThunk(
     try {
       const response = await api.callPost(data, `stack/${data._id}`)
       handleSuccessMsg(dispatch, 'Stack updated successfully.')
+      dispatch(todoActions.setStack(response.data))
       return response.data
     } catch (err) {
       handleErrorMsg(err, dispatch, 'Failed updating stack.')
