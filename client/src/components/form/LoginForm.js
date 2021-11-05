@@ -54,7 +54,7 @@ export default function LoginForm() {
   return (
     <FormBox onSubmit={handleLogin}>
       {inputFields}
-      <SubmitButton title="Login" />
+      <SubmitButton disabled={!formIsValid} title="Login" />
     </FormBox>
   )
 }

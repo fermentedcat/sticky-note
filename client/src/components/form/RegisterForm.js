@@ -66,7 +66,7 @@ export default function RegisterForm() {
   return (
     <FormBox onSubmit={handleRegister}>
       {inputFields}
-      <SubmitButton title="Register" />
+      <SubmitButton disabled={!formIsValid} title="Register" />
     </FormBox>
   )
 }
