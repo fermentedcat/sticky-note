@@ -19,5 +19,5 @@ export default function HomePage() {
     }
   }, [dispatch])
 
-  return <TodoList todos={todos} title="PINNED TODO'S" />
+  return todos && <TodoList todos={todos} title="PINNED TODO'S" />
 }

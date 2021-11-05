@@ -44,6 +44,13 @@ export default function TodoList({
   todos,
   title,
 }) {
+  const sorted = [...todos]
+  if (todos) {
+    sorted.sort(
+      (a, b) =>
+        new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime()
+    )
+  }
   return (
     <Grid item xs sx={gridItemStyle}>
       <Box sx={{ flexGrow: 1 }}>
@@ -102,10 +109,9 @@ export default function TodoList({
               columns={{ xs: 4, sm: 8, md: 12, lg: 16 }}
               padding={2}
             >
-              {todos &&
-                todos.map((todo, index) => {
-                  return <TodoItem key={index} todo={todo} />
-                })}
+              {sorted.map((todo) => {
+                return <TodoItem key={todo._id} todo={todo} />
+              })}
             </Grid>
           </>
         )}

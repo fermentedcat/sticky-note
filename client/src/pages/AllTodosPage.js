@@ -12,5 +12,5 @@ export default function HomePage() {
     dispatch(fetchTodos())
   }, [dispatch])
 
-  return <TodoList todos={todos} title="ALL TODO LISTS" />
+  return todos && <TodoList todos={todos} title="ALL TODO LISTS" />
 }
