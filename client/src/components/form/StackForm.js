@@ -52,19 +52,26 @@ export default function StackForm({ edit, closeForm }) {
     if (!formIsValid) {
       return
     }
-    const data = {
-      title: titleInput.value,
-      description: descrInput.value,
-    }
 
     let newSlug
     // edit existing or add new stack
     if (edit) {
+      const data = {
+        description: descrInput.value,
+      }
+      // only update title if actually updated (increments slug otherwise)
+      if (titleInput.value !== currentStack.title) {
+        data.title = titleInput.value
+      }
       const response = await dispatch(
         updateStack({ ...data, _id: currentStack._id })
       )
       newSlug = response.payload.slug
     } else {
+      const data = {
+        title: titleInput.value,
+        description: descrInput.value,
+      }
       const response = await dispatch(addStack(data))
       newSlug = response.payload.slug
     }

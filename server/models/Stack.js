@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 const slugify = require('slugify')
+const addNextSlugId = require('../utils/addNextSlugId')
 const validate = require('../utils/validate')
 
 const StackSchema = new Schema(
@@ -33,18 +34,34 @@ const StackSchema = new Schema(
   }
 )
 
-StackSchema.pre('save', function (next, done) {
+StackSchema.pre('save', async function (next, done) {
   // make url-friendly slug from title
   if (this.title) {
-    this.slug = slugify(this.title, { lower: true, strict: true })
+    const slug = slugify(this.title, { lower: true, strict: true })
+    try {
+      this.slug = await addNextSlugId(slug, this.constructor)
+      next()
+    } catch (error) {
+      next(error)
+    }
   }
   next()
 })
 
-StackSchema.pre('findOneAndUpdate', function (next, done) {
+StackSchema.pre('findOneAndUpdate', async function (next, done) {
   // update url-friendly slug from title
+  console.log(this)
   if (this._update.title) {
-    this._update.slug = slugify(this._update.title, { lower: true, strict: true })
+    const slug = slugify(this._update.title, {
+      lower: true,
+      strict: true
+    })
+    try {
+      this._update.slug = await addNextSlugId(slug, this.model)
+      next()
+    } catch (error) {
+      next(error)
+    }
   }
   next()
 })
