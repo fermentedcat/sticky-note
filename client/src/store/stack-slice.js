@@ -4,6 +4,7 @@ import {
   addStack,
   updateStack,
   deleteStack,
+  removeOwnStackAccess,
 } from './stack-actions'
 
 // Handles stacks in sidebar
@@ -79,6 +80,26 @@ const stackSlice = createSlice({
       state.loading = true
     },
     [updateStack.rejected]: (state, { meta, payload, error }) => {
+      if (meta.requestId === state.currentRequestId.requestId) {
+        state.currentRequestId = meta
+        state.loading = false
+        state.error = error.message
+      }
+    },
+
+    [removeOwnStackAccess.fulfilled]: (state, { meta, payload }) => {
+      if (meta.requestId === state.currentRequestId.requestId) {
+        const stackId = payload
+        state.stacks = state.stacks.filter((stack) => stack._id !== stackId)
+        state.loading = false
+        state.currentRequestId = meta
+      }
+    },
+    [removeOwnStackAccess.pending]: (state, { meta }) => {
+      state.currentRequestId = meta
+      state.loading = true
+    },
+    [removeOwnStackAccess.rejected]: (state, { meta, payload, error }) => {
       if (meta.requestId === state.currentRequestId.requestId) {
         state.currentRequestId = meta
         state.loading = false

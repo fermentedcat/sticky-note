@@ -17,5 +17,6 @@ DELETE  /api/access/:id   - delete access
 */
 
 router.post('/', userAuth, access.addNew)
+router.delete('/my/:stackId', userAuth, access.deleteOwn)
 
 module.exports = router

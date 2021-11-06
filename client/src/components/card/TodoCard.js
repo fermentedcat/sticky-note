@@ -33,6 +33,7 @@ export default function TodoCard(props) {
     openEditHandler,
     submitHandler,
     removeHandler,
+    leaveHandler,
     pinHandler,
     onClose,
     itemExists,
@@ -94,7 +95,16 @@ export default function TodoCard(props) {
                 onClick={submitHandler}
               />
             )}
-            {itemExists && isEditing && (
+            {leaveHandler && isEditing && (
+              <IconButton
+                type="leave"
+                active
+                p="0.2"
+                description="leave stack"
+                onClick={leaveHandler}
+              />
+            )}
+            {removeHandler && isEditing && (
               <IconButton
                 type="delete"
                 active

@@ -48,15 +48,17 @@ exports.update = (req, res, next) => {
     })
 }
 
-exports.delete = (req, res, next) => {
-  // TODO: check req.user.role === admin || req user id === this user || req user id === stack owner
-  const id = req.params.id
-  Access.findByIdAndDelete(id)
-    .then((access) => {
-      if (!access) res.sendStatus(404)
-      else res.sendStatus(204)
+exports.deleteOwn = async (req, res, next) => {
+  const stackId = req.params.stackId
+  const { userId } = req.user
+  try {
+    const access = await Access.findOneAndDelete({
+      stack: stackId,
+      user: userId
     })
-    .catch((error) => {
-      res.status(500).json(error)
-    })
+    if (!access) res.sendStatus(404)
+    else res.sendStatus(204)
+  } catch (error) {
+    res.status(500).json(error)
+  }
 }

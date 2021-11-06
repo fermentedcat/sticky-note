@@ -16,6 +16,7 @@ import {
 import { ImQuotesLeft } from 'react-icons/im'
 import { HiOutlineBookOpen } from 'react-icons/hi'
 import {
+  BsPersonDash,
   BsDashCircle,
   BsCheckCircle,
   BsPlusCircle,
@@ -142,6 +143,10 @@ export default function IconButton({
 
     case 'exit':
       icon = <BsXCircle />
+      break
+
+    case 'leave':
+      icon = <BsPersonDash style={{ fontSize: '1.1em' }} />
       break
 
     default:

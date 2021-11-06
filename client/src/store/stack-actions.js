@@ -53,7 +53,21 @@ export const addStackAccess = createAsyncThunk(
       handleSuccessMsg(dispatch, 'Stack access added successfully.')
       return response.data
     } catch (err) {
-      handleErrorMsg(err, dispatch, err.response.data.errorMessage)
+      handleErrorMsg(err, dispatch, 'Failed to add access')
+      return rejectWithValue([], err)
+    }
+  }
+)
+
+export const removeOwnStackAccess = createAsyncThunk(
+  'stack/removeOwnStackAccess',
+  async (stackId, { rejectWithValue, dispatch }) => {
+    try {
+      await api.callDelete(`access/my/${stackId}`)
+      handleSuccessMsg(dispatch, 'Stack access removed successfully.')
+      return stackId
+    } catch (err) {
+      handleErrorMsg(err, dispatch, 'Failed to remove access')
       return rejectWithValue([], err)
     }
   }

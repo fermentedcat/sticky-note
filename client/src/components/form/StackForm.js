@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { addStack, deleteStack, updateStack } from '../../store/stack-actions'
+import {
+  addStack,
+  deleteStack,
+  updateStack,
+  removeOwnStackAccess,
+} from '../../store/stack-actions'
 import useInput from '../../hooks/use-input'
 import { stack } from '../../utils/formFields'
 
@@ -14,6 +19,7 @@ import TodoCard from '../card/TodoCard'
 export default function StackForm({ edit, closeForm }) {
   const [formIsValid, setFormIsValid] = useState(false)
   const { stack: currentStack } = useSelector((state) => state.todo)
+  const userId = useSelector((state) => state.user.userId)
   const dispatch = useDispatch()
   const history = useHistory()
 
@@ -97,6 +103,21 @@ export default function StackForm({ edit, closeForm }) {
     }
   }
 
+  const handleLeaveStack = async () => {
+    if (
+      !confirm(
+        'Are you sure you want to leave this stack? Your access to its todo lists will be removed.'
+      )
+    ) {
+      return
+    }
+    const response = await dispatch(removeOwnStackAccess(currentStack._id))
+    if (response.meta.requestStatus === 'fulfilled') {
+      history.push('/todo/all')
+      closeForm()
+    }
+  }
+
   useEffect(() => {
     setFormIsValid(titleInput.isValid)
   }, [titleInput.isValid])
@@ -109,6 +130,11 @@ export default function StackForm({ edit, closeForm }) {
   if (edit) {
     cardProps.itemExists = true
     cardProps.isEditing = true
+  }
+  if (edit && currentStack.owner !== userId) {
+    cardProps.leaveHandler = handleLeaveStack
+  }
+  if (edit && currentStack.owner === userId) {
     cardProps.removeHandler = handleDeleteStack
   }
 
