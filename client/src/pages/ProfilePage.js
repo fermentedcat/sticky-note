@@ -2,15 +2,8 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import register from '../utils/formFields'
 import useInput from '../hooks/use-input'
-import {
-  Button,
-  Box,
-  Container,
-  Typography,
-  Grid,
-  TextField,
-} from '@mui/material'
-import Card from '../components/card/Card'
+import { Box, Container, Typography, Grid, TextField } from '@mui/material'
+import ProfileCard from '../components/card/ProfileCard'
 import { updateUser } from '../store/user-actions'
 
 export default function ProfilePage() {
@@ -51,7 +44,12 @@ export default function ProfilePage() {
 
   return (
     <Container sx={{ width: '60vw', height: '60vh', mx: 'auto', my: 'auto' }}>
-      <Card title="My Profile">
+      <ProfileCard
+        title="My Profile"
+        isEditing={isEditing}
+        toggleEdit={toggleEdit}
+        submitHandler={handleOnSave}
+      >
         <Box sx={{ p: 5, height: '100%' }}>
           <Grid container sx={{ mt: 5 }}>
             <Grid item xs={4} sm={4} lg={4} sx={{ height: '4ch' }}>
@@ -114,15 +112,7 @@ export default function ProfilePage() {
             </Grid>
           </Grid>
         </Box>
-        <Box sx={{ alignSelf: 'flex-start', p: 1 }}>
-          <Button onClick={toggleEdit}>{isEditing ? 'Cancel' : 'Edit'}</Button>
-          {isEditing && (
-            <Button disabled={!formIsValid} onClick={handleOnSave}>
-              Save
-            </Button>
-          )}
-        </Box>
-      </Card>
+      </ProfileCard>
     </Container>
   )
 }

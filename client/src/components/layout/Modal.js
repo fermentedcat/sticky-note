@@ -15,6 +15,9 @@ const style = {
   outline: 'none',
   borderRadius: '3px',
   overflow: 'visible',
+  '.MuiCardContent-root': {
+    minHeight: '53.5vh',
+  },
 }
 
 export default function Modal(props) {
