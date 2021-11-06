@@ -87,7 +87,7 @@ function App() {
                 component={AllTodosPage}
               />
               <ProtectedRoute path="/start" component={StarterPage} />
-              <ProtectedRoute path="/" sideBar component={PinnedTodosPage} />
+              <ProtectedRoute path="/" sideBar />
             </Switch>
           </Grid>
           <Snackbar

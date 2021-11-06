@@ -98,7 +98,7 @@ export default function StackForm({ edit, closeForm }) {
     }
     const response = await dispatch(deleteStack(currentStack._id))
     if (response.meta.requestStatus === 'fulfilled') {
-      history.push('/todo/all')
+      history.push('/')
       closeForm()
     }
   }
@@ -113,7 +113,7 @@ export default function StackForm({ edit, closeForm }) {
     }
     const response = await dispatch(removeOwnStackAccess(currentStack._id))
     if (response.meta.requestStatus === 'fulfilled') {
-      history.push('/todo/all')
+      history.push('/')
       closeForm()
     }
   }

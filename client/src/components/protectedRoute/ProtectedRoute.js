@@ -37,7 +37,11 @@ export default function ProtectedRoute({
           return (
             <>
               {sideBar && <SideBar />}
-              <Component {...props} />
+              {Component ? (
+                <Component {...props} />
+              ) : (
+                <Redirect to="/todo/pinned" />
+              )}
             </>
           )
         }

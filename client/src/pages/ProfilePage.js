@@ -53,7 +53,7 @@ export default function ProfilePage() {
     <Container sx={{ width: '60vw', height: '60vh', mx: 'auto', my: 'auto' }}>
       <Card title="My Profile">
         <Box sx={{ p: 5, height: '100%' }}>
-          <Grid container xs={12} sm={12} lg={12} sx={{ mt: 5 }}>
+          <Grid container sx={{ mt: 5 }}>
             <Grid item xs={4} sm={4} lg={4} sx={{ height: '4ch' }}>
               <Typography
                 sx={{
