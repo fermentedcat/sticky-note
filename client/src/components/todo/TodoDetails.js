@@ -9,6 +9,7 @@ export default function TodoDetails(props) {
     removeHandler,
     pinHandler,
     isPinned,
+    lastEdit,
     onClose,
   } = props
 
@@ -16,7 +17,7 @@ export default function TodoDetails(props) {
     <TodoCard
       itemExists
       title={todoItem.title}
-      lastEdit={todoItem.lastEdit}
+      lastEdit={lastEdit}
       openEditHandler={openEditHandler}
       removeHandler={removeHandler}
       pinHandler={pinHandler}
