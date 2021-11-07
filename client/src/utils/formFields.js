@@ -58,6 +58,29 @@ const description = {
 const markdown = {
   type: 'textarea',
   name: 'markdown',
+  placeholder: `## My Great Heading
+
+  - [x] Write the press release
+  - [ ] Update the website
+  - [ ] Contact the media
+  
+  ~~The world is flat.~~
+  
+  | Table | Headers |
+  | ----------- | ----------- |
+  | One | Thing |
+  | Another | Thing |
+  
+  ### Smaller Subheading
+  
+  - Bullet list item
+  - Second bullet list item
+  - Third bullet list item
+  
+  1. One
+  1. Two
+  1. Three
+  `,
   label: '',
   initialValue: '',
   validate: validate.string,
