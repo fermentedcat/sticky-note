@@ -2,7 +2,7 @@ class CustomError extends Error {
   constructor (reference, message) {
     super(message)
 
-    // capturing the stack trace keeps the reference to your error class
+    // capturing stack trace to keep reference to error class
     Error.captureStackTrace(this, this.constructor)
 
     this.reference = reference
@@ -14,7 +14,6 @@ class InternalError extends Error {
   constructor (error) {
     super('An unexpected error occurred.')
 
-    // capturing the stack trace keeps the reference to your error class
     Error.captureStackTrace(this, this.constructor)
 
     this.reference = 'internal'

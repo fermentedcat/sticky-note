@@ -69,8 +69,6 @@ exports.addNew = (req, res, next) => {
 }
 
 exports.update = (req, res, next) => {
-  // TODO: check req.user.role === admin ||  user id === stack owner || Stack user id ≈≈≈ req user id
-
   const id = req.params.id
   const data = req.body
   Stack.findByIdAndUpdate(id, data, { new: true }).populate('owner')
