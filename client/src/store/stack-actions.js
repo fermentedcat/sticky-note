@@ -51,6 +51,7 @@ export const addStackAccess = createAsyncThunk(
     try {
       const response = await api.callPost(data, 'access')
       handleSuccessMsg(dispatch, 'Stack access added successfully.')
+      dispatch(todoActions.addAccess(response.data))
       return response.data
     } catch (err) {
       handleErrorMsg(err, dispatch, 'Failed to add access')

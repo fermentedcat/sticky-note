@@ -31,21 +31,21 @@ exports.getBySlug = async (req, res, next) => {
   const { userId, role } = req.user
 
   try {
-    const stack = await Stack.findOne({ slug: slug })
+    const stack = await Stack.findOne({ slug: slug }).populate('owner')
     if (!stack) {
       res.sendStatus(404)
     } else {
       // check if user has access by invite
-      const accesses = await Access.find({ stack: stack._id })
-      const hasAccess = accesses.some((doc) => doc.user._id == userId)
+      const accesses = await Access.find({ stack: stack._id }).populate('user')
+      const hasAccess = accesses.some((access) => access.user._id == userId)
 
-      if (stack.owner != userId && role !== 'admin' && !hasAccess) {
-        res.sendStatus(401)
+      if (stack.owner._id != userId && role !== 'admin' && !hasAccess) {
+        res.sendStatus(403)
       } else {
         // find stack's todo lists
         const todos = await Todo.find({ stack: stack._id })
 
-        res.status(200).json({ stack, todos })
+        res.status(200).json({ stack, todos, accesses })
       }
     }
   } catch (error) {
@@ -73,7 +73,7 @@ exports.update = (req, res, next) => {
 
   const id = req.params.id
   const data = req.body
-  Stack.findByIdAndUpdate(id, data, { new: true })
+  Stack.findByIdAndUpdate(id, data, { new: true }).populate('owner')
     .then((stack) => {
       res.status(201).json(stack)
     })

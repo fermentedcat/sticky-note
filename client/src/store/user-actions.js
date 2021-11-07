@@ -3,6 +3,7 @@ import { api } from '../App'
 import { userActions } from './user-slice'
 import { handleSuccessMsg, handleErrorMsg } from './ui-actions'
 import { uiActions } from './ui-slice'
+import { todoActions } from './todo-slice'
 
 export const authenticateUser = createAsyncThunk(
   'user/authenticateUser',
@@ -62,6 +63,7 @@ export const fetchPinned = createAsyncThunk(
   async (endpoint = '', { rejectWithValue, dispatch }) => {
     try {
       const response = await api.callGet(`user/pinned/${endpoint}`)
+      dispatch(todoActions.setTodos(response.data))
       return response.data
     } catch (err) {
       handleErrorMsg(err, dispatch, 'Failed fetching data.')

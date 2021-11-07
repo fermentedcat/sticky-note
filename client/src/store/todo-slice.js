@@ -5,6 +5,7 @@ import { fetchTodos, addTodo, updateTodo, deleteTodo } from './todo-actions'
 const initialTodoSlice = {
   stack: null,
   todos: null,
+  accesses: null,
   loading: false,
   currentRequestId: '',
   error: null,
@@ -22,6 +23,9 @@ const todoSlice = createSlice({
     setStack(state, action) {
       state.stack = action.payload
     },
+    addAccess(state, action) {
+      state.accesses.push(action.payload)
+    },
     clearTodos(state) {
       return initialTodoSlice
     },
@@ -31,6 +35,7 @@ const todoSlice = createSlice({
       if (meta.requestId === state.currentRequestId.requestId) {
         state.todos = payload.todos || payload
         state.stack = payload.stack || state.stack
+        state.accesses = payload.accesses || null
         state.loading = false
         state.currentRequestId = meta
       }

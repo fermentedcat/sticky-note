@@ -7,13 +7,8 @@ const userAuth = require('../utils/userAuth')
 const access = require('../controllers/access')
 
 /*
-GET     /api/access/      - get all accesses (admin)
-GET     /api/access/:id   - get one access
-
-POST    /api/access/      - add new access
-POST    /api/access/:id   - update access
-
-DELETE  /api/access/:id   - delete access
+POST    /api/access/              - add new access
+DELETE  /api/access/my/:stackId   - delete own access
 */
 
 router.post('/', userAuth, access.addNew)
