@@ -1,24 +1,8 @@
 const addNextSlugId = async (initialSlug, constructor) => {
-  let addId = false
-  let slug = initialSlug
   try {
-    const stacks = await findAllBySlug(slug, constructor)
-    if (stacks.length > 0) {
-      let nextId = 0
-      stacks.forEach((stack) => {
-        if (slug === stack.slug) {
-          // only add --id if exact slug match exists
-          addId = true
-        }
-        if (slug !== stack.slug) {
-          nextId = findNextId(stack, slug, nextId)
-        }
-      })
-      if (addId) {
-        slug = `${slug}--${nextId}`
-      }
-    }
-    return slug
+    const stacks = await findAllBySlug(initialSlug, constructor)
+    const newSlug = findNextSlug(stacks, initialSlug)
+    return newSlug
   } catch (error) {
     throw new Error(error.message)
   }
@@ -36,19 +20,39 @@ const findAllBySlug = async (slug, constructor) => {
   }
 }
 
-const findNextId = (stack, slug, nextId) => {
+const findNextSlug = (stacks, newSlug) => {
+  let addId = false
+  if (stacks.length > 0) {
+    let nextId = 0
+    stacks.forEach((stack) => {
+      if (newSlug === stack.slug) {
+        // only add --id if exact slug match exists
+        addId = true
+      }
+      if (newSlug !== stack.slug) {
+        nextId = findNextId(stack.slug, newSlug, nextId)
+      }
+    })
+    if (addId) {
+      return `${newSlug}--${nextId}`
+    }
+  }
+  return newSlug
+}
+
+const findNextId = (existingSlug, newSlug, nextId) => {
   // get the string after the last '-'
-  const lastHyphenIndex = stack.slug.lastIndexOf('--')
+  const lastHyphenIndex = existingSlug.lastIndexOf('--')
   if (lastHyphenIndex > 0) {
     // check if slug before id === new slug
-    const id = +stack.slug.substring(lastHyphenIndex + 2)
-    const slugStart = stack.slug.substring(0, lastHyphenIndex)
+    const id = +existingSlug.substring(lastHyphenIndex + 2)
+    const slugStart = existingSlug.substring(0, lastHyphenIndex)
     // increase next id number if found same slug with id number
-    if (slug === slugStart && nextId <= id) {
+    if (newSlug === slugStart && nextId <= id) {
       return id + 1
     }
   }
   return nextId
 }
 
-module.exports = addNextSlugId
+module.exports = { addNextSlugId, findNextSlug, findNextId }
