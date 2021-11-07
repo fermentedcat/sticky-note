@@ -1,23 +1,23 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { fetchPinned } from '../store/user-actions'
-import { todoActions } from '../store/todo-slice'
 import TodoList from '../components/todo/TodoList'
+import PageWrapper from '../components/layout/PageWrapper'
+import PageHeaderWrapper from '../components/layout/PageHeaderWrapper'
 
 export default function HomePage() {
   const { todos } = useSelector((state) => state.todo)
 
   const dispatch = useDispatch()
 
-  useEffect(async () => {
-    try {
-      const response = await dispatch(fetchPinned())
-      const pinned = response.payload
-      dispatch(todoActions.setTodos(pinned))
-    } catch (error) {
-      console.log(error)
-    }
+  useEffect(() => {
+    dispatch(fetchPinned())
   }, [dispatch])
 
-  return todos && <TodoList todos={todos} title="PINNED TODO'S" />
+  return (
+    <PageWrapper>
+      <PageHeaderWrapper title="PINNED TODO'S"></PageHeaderWrapper>
+      {todos && <TodoList todos={todos} />}
+    </PageWrapper>
+  )
 }
