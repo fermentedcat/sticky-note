@@ -43,6 +43,7 @@ export default function StackForm({ edit, closeForm }) {
     return (
       <TextField
         key={index}
+        autoFocus={index === 0 && true}
         type={input.type}
         name={input.name}
         value={input.value}
@@ -136,6 +137,10 @@ export default function StackForm({ edit, closeForm }) {
   }
   if (edit && currentStack.owner === userId) {
     cardProps.removeHandler = handleDeleteStack
+  }
+
+  if (!edit) {
+    cardProps.description = 'Add a stack to collect your todos in.'
   }
 
   return (

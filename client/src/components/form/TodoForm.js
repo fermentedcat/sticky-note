@@ -62,6 +62,7 @@ export default function TodoForm({
     >
       <FormBox onSubmit={handleSubmitTodo}>
         <TextField
+          autoFocus={!todoItem._id && true}
           type={todo.title.type}
           name={todo.title.name}
           value={titleInput.value}
@@ -71,9 +72,11 @@ export default function TodoForm({
           required={todo.title.required}
         />
         <TextField
+          autoFocus={todoItem._id && true}
           type={todo.markdown.type}
           name={todo.markdown.name}
           value={markdownInput.value}
+          placeholder={todo.markdown.placeholder}
           onChange={markdownInput.onChange}
           onBlur={markdownInput.onBlur}
           label={todo.markdown.label}

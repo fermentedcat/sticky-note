@@ -27,6 +27,7 @@ const headerStyle = {
 export default function TodoCard(props) {
   const {
     title,
+    description,
     lastEdit,
     isEditing,
     exitEditMode,
@@ -46,6 +47,10 @@ export default function TodoCard(props) {
     const date = new Date(lastEdit).toLocaleDateString('en-GB', 'DD-MM-YY')
     subheader = <Typography>Last edited: {date}</Typography>
   }
+  if (description) {
+    subheader = <Typography>{description}</Typography>
+  }
+
   return (
     <Card>
       <CardHeader
