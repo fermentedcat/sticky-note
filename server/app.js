@@ -3,6 +3,7 @@ const path = require('path')
 const cookieParser = require('cookie-parser')
 const logger = require('morgan')
 const cors = require('cors')
+require('dotenv').config()
 
 const accessRouter = require('./routes/access')
 const stackRouter = require('./routes/stack')
@@ -16,7 +17,9 @@ const app = express()
 app.disable('etag')
 
 app.use(logger('dev'))
-app.use(cors())
+app.use(cors({
+  origin: process.env.CLIENT_URL
+}))
 app.use(express.json())
 app.use(express.urlencoded({ extended: false }))
 app.use(cookieParser())
