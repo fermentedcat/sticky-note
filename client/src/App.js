@@ -5,7 +5,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { uiActions } from './store/ui-slice'
 import { authenticateUser, fetchCurrentUser } from './store/user-actions'
 
-import { Grid, Box, Snackbar, Alert, createTheme } from '@mui/material'
+import Div100vh from 'react-div-100vh'
+import { Grid, Snackbar, Alert, createTheme } from '@mui/material'
 import { ThemeProvider } from '@mui/system'
 import Header from './components/layout/Header'
 import LandingPage from './pages/LandingPage'
@@ -46,23 +47,32 @@ function App() {
 
   return (
     <ThemeProvider theme={customTheme}>
-      <div
-        style={{
-          margin: 0,
-          width: '100vw',
-          backgroundColor: 'rgb(255,255,240)',
-        }}
-      >
-        <Header />
-
-        <Box sx={{ flexGrow: 1 }}>
+      <Div100vh>
+        <Grid
+          sx={{
+            margin: 0,
+            height: '100%',
+            maxHeight: '100%',
+            display: 'flex',
+            flexDirection: 'column',
+            // justifyContent: 'space-between',
+            width: '100vw',
+            backgroundColor: 'rgb(255,255,240)',
+          }}
+        >
+          <Header />
           <Grid
+            id="contentWrapper"
+            item
             container
             justifyContent="space-between"
             sx={{
+              flexGrow: 1,
               margin: 0,
+              // marginTop: '80px',
               padding: 2,
-              height: '100vh',
+              paddingTop: 0,
+              overflow: 'hidden',
               width: '100%',
               columnGap: 2,
             }}
@@ -114,8 +124,8 @@ function App() {
               onClose={() => dispatch(uiActions.closeModal())}
             />
           </Modal>
-        </Box>
-      </div>
+        </Grid>
+      </Div100vh>
     </ThemeProvider>
   )
 }
