@@ -5,6 +5,7 @@ import LogoCard from './LogoCard'
 export default function LandingLogo() {
   return (
     <Box
+      id="landingLogo"
       sx={{
         display: 'flex',
         flexDirection: 'column',

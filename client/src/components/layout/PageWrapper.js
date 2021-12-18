@@ -6,10 +6,11 @@ export default function PageWrapper({ children }) {
     <Grid
       item
       xs
+      id="pageWrapper"
       sx={{
-        height: '100%',
+        // height: '100%',
         boxShadow: '5px 0px 19px 0px rgba(255,191,209,0.34)',
-        paddingTop: 14,
+        paddingTop: 4,
         overflow: 'scroll',
         '&::-webkit-scrollbar': {
           width: '0.25em',

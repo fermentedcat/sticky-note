@@ -59,12 +59,13 @@ export default function SideBar() {
   return (
     <Grid
       item
+      id="sidebar"
       xs={2}
       sx={{
         height: '100%',
         minWidth: '240px',
         boxShadow: '-2px 0px 19px 0px rgba(255,191,209,0.34)',
-        paddingTop: 14,
+        paddingTop: 4,
         overflow: 'scroll',
         '&::-webkit-scrollbar': {
           width: '0.25em',
