@@ -12,6 +12,7 @@ import {
   RiDeleteBin6Line,
   RiPushpinLine,
   RiPushpinFill,
+  RiMenuFill,
 } from 'react-icons/ri'
 import { ImQuotesLeft } from 'react-icons/im'
 import { HiOutlineBookOpen } from 'react-icons/hi'
@@ -91,6 +92,10 @@ export default function IconButton({
 
     case 'settings':
       icon = <FiSettings />
+      break
+
+    case 'menu':
+      icon = <RiMenuFill />
       break
 
     case 'info':

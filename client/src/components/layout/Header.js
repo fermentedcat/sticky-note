@@ -1,30 +1,18 @@
-import React from 'react'
-import { AppBar, Box, Button } from '@mui/material'
-import HeaderLogo from './HeaderLogo'
-import { useDispatch, useSelector } from 'react-redux'
-import { userActions } from '../../store/user-slice'
-import { todoActions } from '../../store/todo-slice'
-import { stackActions } from '../../store/stack-slice'
-import { NavLink, useHistory } from 'react-router-dom'
+import React, { useState } from 'react'
+import { useMediaQuery } from 'react-responsive'
 
-const btnStyles = {
-  '&.active': {
-    textDecoration: 'underline',
-    textUnderlineOffset: 5,
-  },
-}
+import { AppBar, Box } from '@mui/material'
+import HeaderLogo from './HeaderLogo'
+import HeaderMenu from '../menu/HeaderMenu'
+import IconButton from '../button/IconButton'
+import DropdownMenu from '../menu/DropdownMenu'
 
 export default function Header() {
-  const isAuthenticated = useSelector((state) => state.user.isAuthenticated)
-  const dispatch = useDispatch()
-  const history = useHistory()
+  const isSmallScreen = useMediaQuery({ query: '(max-width: 480px)' })
+  const [showMenu, setShowMenu] = useState()
 
-  const handleLogout = () => {
-    window.localStorage.removeItem('TODO_TOKEN')
-    dispatch(userActions.logout())
-    dispatch(todoActions.clearTodos())
-    dispatch(stackActions.clearStacks())
-    history.push('/login')
+  const toggleShowMenu = () => {
+    setShowMenu(!showMenu)
   }
 
   return (
@@ -32,6 +20,8 @@ export default function Header() {
       sx={{
         boxShadow: '0px 2px 22px 5px rgba(255,191,209,0.31);',
         backgroundColor: 'rgb(255,255,240)',
+        position: 'unset',
+        overflow: 'hidden',
       }}
     >
       <Box
@@ -44,38 +34,35 @@ export default function Header() {
         <Box
           sx={{
             display: 'flex',
+            alignSelf: 'flex-start',
           }}
         >
           <HeaderLogo />
         </Box>
+        {isSmallScreen ? (
+          <Box
+            sx={{
+              display: 'flex',
+              marginRight: 3,
+            }}
+          >
+            <IconButton type="menu" onClick={toggleShowMenu} />
+          </Box>
+        ) : (
+          <HeaderMenu />
+        )}
+      </Box>
+      {showMenu && (
         <Box
           sx={{
+            borderTop: '1px dashed rgba(255, 191, 209, 0.41)',
             display: 'flex',
-            marginRight: 3,
+            justifyContent: 'flex-end',
           }}
         >
-          {isAuthenticated && (
-            <>
-              <Button sx={btnStyles} component={NavLink} to="/todo">
-                My Todo&apos;s
-              </Button>
-              <Button sx={btnStyles} component={NavLink} to="/profile">
-                My Profile
-              </Button>
-            </>
-          )}
-          <Button sx={btnStyles} component={NavLink} to="/about">
-            About
-          </Button>
-          {isAuthenticated ? (
-            <Button onClick={handleLogout}>Logout</Button>
-          ) : (
-            <Button sx={btnStyles} component={NavLink} to="/login">
-              Login / Register
-            </Button>
-          )}
+          <DropdownMenu />
         </Box>
-      </Box>
+      )}
     </AppBar>
   )
 }
